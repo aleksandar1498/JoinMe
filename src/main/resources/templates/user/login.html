@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{/login}" th:method="post">
+		<label for="username">Username: </label> 
+		<input type="text" name="username" placeholder="Insert your username" /> 
+		<label for="password">Password: </label> 
+		<input type="password" name="password" placeholder="Insert your password" />
+		<button class="btn btn-secondary">Login</button>
+	</form>
+	<script>
+	sessionStorage.setItem('key', 'value');
+
+	// Get saved data from sessionStorage
+	let data = sessionStorage.getItem('key');
+	
+	console.log(data);
+	</script>
+</body>
+</html>
