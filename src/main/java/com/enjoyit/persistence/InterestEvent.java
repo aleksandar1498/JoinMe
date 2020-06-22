@@ -1,6 +1,6 @@
 package com.enjoyit.persistence;
 
-public interface EventUser{
+public interface InterestEvent {
     /**
      * @return
      */

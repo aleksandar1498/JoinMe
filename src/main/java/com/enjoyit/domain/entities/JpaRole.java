@@ -1,17 +1,20 @@
 package com.enjoyit.domain.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.GrantedAuthority;
+
+import com.enjoyit.enums.UserRoles;
+import com.enjoyit.persistence.Role;
 
 @Entity
 @Table(name = "roles")
-public class JpaRole implements GrantedAuthority {
+public class JpaRole implements Role {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -21,13 +24,13 @@ public class JpaRole implements GrantedAuthority {
     )
     private String id;
 
-    @Column
-    private String authority;
+    @Enumerated(EnumType.STRING)
+    private UserRoles authority;
 
     public JpaRole() {
         // needed by JPA
     }
-    public JpaRole(final String authority) {
+    public JpaRole(final UserRoles authority) {
         this.authority = authority;
     }
 
@@ -36,12 +39,13 @@ public class JpaRole implements GrantedAuthority {
     @Override
     public String getAuthority() {
 
-        return this.authority;
+        return this.authority.toString();
     }
+    @Override
     public String getId() {
         return id;
     }
-    public void setAuthority(final String authority) {
+    public void setAuthority(final UserRoles authority) {
         this.authority = authority;
     }
     public void setId(final String id) {

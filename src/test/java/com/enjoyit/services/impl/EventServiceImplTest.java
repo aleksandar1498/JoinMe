@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.enjoyit.BaseTest;
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.domain.entities.JpaEvent;
+import com.enjoyit.enums.EventCategory;
 import com.enjoyit.persistence.EventRepository;
 import com.enjoyit.services.EventService;
 
@@ -22,7 +23,7 @@ class EventServiceImplTest extends BaseTest {
     private static final List<JpaEvent> EMPTY_EVENTS_LIST = new ArrayList<>();
     private static final List<JpaEvent> NOT_EMPTY_EVENTS_LIST = new ArrayList<>() {
         {
-            add(new JpaEvent("Jog", "Sofia", LocalDateTime.now(), LocalDateTime.now()));
+            add(new JpaEvent("Jog", "Sofia", LocalDateTime.now(), LocalDateTime.now(),EventCategory.COMEDY_EVENT,""));
         }
     };
 
@@ -41,7 +42,7 @@ class EventServiceImplTest extends BaseTest {
     }
 
     @Test
-    void getAllEvents_whereEventsAreNotPresent_shouldReturnAnEmptyList() {
+    void testGetAllEventsWhereEventsAreNotPresentShouldReturnAnEmptyList() {
         when(eventRepo.findAll()).thenReturn(EMPTY_EVENTS_LIST);
         assertTrue(this.service.getAllEvents().isEmpty());
     }

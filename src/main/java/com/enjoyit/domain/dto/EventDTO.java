@@ -1,45 +1,80 @@
 package com.enjoyit.domain.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class EventDTO {
-
+    private Integer id;
     private String title;
     private String location;
+    private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private UserDTO owner;
+    private Boolean cancelled;
+    private List<UserDTO> joinedUsers;
+    private List<UserDTO> interestedUsers;
 
     public EventDTO() {
         // Needed for reflection
     }
 
-    public EventDTO(final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate) {
+    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final String description,final Boolean cancelled,final List<UserDTO> joinedUsers,final List<UserDTO> interestedUsers) {
+        this.id = id;
         this.title = title;
         this.location = location;
         this.startDate = startDate;
         this.endDate =  endDate;
+        this.description = description;
         this.owner = null;
+        this.joinedUsers = joinedUsers;
+        this.cancelled = cancelled;
+        this.interestedUsers = interestedUsers;
     }
 
-    public EventDTO(final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final UserDTO owner) {
+    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final UserDTO owner,final String description,final Boolean cancelled,final List<UserDTO> joinedUsers,final List<UserDTO> interestedUsers) {
+        this.id = id;
         this.title = title;
         this.location = location;
         this.startDate = startDate;
         this.endDate =  endDate;
+        this.description = description;
         this.owner = owner;
+        this.joinedUsers = joinedUsers;
+        this.cancelled = cancelled;
+        this.interestedUsers = interestedUsers;
     }
 
 
+    public Boolean getCancelled() {
+        return cancelled;
+    }
+    public String getDescription() {
+        return description;
+    }
     public LocalDateTime getEndDate() {
         return endDate;
     }
+    public Integer getId() {
+        return id;
+    }
+
+    public List<UserDTO> getInterestedUsers() {
+        return interestedUsers;
+    }
+
+    public List<UserDTO> getJoinedUsers() {
+        return joinedUsers;
+    }
+
     public String getLocation() {
         return location;
     }
+
     public UserDTO getOwner() {
         return owner;
     }
+
     public LocalDateTime getStartDate() {
         return startDate;
     }
@@ -48,8 +83,30 @@ public class EventDTO {
         return title;
     }
 
+    public void setCancelled(final Boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+
+
     public void setEndDate(final LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public void setId(final Integer id) {
+        this.id = id;
+    }
+
+    public void setInterestedUsers(final List<UserDTO> interestedUsers) {
+        this.interestedUsers = interestedUsers;
+    }
+
+    public void setJoinedUsers(final List<UserDTO> joinedUsers) {
+        this.joinedUsers = joinedUsers;
     }
 
     public void setLocation(final String location) {
@@ -67,6 +124,8 @@ public class EventDTO {
     public void setTitle(final String title) {
         this.title = title;
     }
+
+
 
 
 

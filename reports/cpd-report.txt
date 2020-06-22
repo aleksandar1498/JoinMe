@@ -1,0 +1,465 @@
+Found a 17 line (161 tokens) duplication in the following files: 
+Starting at line 93 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 115 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        return user.getInterestedEvents().stream().map(ev -> {
+            final Event event = ev.getEvent();
+
+            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(),
+                    event.getStartDate(), event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class),
+                    event.getDescription(),
+                    ObjectMapper.mapAll(
+                            event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
+                            UserDTO.class),
+                    ObjectMapper.mapAll(
+                            event.getInterestedUsers().stream().map(InterestEvent::getUser).collect(Collectors.toList()),
+                            UserDTO.class));
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EventDTO> getJoinedEvents(final String username) {
+=====================================================================
+Found a 9 line (154 tokens) duplication in the following files: 
+Starting at line 55 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+Starting at line 74 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+
+        return events.stream().map(e -> {
+            final UserDTO owner = ObjectMapper.map(e.getOwner(), UserDTO.class);
+            final List<UserDTO> joinedUsers = ObjectMapper.mapAll(
+                    e.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()), UserDTO.class);
+            final List<UserDTO> interestedUsers = ObjectMapper.mapAll(
+                    e.getInterestedUsers().stream().map(InterestEvent::getUser).collect(Collectors.toList()), UserDTO.class);
+            return new EventDTO(e.getId(), e.getTitle(), e.getLocation(), e.getStartDate(), e.getEndDate(), owner,
+                    e.getDescription(), joinedUsers,interestedUsers);
+        }).collect(Collectors.toList());
+=====================================================================
+Found a 15 line (109 tokens) duplication in the following files: 
+Starting at line 39 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 131 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+    public ServiceResponse<UserEventDTO> disinterestEvent(final String username, final int eventId) {
+        final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
+        final User user = this.userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
+            return response;
+        }
+
+        final Event event = this.eventRepository.findById(eventId).orElse(null);
+        if (event == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
+            return response;
+        }
+=====================================================================
+Found a 15 line (98 tokens) duplication in the following files: 
+Starting at line 40 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 62 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
+        final User user = this.userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
+            return response;
+        }
+
+        final Event event = this.eventRepository.findById(eventId).orElse(null);
+        if (event == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
+            return response;
+        }
+        this.eventRepository.disinterestEvent(user,event);
+=====================================================================
+Found a 14 line (94 tokens) duplication in the following files: 
+Starting at line 62 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 132 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        final ServiceResponse response = new ServiceResponse<>();
+        final User user = this.userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
+            return response;
+        }
+
+        final Event event = this.eventRepository.findById(eventId).orElse(null);
+        if (event == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
+            return response;
+        }
+=====================================================================
+Found a 15 line (81 tokens) duplication in the following files: 
+Starting at line 27 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\compositekeys\EventUserKey.java
+Starting at line 28 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\compositekeys\InterestEventKey.java
+
+    public EventUserKey(final String userId, final Integer eventId) {
+        this.userId = userId;
+        this.eventId = eventId;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final EventUserKey other = (EventUserKey) obj;
+        return Objects.equals(this.userId, other.userId) && this.eventId == other.eventId;
+=====================================================================
+Found a 24 line (68 tokens) duplication in the following files: 
+Starting at line 42 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\compositekeys\EventUserKey.java
+Starting at line 43 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\compositekeys\InterestEventKey.java
+
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventId, userId);
+    }
+
+    public void setEventId(final int eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setUserId(final String userId) {
+        this.userId = userId;
+    }
+
+}
+=====================================================================
+Found a 10 line (68 tokens) duplication in the following files: 
+Starting at line 39 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 131 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 154 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+    public ServiceResponse<UserEventDTO> disinterestEvent(final String username, final int eventId) {
+        final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
+        final User user = this.userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
+            return response;
+        }
+
+        final Event event = this.eventRepository.findById(eventId).orElse(null);
+=====================================================================
+Found a 23 line (67 tokens) duplication in the following files: 
+Starting at line 41 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEventUser.java
+Starting at line 37 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaInterestEvent.java
+
+        this.id = new EventUserKey(user.getId(),event.getId());
+    }
+
+    @Override
+    public Event getEvent() {
+        return event;
+    }
+
+    @Override
+    public User getUser() {
+        return user;
+    }
+
+    public void setEvent(final Event event) {
+        this.event = event;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
+    }
+
+
+}
+=====================================================================
+Found a 9 line (61 tokens) duplication in the following files: 
+Starting at line 62 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 155 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        final ServiceResponse response = new ServiceResponse<>();
+        final User user = this.userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
+            return response;
+        }
+
+        final Event event = this.eventRepository.findById(eventId).orElse(null);
+=====================================================================
+Found a 8 line (54 tokens) duplication in the following files: 
+Starting at line 21 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\dto\EventDTO.java
+Starting at line 33 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\dto\EventDTO.java
+
+    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final String description,final List<UserDTO> joinedUsers,final List<UserDTO> interestedUsers) {
+        this.id = id;
+        this.title = title;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate =  endDate;
+        this.description = description;
+        this.owner = null;
+=====================================================================
+Found a 13 line (50 tokens) duplication in the following files: 
+Starting at line 22 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEventUser.java
+Starting at line 18 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaInterestEvent.java
+
+    private EventUserKey id;
+
+    @ManyToOne(targetEntity = JpaUser.class)
+    @MapsId("user_id")
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(targetEntity = JpaEvent.class)
+    @MapsId("event_id")
+    @JoinColumn(name = "event_id")
+    private Event event;
+
+    public JpaEventUser() {
+=====================================================================
+Found a 8 line (46 tokens) duplication in the following files: 
+Starting at line 37 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+Starting at line 40 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 62 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 132 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 155 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        final ServiceResponse response = new ServiceResponse();
+        final User user = this.userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
+            return response;
+        }
+        final JpaEvent eventToCreate = ObjectMapper.map(eventModel, JpaEvent.class);
+=====================================================================
+Found a 6 line (46 tokens) duplication in the following files: 
+Starting at line 88 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 109 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+    public List<EventDTO> getInterestedEvents(final String username) {
+        final JpaUser user = this.userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
+        }
+        return user.getInterestedEvents().stream().map(ev -> {
+=====================================================================
+Found a 11 line (43 tokens) duplication in the following files: 
+Starting at line 30 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\compositekeys\EventUserKey.java
+Starting at line 31 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\compositekeys\InterestEventKey.java
+Starting at line 25 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\compositekeys\UserRoleKey.java
+
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final EventUserKey other = (EventUserKey) obj;
+=====================================================================
+Found a 18 line (40 tokens) duplication in the following files: 
+Starting at line 103 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\dto\EventDTO.java
+Starting at line 172 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEvent.java
+
+    public void setOwner(final UserDTO owner) {
+        this.owner = owner;
+    }
+
+    public void setStartDate(final LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+
+
+
+
+
+}
+=====================================================================
+Found a 4 line (39 tokens) duplication in the following files: 
+Starting at line 56 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\utils\ObjectMapper.java
+Starting at line 71 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\utils\ObjectMapper.java
+
+    public static <D, T> List<D> mapAll(final Collection<T> entityList, final Class<D> outCLass) {
+        return entityList.stream()
+                .map(entity -> map(entity, outCLass))
+                .collect(Collectors.toList());
+=====================================================================
+Found a 11 line (36 tokens) duplication in the following files: 
+Starting at line 77 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\dto\EventDTO.java
+Starting at line 146 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEvent.java
+
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public void setEndDate(final LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setId(final Integer id) {
+=====================================================================
+Found a 8 line (33 tokens) duplication in the following files: 
+Starting at line 140 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 164 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        final Event event = this.eventRepository.findById(eventId).orElse(null);
+        if (event == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
+            return response;
+        }
+
+        final InterestEvent eventUser = eventRepository.interestEvent(user, event);
+=====================================================================
+Found a 6 line (32 tokens) duplication in the following files: 
+Starting at line 70 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEvent.java
+Starting at line 81 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEvent.java
+
+            final LocalDateTime endDate, final EventCategory category, final String description) {
+        this.title = title;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.category = category;
+=====================================================================
+Found a 12 line (32 tokens) duplication in the following files: 
+Starting at line 185 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaUser.java
+Starting at line 22 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\models\UserLoginModel.java
+
+    }
+
+    public void setPassword(final String password) {
+        this.password = password;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+
+}
+=====================================================================
+Found a 6 line (32 tokens) duplication in the following files: 
+Starting at line 48 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 70 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 164 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        final Event event = this.eventRepository.findById(eventId).orElse(null);
+        if (event == null) {
+            response.setResponseCode(HttpStatus.NOT_FOUND);
+            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
+            return response;
+        }
+=====================================================================
+Found a 9 line (30 tokens) duplication in the following files: 
+Starting at line 95 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\dto\EventDTO.java
+Starting at line 164 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEvent.java
+
+    public void setJoinedUsers(final List<UserDTO> joinedUsers) {
+        this.joinedUsers = joinedUsers;
+    }
+
+    public void setLocation(final String location) {
+        this.location = location;
+    }
+
+    public void setOwner(final UserDTO owner) {
+=====================================================================
+Found a 2 line (30 tokens) duplication in the following files: 
+Starting at line 80 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEvent.java
+Starting at line 31 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\persistence\impl\EventRepositoryImpl.java
+
+    public JpaEvent(final String title, final String location, final LocalDateTime startDate,
+            final LocalDateTime endDate, final User owner, final EventCategory category, final String description) {
+=====================================================================
+Found a 1 line (29 tokens) duplication in the following files: 
+Starting at line 58 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+Starting at line 77 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+Starting at line 100 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 122 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+                    e.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()), UserDTO.class);
+=====================================================================
+Found a 1 line (29 tokens) duplication in the following files: 
+Starting at line 60 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+Starting at line 79 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+Starting at line 103 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 125 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+                    e.getInterestedUsers().stream().map(InterestEvent::getUser).collect(Collectors.toList()), UserDTO.class);
+=====================================================================
+Found a 5 line (28 tokens) duplication in the following files: 
+Starting at line 147 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+Starting at line 171 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\UserServiceImpl.java
+
+        final InterestEvent eventUser = eventRepository.interestEvent(user, event);
+        response.setSuccessResponse();
+        response.setResponseObject(ObjectMapper.map(eventUser, UserEventDTO.class));
+        return response;
+    }
+=====================================================================
+Found a 3 line (26 tokens) duplication in the following files: 
+Starting at line 74 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\AuthServiceImpl.java
+Starting at line 97 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\services\impl\EventServiceImpl.java
+
+        final com.enjoyit.persistence.User user = this.userRepo.findByUsername(username).orElseThrow(() -> {
+            throw new IllegalArgumentException("A user with this username does not exists");
+        });
+=====================================================================
+Found a 3 line (25 tokens) duplication in the following files: 
+Starting at line 19 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\dto\EventDTO.java
+Starting at line 31 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\dto\EventDTO.java
+
+    }
+
+    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final String description,final List<UserDTO> joinedUsers,final List<UserDTO> interestedUsers) {
+=====================================================================
+Found a 4 line (25 tokens) duplication in the following files: 
+Starting at line 38 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaEventUser.java
+Starting at line 34 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaInterestEvent.java
+
+    public JpaEventUser(final User user, final Event event) {
+        this.event = event;
+        this.user = user;
+        this.id = new EventUserKey(user.getId(),event.getId());
+=====================================================================
+Found a 11 line (25 tokens) duplication in the following files: 
+Starting at line 17 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaRole.java
+Starting at line 35 of C:\Users\AStefanov\Desktop\enjoyIt\src\main\java\com\enjoyit\domain\entities\JpaUser.java
+
+public class JpaRole implements Role {
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private String id;
+
+    @Enumerated(EnumType.STRING)

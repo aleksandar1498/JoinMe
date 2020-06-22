@@ -9,8 +9,8 @@ public class UserWithEventsDTO extends UserDTO{
     public UserWithEventsDTO() {
     }
 
-    public UserWithEventsDTO(final String username, final String password,final List<EventDTO> events) {
-        super(username,password);
+    public UserWithEventsDTO(final String username,final List<EventDTO> events) {
+        super(username);
         this.events = events;
     }
 

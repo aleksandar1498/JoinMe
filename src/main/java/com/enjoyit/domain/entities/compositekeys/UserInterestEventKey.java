@@ -1,4 +1,4 @@
-package com.enjoyit.domain.entities;
+package com.enjoyit.domain.entities.compositekeys;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,24 +7,25 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class EventUserKey implements Serializable {
+public class UserInterestEventKey implements Serializable,Identifiable{
 
     /**
      *
      */
-    private static final long serialVersionUID = 6856370500749847289L;
+    private static final long serialVersionUID = -7423025075130985690L;
+
 
     @Column(name = "user_id")
-    String userId;
+    private String userId;
 
     @Column(name = "event_id")
-    int eventId;
+    private int eventId;
 
-    public EventUserKey() {
+    public UserInterestEventKey() {
         // NEEDED BY JPA
     }
 
-    public EventUserKey(final String userId, final Integer eventId) {
+    public UserInterestEventKey(final String userId, final Integer eventId) {
         this.userId = userId;
         this.eventId = eventId;
     }
@@ -37,8 +38,8 @@ public class EventUserKey implements Serializable {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final EventUserKey other = (EventUserKey) obj;
-        return Objects.equals(this.userId, other.userId) && this.eventId == other.eventId;
+        final UserJoinEventKey other = (UserJoinEventKey) obj;
+        return Objects.equals(this.userId, other.getUserId()) && this.eventId == other.getEventId();
     }
 
     public int getEventId() {

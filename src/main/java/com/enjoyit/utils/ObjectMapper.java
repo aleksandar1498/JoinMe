@@ -2,6 +2,7 @@ package com.enjoyit.utils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -57,6 +58,22 @@ public class ObjectMapper {
                 .map(entity -> map(entity, outCLass))
                 .collect(Collectors.toList());
     }
+
+    /**
+     * <p>Note: outClass object must have default constructor with no arguments</p>
+     *
+     * @param entityList list of entities that needs to be mapped
+     * @param outCLass   class of result list element
+     * @param <D>        type of objects in result list
+     * @param <T>        type of entity in <code>entityList</code>
+     * @return list of mapped object with <code><D></code> type.
+     */
+    public static <D, T> Set<D> mapAllInSet(final Collection<T> entityList, final Class<D> outCLass) {
+        return entityList.stream()
+                .map(entity -> map(entity, outCLass))
+                .collect(Collectors.toSet());
+    }
+
 
     /**
      * Hide from public usage.

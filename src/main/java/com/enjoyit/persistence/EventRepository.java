@@ -30,4 +30,7 @@ public interface EventRepository extends JpaRepository<JpaEvent, Integer>,EventR
     List<Event> findByOwnerUsername(String username);
 
 
+
+
+
 }

@@ -4,11 +4,11 @@ public class UserEventDTO {
     /**
      *
      */
-    UserDTO user;
+    private UserDTO user;
     /**
      *
      */
-    EventDTO event;
+    private EventDTO event;
 
     public UserEventDTO() {
        this.user = null;

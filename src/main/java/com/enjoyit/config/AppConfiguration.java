@@ -5,6 +5,8 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class AppConfiguration {
@@ -15,9 +17,21 @@ public class AppConfiguration {
     }
 
     @Bean
+    public WebMvcConfigurer configure() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(final CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+            }
+        };
+    }
+
+    @Bean
     public ModelMapper modelMapper() {
         final ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return mapper;
     }
+
+
 }

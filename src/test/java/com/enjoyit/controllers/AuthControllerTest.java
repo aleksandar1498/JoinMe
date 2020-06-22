@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.enjoyit.domain.entities.JpaUser;
 import com.enjoyit.persistence.UserRepository;
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class AuthControllerTest {
@@ -25,14 +24,8 @@ class AuthControllerTest {
 
     @Test
     public void testLogin() throws Exception {
-
-        // "{ "username": "SAVINGS", "password": "" }"
-        when(userRepo.findJpaUserByUsername(VALID_USERNAME))
+        when(userRepo.findByUsername(VALID_USERNAME))
                 .thenReturn(Optional.of(new JpaUser(VALID_USERNAME, VALID_ENTRY_PSW)));
-
-        //final String body = String.format(LOGIN_BODY_TEMPLATE, VALID_USERNAME, VALID_ENTRY_PSW);
-
-      //  System.out.println("HERE "+mockMvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content(body).accept(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString());
         assertTrue(true);
     }
 

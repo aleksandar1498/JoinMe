@@ -22,8 +22,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
+import com.enjoyit.persistence.InterestEvent;
+import com.enjoyit.persistence.Role;
 import com.enjoyit.persistence.User;
 
+/**
+ * @author AStefanov
+ *
+ */
 @Entity
 @Table(name = "users")
 public class JpaUser implements UserDetails,User {
@@ -39,20 +45,19 @@ public class JpaUser implements UserDetails,User {
     @Column
     private String password;
 
-    /*
-     * @Column private String email;
-     */
-
     @OneToMany(mappedBy = "owner",targetEntity = JpaEvent.class)
     private List<Event> events;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,targetEntity = JpaRole.class)
     @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") })
-    private Set<JpaRole> authorities;
+    public Set<Role> authorities;
 
-    @OneToMany(mappedBy = "user",targetEntity = JpaEventUser.class)
-    List<EventUser> joinedEvents;
+    @OneToMany(mappedBy = "user",targetEntity = JpaUserJoinEvent.class,cascade = CascadeType.ALL)
+    private List<EventUser> joinedEvents;
+
+    @OneToMany(mappedBy = "user",targetEntity = JpaUserInterestEvent.class,cascade = CascadeType.ALL)
+    private List<InterestEvent> interestedEvents;
 
     private boolean enabled;
 
@@ -90,6 +95,11 @@ public class JpaUser implements UserDetails,User {
         return id;
     }
 
+    public List<InterestEvent> getInterestedEvents() {
+        return interestedEvents;
+    }
+
+    @Override
     public List<EventUser> getJoinedEvents() {
         return joinedEvents;
     }
@@ -114,12 +124,12 @@ public class JpaUser implements UserDetails,User {
         return this.locked;
     }
 
+
+
     @Override
     public boolean isCredentialsNonExpired() {
         return this.expiredCredentials;
     }
-
-
 
     @Override
     public boolean isEnabled() {
@@ -138,7 +148,7 @@ public class JpaUser implements UserDetails,User {
         return locked;
     }
 
-    public void setAuthorities(final Set<JpaRole> authorities) {
+    public void setAuthorities(final Set<Role> authorities) {
         this.authorities = authorities;
     }
 
@@ -160,6 +170,10 @@ public class JpaUser implements UserDetails,User {
 
     public void setId(final String id) {
         this.id = id;
+    }
+
+    public void setInterestedEvents(final List<InterestEvent> interestedEvents) {
+        this.interestedEvents = interestedEvents;
     }
 
     public void setJoinedEvents(final List<EventUser> joinedEvents) {
