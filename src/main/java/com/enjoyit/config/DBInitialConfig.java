@@ -1,10 +1,9 @@
 package com.enjoyit.config;
 
-import javax.transaction.Transactional;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.enjoyit.domain.entities.JpaRole;
@@ -12,32 +11,19 @@ import com.enjoyit.enums.UserRoles;
 import com.enjoyit.persistence.RoleRepository;
 
 @Component
-public class DBInitialConfig implements ApplicationListener<ContextRefreshedEvent>{
-
-    private boolean alreadySetup = false;
+public class DBInitialConfig implements CommandLineRunner {
 
     @Autowired
     private RoleRepository roleRepository;
 
-    @Transactional
-    private void createRoleIfNotFound(
-      final UserRoles authority) {
-
-       if(roleRepository.findByAuthority(authority) == null) {
-           this.roleRepository.save(new JpaRole(authority));
-       }
-    }
-
     @Override
-    public void onApplicationEvent(final ContextRefreshedEvent event) {
-        if(alreadySetup) {
-            return;
+    public void run(final String... args) throws Exception {
+        if (this.roleRepository.count() == 0) {
+            Arrays.stream(UserRoles.values()).forEach(r -> {
+                this.roleRepository.save(new JpaRole(r));
+            });
         }
 
-        createRoleIfNotFound(UserRoles.ADMIN);
-        createRoleIfNotFound(UserRoles.USER);
-        createRoleIfNotFound(UserRoles.ORGANIZER);
-        alreadySetup = true;
     }
 
 }

@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class EventController {
 
     private final EventService eventService;
 
+    @Autowired
     public EventController(final EventService service) {
         this.eventService = service;
     }
@@ -35,7 +37,7 @@ public class EventController {
      * @return a list with all the events, it returns an empty List if there are not
      *         events
      */
-    @DeleteMapping("/cancel/{id}")
+    @DeleteMapping("/{id}")
     public ServiceResponse cancelEventById(@PathVariable("id") final Integer id ) {
         return this.eventService.cancelEventById(id);
     }
@@ -44,7 +46,7 @@ public class EventController {
      * @return a list with all the events, it returns an empty List if there are not
      *         events
      */
-    @PutMapping("/edit/{id}")
+    @PutMapping("/{id}")
     public ServiceResponse cancelEventById(@PathVariable("id") final Integer id,@RequestBody final EventCreateModel event ) {
         return this.eventService.editEventById(id,event);
     }

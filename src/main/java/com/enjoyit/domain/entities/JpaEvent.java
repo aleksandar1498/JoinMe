@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
 
 import com.enjoyit.enums.EventCategory;
 import com.enjoyit.persistence.Event;
@@ -35,18 +37,23 @@ public class JpaEvent implements Event {
     private int id;
 
     @Column
+    @NotEmpty(message = "Title cannot be empty")
     private String title;
 
     @Column
+    @NotEmpty(message = "Location cannot be empty")
     private String location;
 
     @Column
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
 
     @Column
+    @FutureOrPresent(message = "StartDate cannot be in the past")
     private LocalDateTime startDate;
 
     @Column
+    @FutureOrPresent(message = "EndDate cannot be in the past")
     private LocalDateTime endDate;
 
     @Column
