@@ -18,6 +18,9 @@ public class EventDTOtoEntityCoverter implements Converter<EventDTO, Event> {
 
     @Override
     public Event convert(final MappingContext<EventDTO, Event> context) {
+        if(context.getSource() == null) {
+            return null;
+        }
         return this.eventRepo.findById(context.getSource().getId()).orElse(null);
     }
 

@@ -67,7 +67,9 @@ public class EventController {
      */
     @GetMapping
     public List<EventDTO> getAllEvents() {
-        return this.eventService.getAllEvents();
+        final List<EventDTO> events = this.eventService.getAllEvents();
+        System.out.println(events);
+        return events;
     }
 
     /**

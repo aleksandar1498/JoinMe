@@ -2,7 +2,6 @@ package com.enjoyit.persistence.entities;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -128,9 +127,9 @@ public class JpaEvent implements Event {
         return interestedUsers;
     }
 
-    public List<User> getJoined() {
-        return joinedUsers.stream().map(EventUser::getUser).collect(Collectors.toList());
-    }
+//    public List<User> getJoined() {
+//        return joinedUsers.stream().map(EventUser::getUser).collect(Collectors.toList());
+//    }
 
     @Override
     public List<EventUser> getJoinedUsers() {

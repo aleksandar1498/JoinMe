@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import com.enjoyit.enums.MsgServiceResponse;
 public class ServiceResponse<T> {
 
+    public static ServiceResponse successResponse() {
+        return new ServiceResponse(HttpStatus.OK, MsgServiceResponse.OK);
+    }
     private HttpStatus responseCode;
     private MsgServiceResponse responseMessage;
-    private T responseObject;
 
+    private T responseObject;
     public ServiceResponse() {}
     public ServiceResponse(final HttpStatus code, final MsgServiceResponse msg) {
         this.responseCode = code;
@@ -35,6 +38,7 @@ public class ServiceResponse<T> {
     public void setResponseCode(final HttpStatus responseCode) {
         this.responseCode = responseCode;
     }
+
     public void setResponseMessage(final MsgServiceResponse responseMessage) {
         this.responseMessage = responseMessage;
     }
@@ -42,9 +46,9 @@ public class ServiceResponse<T> {
     public void setResponseObject(final T responseObject) {
         this.responseObject = responseObject;
     }
-
     public void setSuccessResponse() {
         this.setResponseCode(HttpStatus.OK);
         this.setResponseMessage(MsgServiceResponse.OK);
     }
+
 }
