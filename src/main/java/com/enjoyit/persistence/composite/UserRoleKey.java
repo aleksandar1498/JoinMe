@@ -1,4 +1,4 @@
-package com.enjoyit.domain.entities.compositekeys;
+package com.enjoyit.persistence.composite;
 
 import java.io.Serializable;
 import java.util.Objects;

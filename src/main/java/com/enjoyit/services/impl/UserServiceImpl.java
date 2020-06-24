@@ -11,13 +11,12 @@ import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserEventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
-import com.enjoyit.domain.entities.JpaUser;
+import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.persistence.Event;
-import com.enjoyit.persistence.EventRepository;
 import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.User;
-import com.enjoyit.persistence.UserRepository;
-import com.enjoyit.services.MsgServiceResponse;
+import com.enjoyit.persistence.repositories.EventRepository;
+import com.enjoyit.persistence.repositories.UserRepository;
 import com.enjoyit.services.ServiceResponse;
 import com.enjoyit.services.UserService;
 import com.enjoyit.utils.ObjectMapper;
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
             response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
             return response;
         }
-        this.eventRepository.disinterestEvent(user,event);
+        this.eventRepository.disinterestEvent(user, event);
 
         response.setSuccessResponse();
         return response;
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
             response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
             return response;
         }
-        this.eventRepository.disjoinEvent(user,event);
+        this.eventRepository.disjoinEvent(user, event);
 
         response.setSuccessResponse();
         return response;
@@ -80,21 +79,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserWithEventsDTO findByUsername(final String username) {
-        return ObjectMapper.map(this.userRepo.findByUsername(username), UserWithEventsDTO.class);
+        return this.userRepo.findByUsername(username).map(u -> {
+            return ObjectMapper.map(u, UserWithEventsDTO.class);
+        }).orElse(null);
     }
 
     @Override
     public List<EventDTO> getInterestedEvents(final String username) {
-        final JpaUser user = this.userRepo.findByUsername(username).orElse(null);
+        final User user = this.userRepo.findByUsername(username).orElse(null);
         if (user == null) {
             throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
         }
         return user.getInterestedEvents().stream().map(ev -> {
             final Event event = ev.getEvent();
 
-            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(),
-                    event.getStartDate(), event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class),
-                    event.getDescription(),
+            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
+                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
                     event.getCancelled(),
                     ObjectMapper.mapAll(
                             event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
@@ -108,16 +108,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<EventDTO> getJoinedEvents(final String username) {
 
-        final JpaUser user = this.userRepo.findByUsername(username).orElse(null);
+        final User user = this.userRepo.findByUsername(username).orElse(null);
         if (user == null) {
             throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
         }
         return user.getJoinedEvents().stream().map(ev -> {
             final Event event = ev.getEvent();
 
-            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(),
-                    event.getStartDate(), event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class),
-                    event.getDescription(),
+            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
+                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
                     event.getCancelled(),
                     ObjectMapper.mapAll(
                             event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),

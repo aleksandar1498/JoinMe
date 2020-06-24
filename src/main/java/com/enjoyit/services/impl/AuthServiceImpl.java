@@ -21,15 +21,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.enjoyit.config.JwtTokenUtil;
-import com.enjoyit.domain.entities.JpaUser;
 import com.enjoyit.domain.models.UserLoginModel;
 import com.enjoyit.domain.models.UserRegisterModel;
+import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.enums.UserRoles;
 import com.enjoyit.persistence.Role;
-import com.enjoyit.persistence.RoleRepository;
-import com.enjoyit.persistence.UserRepository;
+import com.enjoyit.persistence.entities.JpaUser;
+import com.enjoyit.persistence.repositories.RoleRepository;
+import com.enjoyit.persistence.repositories.UserRepository;
 import com.enjoyit.services.AuthService;
-import com.enjoyit.services.MsgServiceResponse;
 import com.enjoyit.services.ServiceResponse;
 import com.enjoyit.utils.ObjectMapper;
 

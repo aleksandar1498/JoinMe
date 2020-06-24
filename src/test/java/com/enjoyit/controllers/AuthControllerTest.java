@@ -10,8 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.enjoyit.domain.entities.JpaUser;
-import com.enjoyit.persistence.UserRepository;
+import com.enjoyit.persistence.entities.JpaUser;
+import com.enjoyit.persistence.repositories.UserRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc

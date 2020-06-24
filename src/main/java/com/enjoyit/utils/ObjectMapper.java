@@ -5,26 +5,34 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 
 public class ObjectMapper {
-    private static ModelMapper modelMapper ;
+    private static final ModelMapper modelMapper;
 
     /**
-     * Model mapper property setting are specified in the following block.
-     * Default property matching strategy is set to Strict see {@link MatchingStrategies}
+     * Model mapper property setting are specified in the following block. Default
+     * property matching strategy is set to Strict see {@link MatchingStrategies}
      * Custom mappings are added using {@link ModelMapper#addMappings(PropertyMap)}
      */
     static {
         modelMapper = new ModelMapper();
     }
 
+    public static <S, D, T extends Converter<S, D>> void addConverter(final T converter) {
+        ObjectMapper.modelMapper.addConverter(converter);
+    }
+
     /**
      * Maps {@code source} to {@code destination}.
      *
-     * @param source      object to map from
-     * @param destination object to map to
+     * @param source
+     *            object to map from
+     * @param destination
+     *            object to map to
      */
     public static <S, D> D map(final S source, final D destination) {
         modelMapper.map(source, destination);
@@ -32,12 +40,18 @@ public class ObjectMapper {
     }
 
     /**
-     * <p>Note: outClass object must have default constructor with no arguments</p>
+     * <p>
+     * Note: outClass object must have default constructor with no arguments
+     * </p>
      *
-     * @param <D>      type of result object.
-     * @param <T>      type of source object to map from.
-     * @param entity   entity that needs to be mapped.
-     * @param outClass class of result object.
+     * @param <D>
+     *            type of result object.
+     * @param <T>
+     *            type of source object to map from.
+     * @param entity
+     *            entity that needs to be mapped.
+     * @param outClass
+     *            class of result object.
      * @return new object of <code>outClass</code> type.
      */
     public static <D, T> D map(final T entity, final Class<D> outClass) {
@@ -45,35 +59,42 @@ public class ObjectMapper {
     }
 
     /**
-     * <p>Note: outClass object must have default constructor with no arguments</p>
+     * <p>
+     * Note: outClass object must have default constructor with no arguments
+     * </p>
      *
-     * @param entityList list of entities that needs to be mapped
-     * @param outCLass   class of result list element
-     * @param <D>        type of objects in result list
-     * @param <T>        type of entity in <code>entityList</code>
+     * @param entityList
+     *            list of entities that needs to be mapped
+     * @param outCLass
+     *            class of result list element
+     * @param <D>
+     *            type of objects in result list
+     * @param <T>
+     *            type of entity in <code>entityList</code>
      * @return list of mapped object with <code><D></code> type.
      */
     public static <D, T> List<D> mapAll(final Collection<T> entityList, final Class<D> outCLass) {
-        return entityList.stream()
-                .map(entity -> map(entity, outCLass))
-                .collect(Collectors.toList());
+        return entityList.stream().map(entity -> map(entity, outCLass)).collect(Collectors.toList());
     }
 
     /**
-     * <p>Note: outClass object must have default constructor with no arguments</p>
+     * <p>
+     * Note: outClass object must have default constructor with no arguments
+     * </p>
      *
-     * @param entityList list of entities that needs to be mapped
-     * @param outCLass   class of result list element
-     * @param <D>        type of objects in result list
-     * @param <T>        type of entity in <code>entityList</code>
+     * @param entityList
+     *            list of entities that needs to be mapped
+     * @param outCLass
+     *            class of result list element
+     * @param <D>
+     *            type of objects in result list
+     * @param <T>
+     *            type of entity in <code>entityList</code>
      * @return list of mapped object with <code><D></code> type.
      */
     public static <D, T> Set<D> mapAllInSet(final Collection<T> entityList, final Class<D> outCLass) {
-        return entityList.stream()
-                .map(entity -> map(entity, outCLass))
-                .collect(Collectors.toSet());
+        return entityList.stream().map(entity -> map(entity, outCLass)).collect(Collectors.toSet());
     }
-
 
     /**
      * Hide from public usage.

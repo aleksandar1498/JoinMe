@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.enjoyit.domain.entities.JpaRole;
 import com.enjoyit.enums.UserRoles;
-import com.enjoyit.persistence.RoleRepository;
+import com.enjoyit.persistence.entities.JpaRole;
+import com.enjoyit.persistence.repositories.RoleRepository;
 
 @Component
 public class DBInitialConfig implements CommandLineRunner {

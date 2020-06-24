@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.enjoyit.domain.entities;
+package com.enjoyit.persistence.entities;
 
 import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;

@@ -1,10 +1,13 @@
-package com.enjoyit.persistence;
+package com.enjoyit.persistence.repositories;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.enjoyit.domain.entities.JpaEvent;
 import com.enjoyit.enums.EventCategory;
+import com.enjoyit.persistence.Event;
+import com.enjoyit.persistence.EventUser;
+import com.enjoyit.persistence.User;
+import com.enjoyit.persistence.entities.JpaEvent;
 
 public interface EventRepositoryCustom {
     /**

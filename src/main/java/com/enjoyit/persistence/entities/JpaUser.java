@@ -1,4 +1,4 @@
-package com.enjoyit.domain.entities;
+package com.enjoyit.persistence.entities;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +32,7 @@ import com.enjoyit.persistence.User;
  *
  */
 @Entity
-@Table(name = "users")
+@Table(name = "users",uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class JpaUser implements UserDetails,User {
 
     @Id
@@ -39,7 +40,7 @@ public class JpaUser implements UserDetails,User {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @Column
+    @Column(name = "username")
     private String username;
 
     @Column
@@ -76,9 +77,6 @@ public class JpaUser implements UserDetails,User {
         this.password = password;
     }
 
-    public void addEvent(final Event event) {
-        this.events.add(event);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,6 +93,7 @@ public class JpaUser implements UserDetails,User {
         return id;
     }
 
+    @Override
     public List<InterestEvent> getInterestedEvents() {
         return interestedEvents;
     }
@@ -191,6 +190,15 @@ public class JpaUser implements UserDetails,User {
     public void setUsername(final String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return "JpaUser [id=" + id + ", username=" + username + ", password=" + password + ", events=" + events
+                + ", authorities=" + authorities + ", joinedEvents=" + joinedEvents + ", interestedEvents="
+                + interestedEvents + ", enabled=" + enabled + ", locked=" + locked + ", expired=" + expired
+                + ", expiredCredentials=" + expiredCredentials + "]";
+    }
+
 
 
 }

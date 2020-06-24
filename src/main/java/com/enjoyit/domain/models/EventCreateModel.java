@@ -3,7 +3,6 @@ package com.enjoyit.domain.models;
 import java.time.LocalDateTime;
 
 public class EventCreateModel {
-
     private final String title;
     private final String location;
     private final String description;
@@ -46,6 +45,13 @@ public class EventCreateModel {
 
     public String getTitle() {
         return title;
+    }
+
+
+    @Override
+    public String toString() {
+        return "EventCreateModel [title=" + title + ", location=" + location + ", description=" + description
+                + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
 
 }

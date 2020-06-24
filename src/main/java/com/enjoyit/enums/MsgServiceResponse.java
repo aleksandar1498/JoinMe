@@ -1,4 +1,4 @@
-package com.enjoyit.services;
+package com.enjoyit.enums;
 
 public enum MsgServiceResponse {
     NO_USER_WITH_USERNAME("No such user in system."),

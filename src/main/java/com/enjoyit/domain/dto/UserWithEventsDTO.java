@@ -9,8 +9,8 @@ public class UserWithEventsDTO extends UserDTO{
     public UserWithEventsDTO() {
     }
 
-    public UserWithEventsDTO(final String username,final List<EventDTO> events) {
-        super(username);
+    public UserWithEventsDTO(final String id,final String username,final List<EventDTO> events) {
+        super(id,username);
         this.events = events;
     }
 
@@ -21,5 +21,12 @@ public class UserWithEventsDTO extends UserDTO{
     public void setEvents(final List<EventDTO> events) {
         this.events = events;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+" UserWithEventsDTO [events=" + events + "]";
+    }
+
+
 
 }

@@ -1,4 +1,4 @@
-package com.enjoyit.domain.entities;
+package com.enjoyit.persistence.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

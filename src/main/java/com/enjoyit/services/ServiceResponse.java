@@ -1,6 +1,8 @@
 package com.enjoyit.services;
 
 import org.springframework.http.HttpStatus;
+
+import com.enjoyit.enums.MsgServiceResponse;
 public class ServiceResponse<T> {
 
     private HttpStatus responseCode;

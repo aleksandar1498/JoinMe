@@ -1,4 +1,4 @@
-package com.enjoyit.persistence.impl;
+package com.enjoyit.persistence.repositories.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,16 +9,16 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enjoyit.domain.entities.JpaEvent;
-import com.enjoyit.domain.entities.JpaUserInterestEvent;
-import com.enjoyit.domain.entities.JpaUserJoinEvent;
-import com.enjoyit.domain.entities.compositekeys.UserInterestEventKey;
-import com.enjoyit.domain.entities.compositekeys.UserJoinEventKey;
 import com.enjoyit.enums.EventCategory;
 import com.enjoyit.persistence.Event;
-import com.enjoyit.persistence.EventRepositoryCustom;
 import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.User;
+import com.enjoyit.persistence.composite.UserInterestEventKey;
+import com.enjoyit.persistence.composite.UserJoinEventKey;
+import com.enjoyit.persistence.entities.JpaEvent;
+import com.enjoyit.persistence.entities.JpaUserInterestEvent;
+import com.enjoyit.persistence.entities.JpaUserJoinEvent;
+import com.enjoyit.persistence.repositories.EventRepositoryCustom;
 
 @Repository
 @Transactional

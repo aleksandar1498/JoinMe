@@ -8,6 +8,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,12 +16,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionsHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     @ExceptionHandler(value = TransactionSystemException.class)
     public Map<String, String> handleTransactionSystemException(final TransactionSystemException ex) {
         final Throwable cause = ex.getRootCause();
         if (cause instanceof ConstraintViolationException) {
+            System.out.println("Constraint Violation");
             final Map<String, String> errors = new HashMap<>();
-
             ((ConstraintViolationException) cause).getConstraintViolations().forEach(violation -> {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             });

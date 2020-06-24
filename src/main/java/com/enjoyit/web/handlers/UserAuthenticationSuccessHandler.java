@@ -1,4 +1,4 @@
-package com.enjoyit.web;
+package com.enjoyit.web.handlers;
 
 import java.io.IOException;
 

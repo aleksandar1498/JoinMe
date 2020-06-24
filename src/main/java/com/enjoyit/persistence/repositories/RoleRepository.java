@@ -1,10 +1,11 @@
-package com.enjoyit.persistence;
+package com.enjoyit.persistence.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.enjoyit.domain.entities.JpaRole;
 import com.enjoyit.enums.UserRoles;
+import com.enjoyit.persistence.Role;
+import com.enjoyit.persistence.entities.JpaRole;
 
 /**
  * @author AStefanov

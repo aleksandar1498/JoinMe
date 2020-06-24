@@ -1,10 +1,9 @@
-package com.enjoyit.domain.entities;
+package com.enjoyit.persistence.entities;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.enjoyit.enums.EventCategory;
 import com.enjoyit.persistence.Event;
@@ -49,10 +49,12 @@ public class JpaEvent implements Event {
     private String description;
 
     @Column
+    @NotNull(message = "StartDate cannot be null")
     @FutureOrPresent(message = "StartDate cannot be in the past")
     private LocalDateTime startDate;
 
     @Column
+    @NotNull(message = "EndDate cannot be null")
     @FutureOrPresent(message = "EndDate cannot be in the past")
     private LocalDateTime endDate;
 
@@ -62,7 +64,7 @@ public class JpaEvent implements Event {
     @Enumerated(EnumType.STRING)
     private EventCategory category;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaUser.class, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaUser.class)
     private User owner;
 
     @OneToMany(mappedBy = "event", targetEntity = JpaUserJoinEvent.class)
@@ -176,9 +178,6 @@ public class JpaEvent implements Event {
         this.endDate = endDate;
     }
 
-    public void setId(final int id) {
-        this.id = id;
-    }
 
     public void setId(final Integer id) {
         this.id = id;
@@ -207,6 +206,15 @@ public class JpaEvent implements Event {
     public void setTitle(final String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return "JpaEvent [id=" + id + ", title=" + title + ", location=" + location + ", description=" + description
+                + ", startDate=" + startDate + ", endDate=" + endDate + ", cancelled=" + cancelled + ", category="
+                + category + "]";
+    }
+
+
 
 
 

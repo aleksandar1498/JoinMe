@@ -125,6 +125,13 @@ public class EventDTO {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        return "EventDTO [id=" + id + ", title=" + title + ", location=" + location + ", description=" + description
+                + ", startDate=" + startDate + ", endDate=" + endDate + ", owner=" + owner + ", cancelled=" + cancelled
+                + ", joinedUsers=" + joinedUsers + ", interestedUsers=" + interestedUsers + "]";
+    }
+
 
 
 

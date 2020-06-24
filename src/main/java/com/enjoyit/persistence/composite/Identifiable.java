@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.enjoyit.domain.entities.compositekeys;
+package com.enjoyit.persistence.composite;
 
 /**
  * @author AStefanov

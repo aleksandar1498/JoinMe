@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.domain.models.EventCreateModel;
 import com.enjoyit.services.EventService;
 import com.enjoyit.services.ServiceResponse;
+import com.enjoyit.utils.ObjectMapper;
 
 /**
  * RestController used to manage all the users requests related to the events
@@ -38,8 +40,15 @@ public class EventController {
      *         events
      */
     @DeleteMapping("/{id}")
-    public ServiceResponse cancelEventById(@PathVariable("id") final Integer id ) {
+    public ServiceResponse cancelEventById(@PathVariable("id") final Integer id) {
         return this.eventService.cancelEventById(id);
+    }
+
+    @PostMapping
+    public ServiceResponse createEvent(final Principal principal, @RequestBody final EventCreateModel event) {
+        System.out.println("NAME "+principal.getName());
+        System.out.println(event.toString());
+        return this.eventService.createEvent(ObjectMapper.map(event, BaseEventDTO.class), principal.getName());
     }
 
     /**
@@ -47,13 +56,9 @@ public class EventController {
      *         events
      */
     @PutMapping("/{id}")
-    public ServiceResponse cancelEventById(@PathVariable("id") final Integer id,@RequestBody final EventCreateModel event ) {
-        return this.eventService.editEventById(id,event);
-    }
-
-    @PostMapping
-    public ServiceResponse createEvent(final Principal principal,@RequestBody final EventCreateModel event) {
-        return this.eventService.createEvent(event,principal.getName());
+    public ServiceResponse editEventById(@PathVariable("id") final Integer id,
+            @RequestBody final EventCreateModel event) {
+        return this.eventService.editEventById(id, event);
     }
 
     /**
@@ -64,7 +69,6 @@ public class EventController {
     public List<EventDTO> getAllEvents() {
         return this.eventService.getAllEvents();
     }
-
 
     /**
      * @return a list with all the events, it returns an empty List if there are not
@@ -98,7 +102,7 @@ public class EventController {
      *         events
      */
     @GetMapping("/{id}")
-    public Optional<EventDTO> getEventById(@PathVariable("id") final Integer id ) {
+    public Optional<EventDTO> getEventById(@PathVariable("id") final Integer id) {
         return this.eventService.getEventById(id);
     }
 

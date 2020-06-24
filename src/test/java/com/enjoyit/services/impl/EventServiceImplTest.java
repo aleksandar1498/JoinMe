@@ -13,9 +13,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.enjoyit.BaseTest;
 import com.enjoyit.domain.dto.EventDTO;
-import com.enjoyit.domain.entities.JpaEvent;
 import com.enjoyit.enums.EventCategory;
-import com.enjoyit.persistence.EventRepository;
+import com.enjoyit.persistence.entities.JpaEvent;
+import com.enjoyit.persistence.repositories.EventRepository;
 import com.enjoyit.services.EventService;
 
 class EventServiceImplTest extends BaseTest {
