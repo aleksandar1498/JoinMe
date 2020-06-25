@@ -7,12 +7,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
 import com.enjoyit.persistence.Event;
+import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.User;
 import com.enjoyit.persistence.composite.UserInterestEventKey;
 
 @SuppressWarnings("serial")
 @Entity
-public class JpaUserInterestEvent extends JpaEventUser {
+public class JpaUserInterestEvent implements EventUser{
 
     @EmbeddedId
     private UserInterestEventKey id;

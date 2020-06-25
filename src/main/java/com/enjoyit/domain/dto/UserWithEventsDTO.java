@@ -5,7 +5,6 @@ import java.util.List;
 public class UserWithEventsDTO extends UserDTO{
     private List<EventDTO> events;
 
-
     public UserWithEventsDTO() {
     }
 

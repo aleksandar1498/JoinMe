@@ -2,7 +2,6 @@ package com.enjoyit.services.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
-import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.domain.models.EventCreateModel;
 import com.enjoyit.enums.MsgServiceResponse;
-import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.entities.JpaEvent;
 import com.enjoyit.persistence.entities.JpaUser;
 import com.enjoyit.persistence.repositories.EventRepository;
@@ -23,7 +20,6 @@ import com.enjoyit.services.EventService;
 import com.enjoyit.services.ServiceResponse;
 import com.enjoyit.services.UserService;
 import com.enjoyit.utils.EventDTOtoEntityCoverter;
-import com.enjoyit.utils.ListConverter;
 import com.enjoyit.utils.ObjectMapper;
 
 @Service
@@ -38,8 +34,6 @@ public class EventServiceImpl implements EventService {
         this.userService = userService;
         this.eventRepo = repository;
         ObjectMapper.addConverter(eventEntityConverter);
-        ObjectMapper.addConverter(new ListConverter<List<JpaUser>, List<UserDTO>>());
-        //ObjectMapper.addConverter(userEntityConverter);
     }
 
     @Override
@@ -74,20 +68,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventDTO> getAllEvents() {
-        final List<JpaEvent> events = eventRepo.findAll();
-        return ObjectMapper.mapAll(events,EventDTO.class);
-//        return events.stream().map(e -> {
-//            final UserDTO owner = ObjectMapper.map(e.getOwner(), UserDTO.class);
-//            final List<UserDTO> joinedUsers = ObjectMapper.mapAll(
-//                    e.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()), UserDTO.class);
-//
-//            final List<UserDTO> interestedUsers = ObjectMapper.mapAll(
-//                    e.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-//                    UserDTO.class);
-//
-//            return new EventDTO(e.getId(), e.getTitle(), e.getLocation(), e.getStartDate(), e.getEndDate(), owner,
-//                    e.getDescription(), e.getCancelled(), joinedUsers, interestedUsers);
-//        }).collect(Collectors.toList());
+        return ObjectMapper.mapAll(eventRepo.findAll(), EventDTO.class);
     }
 
     @Override
@@ -97,17 +78,19 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Optional<EventDTO> getEventById(final Integer id) {
-        return this.eventRepo.findById(id).map(e -> {
-            System.out.println("CANCELLED " + e.getCancelled());
-            final UserDTO owner = ObjectMapper.map(e.getOwner(), UserDTO.class);
-            final List<UserDTO> joinedUsers = ObjectMapper.mapAll(
-                    e.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()), UserDTO.class);
-            final List<UserDTO> interestedUsers = ObjectMapper.mapAll(
-                    e.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-                    UserDTO.class);
-            return new EventDTO(e.getId(), e.getTitle(), e.getLocation(), e.getStartDate(), e.getEndDate(), owner,
-                    e.getDescription(), e.getCancelled(), joinedUsers, interestedUsers);
-        });
+        return null;
+        // return this.eventRepo.findById(id).map(e -> {
+        // final UserDTO owner = ObjectMapper.map(e.getOwner(), UserDTO.class);
+        // final List<UserDTO> joinedUsers = ObjectMapper.mapAll(
+        // e.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
+        // UserDTO.class);
+        // final List<UserDTO> interestedUsers = ObjectMapper.mapAll(
+        // e.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
+        // UserDTO.class);
+        // return new EventDTO(e.getId(), e.getTitle(), e.getLocation(),
+        // e.getStartDate(), e.getEndDate(), owner,
+        // e.getDescription(), e.getCancelled(), joinedUsers, interestedUsers);
+        // });
     }
 
     @Override
@@ -123,10 +106,8 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventDTO> getJoinedEvents(final String username) {
         return null;
-        // final User user = this.userRepo.findByUsername(username).orElseThrow(() -> {
-        // throw new IllegalArgumentException("A user with this username does not
-        // exists");
-        // });
+        //
+        // final User user = this.userService.findByUsername(username)
         // user.getJoinedEvents();
         // return ObjectMapper.mapAll(
         // user.getJoinedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()),

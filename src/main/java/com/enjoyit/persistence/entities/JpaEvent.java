@@ -127,9 +127,7 @@ public class JpaEvent implements Event {
         return interestedUsers;
     }
 
-//    public List<User> getJoined() {
-//        return joinedUsers.stream().map(EventUser::getUser).collect(Collectors.toList());
-//    }
+
 
     @Override
     public List<EventUser> getJoinedUsers() {

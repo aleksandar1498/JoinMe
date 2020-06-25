@@ -8,13 +8,14 @@ import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 
 import com.enjoyit.persistence.Event;
+import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.User;
 import com.enjoyit.persistence.composite.UserJoinEventKey;
 
 @Entity
 @NamedQuery(name = JpaUserJoinEvent.EVENTS_BY_USER_USERNAME,
         query = "SELECT e FROM JpaEvent e INNER JOIN JpaUserJoinEvent s ON e.id = s.event.id INNER JOIN JpaUser u ON s.user.id = u.id WHERE u.username = :username")
-public class JpaUserJoinEvent extends JpaEventUser {
+public class JpaUserJoinEvent implements EventUser {
 
     public static final String EVENTS_BY_USER_USERNAME = "eventsByUsername";
 

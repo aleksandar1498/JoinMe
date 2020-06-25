@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
+import com.enjoyit.domain.dto.JoinUserDTO;
+import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.models.EventCreateModel;
 import com.enjoyit.services.EventService;
 import com.enjoyit.services.ServiceResponse;
@@ -46,7 +48,7 @@ public class EventController {
 
     @PostMapping
     public ServiceResponse createEvent(final Principal principal, @RequestBody final EventCreateModel event) {
-        System.out.println("NAME "+principal.getName());
+        System.out.println("NAME " + principal.getName());
         System.out.println(event.toString());
         return this.eventService.createEvent(ObjectMapper.map(event, BaseEventDTO.class), principal.getName());
     }
@@ -69,6 +71,7 @@ public class EventController {
     public List<EventDTO> getAllEvents() {
         final List<EventDTO> events = this.eventService.getAllEvents();
         System.out.println(events);
+        events.get(0).getJoinedUsers().add(new JoinUserDTO(new UserDTO("alex", "ciao")));
         return events;
     }
 
@@ -107,5 +110,6 @@ public class EventController {
     public Optional<EventDTO> getEventById(@PathVariable("id") final Integer id) {
         return this.eventService.getEventById(id);
     }
+
 
 }

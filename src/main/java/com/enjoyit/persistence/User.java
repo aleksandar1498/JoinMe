@@ -15,7 +15,7 @@ public interface User extends UserDetails{
      * @return
      */
     String getId();
-    List<InterestEvent> getInterestedEvents();
+    List<EventUser> getInterestedEvents();
 
     /**
      * @return

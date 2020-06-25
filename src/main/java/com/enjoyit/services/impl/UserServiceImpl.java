@@ -1,14 +1,12 @@
 package com.enjoyit.services.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.enjoyit.domain.dto.EventDTO;
-import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserEventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.enums.MsgServiceResponse;
@@ -79,52 +77,56 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserWithEventsDTO findByUsername(final String username) {
+        System.out.println("here");
         return this.userRepo.findByUsername(username).map(u -> {
+            System.out.println(u);
             return ObjectMapper.map(u, UserWithEventsDTO.class);
         }).orElse(null);
     }
 
     @Override
     public List<EventDTO> getInterestedEvents(final String username) {
-        final User user = this.userRepo.findByUsername(username).orElse(null);
-        if (user == null) {
-            throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
-        }
-        return user.getInterestedEvents().stream().map(ev -> {
-            final Event event = ev.getEvent();
-
-            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
-                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
-                    event.getCancelled(),
-                    ObjectMapper.mapAll(
-                            event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-                            UserDTO.class),
-                    ObjectMapper.mapAll(
-                            event.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-                            UserDTO.class));
-        }).collect(Collectors.toList());
+        return null;
+//        final User user = this.userRepo.findByUsername(username).orElse(null);
+//        if (user == null) {
+//            throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
+//        }
+//        return user.getInterestedEvents().stream().map(ev -> {
+//            final Event event = ev.getEvent();
+//
+//            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
+//                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
+//                    event.getCancelled(),
+//                    ObjectMapper.mapAll(
+//                            event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
+//                            UserDTO.class),
+//                    ObjectMapper.mapAll(
+//                            event.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
+//                            UserDTO.class));
+//        }).collect(Collectors.toList());
     }
 
     @Override
     public List<EventDTO> getJoinedEvents(final String username) {
-
-        final User user = this.userRepo.findByUsername(username).orElse(null);
-        if (user == null) {
-            throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
-        }
-        return user.getJoinedEvents().stream().map(ev -> {
-            final Event event = ev.getEvent();
-
-            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
-                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
-                    event.getCancelled(),
-                    ObjectMapper.mapAll(
-                            event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-                            UserDTO.class),
-                    ObjectMapper.mapAll(
-                            event.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-                            UserDTO.class));
-        }).collect(Collectors.toList());
+        return null;
+//
+//        final User user = this.userRepo.findByUsername(username).orElse(null);
+//        if (user == null) {
+//            throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
+//        }
+//        return user.getJoinedEvents().stream().map(ev -> {
+//            final Event event = ev.getEvent();
+//
+//            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
+//                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
+//                    event.getCancelled(),
+//                    ObjectMapper.mapAll(
+//                            event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
+//                            UserDTO.class),
+//                    ObjectMapper.mapAll(
+//                            event.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
+//                            UserDTO.class));
+//        }).collect(Collectors.toList());
     }
 
     @Override

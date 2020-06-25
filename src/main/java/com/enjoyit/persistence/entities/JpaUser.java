@@ -23,7 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
-import com.enjoyit.persistence.InterestEvent;
 import com.enjoyit.persistence.Role;
 import com.enjoyit.persistence.User;
 
@@ -58,7 +57,7 @@ public class JpaUser implements UserDetails,User {
     private List<EventUser> joinedEvents;
 
     @OneToMany(mappedBy = "user",targetEntity = JpaUserInterestEvent.class,cascade = CascadeType.ALL)
-    private List<InterestEvent> interestedEvents;
+    private List<EventUser> interestedEvents;
 
     private boolean enabled;
 
@@ -94,7 +93,7 @@ public class JpaUser implements UserDetails,User {
     }
 
     @Override
-    public List<InterestEvent> getInterestedEvents() {
+    public List<EventUser> getInterestedEvents() {
         return interestedEvents;
     }
 
@@ -171,7 +170,7 @@ public class JpaUser implements UserDetails,User {
         this.id = id;
     }
 
-    public void setInterestedEvents(final List<InterestEvent> interestedEvents) {
+    public void setInterestedEvents(final List<EventUser> interestedEvents) {
         this.interestedEvents = interestedEvents;
     }
 
@@ -193,11 +192,12 @@ public class JpaUser implements UserDetails,User {
 
     @Override
     public String toString() {
-        return "JpaUser [id=" + id + ", username=" + username + ", password=" + password + ", events=" + events
-                + ", authorities=" + authorities + ", joinedEvents=" + joinedEvents + ", interestedEvents="
-                + interestedEvents + ", enabled=" + enabled + ", locked=" + locked + ", expired=" + expired
-                + ", expiredCredentials=" + expiredCredentials + "]";
+        return "JpaUser [id=" + id + ", username=" + username + ", password=" + password + ", "
+                + ", authorities=" + authorities + ", enabled=" + enabled + ", locked=" + locked + ", expired="
+                + expired + ", expiredCredentials=" + expiredCredentials + "]";
     }
+
+
 
 
 

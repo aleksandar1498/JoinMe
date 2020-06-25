@@ -1,6 +1,7 @@
 package com.enjoyit.domain.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventDTO {
@@ -12,14 +13,14 @@ public class EventDTO {
     private LocalDateTime endDate;
     private UserDTO owner;
     private Boolean cancelled;
-    private List<UserDTO> joinedUsers;
-    private List<UserDTO> interestedUsers;
+    private List<JoinUserDTO> joinedUsers = new ArrayList<JoinUserDTO>();
+    private List<JoinUserDTO> interestedUsers = new ArrayList<JoinUserDTO>();
 
     public EventDTO() {
         // Needed for reflection
     }
 
-    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final String description,final Boolean cancelled,final List<UserDTO> joinedUsers,final List<UserDTO> interestedUsers) {
+    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final String description,final Boolean cancelled,final List<JoinUserDTO> joinedUsers,final List<JoinUserDTO> interestedUsers) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -32,7 +33,7 @@ public class EventDTO {
         this.interestedUsers = interestedUsers;
     }
 
-    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final UserDTO owner,final String description,final Boolean cancelled,final List<UserDTO> joinedUsers,final List<UserDTO> interestedUsers) {
+    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final UserDTO owner,final String description,final Boolean cancelled,final List<JoinUserDTO> joinedUsers,final List<JoinUserDTO> interestedUsers) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -59,11 +60,11 @@ public class EventDTO {
         return id;
     }
 
-    public List<UserDTO> getInterestedUsers() {
+    public List<JoinUserDTO> getInterestedUsers() {
         return interestedUsers;
     }
 
-    public List<UserDTO> getJoinedUsers() {
+    public List<JoinUserDTO> getJoinedUsers() {
         return joinedUsers;
     }
 
@@ -101,11 +102,11 @@ public class EventDTO {
         this.id = id;
     }
 
-    public void setInterestedUsers(final List<UserDTO> interestedUsers) {
+    public void setInterestedUsers(final List<JoinUserDTO> interestedUsers) {
         this.interestedUsers = interestedUsers;
     }
 
-    public void setJoinedUsers(final List<UserDTO> joinedUsers) {
+    public void setJoinedUsers(final List<JoinUserDTO> joinedUsers) {
         this.joinedUsers = joinedUsers;
     }
 
@@ -127,10 +128,11 @@ public class EventDTO {
 
     @Override
     public String toString() {
-        return "EventDTO [id=" + id + ", title=" + title + ", location=" + location + ", description=" + description
-                + ", startDate=" + startDate + ", endDate=" + endDate + ", owner=" + owner + ", cancelled=" + cancelled
-                + ", joinedUsers=" + joinedUsers + ", interestedUsers=" + interestedUsers + "]";
+        return "EventDTO [id=" + id + ", title=" + title + ", owner=" + owner + ", joinedUsers=" + joinedUsers
+                + ", interestedUsers=" + interestedUsers + "]";
     }
+
+
 
 
 
