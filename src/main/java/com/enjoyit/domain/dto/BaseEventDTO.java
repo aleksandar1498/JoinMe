@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class BaseEventDTO {
     private String title;
-    private String location;
+    private String locationId;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -21,8 +21,8 @@ public class BaseEventDTO {
         return endDate;
     }
 
-    public String getLocation() {
-        return location;
+    public String getLocationId() {
+        return locationId;
     }
 
     public LocalDateTime getStartDate() {
@@ -43,8 +43,8 @@ public class BaseEventDTO {
         this.endDate = endDate;
     }
 
-    public void setLocation(final String location) {
-        this.location = location;
+    public void setLocationId(final String locationId) {
+        this.locationId = locationId;
     }
 
     public void setStartDate(final LocalDateTime startDate) {
@@ -57,7 +57,7 @@ public class BaseEventDTO {
 
     @Override
     public String toString() {
-        return "BaseEventDTO [title=" + title + ", location=" + location + ", description=" + description
+        return "BaseEventDTO [title=" + title + ", location=" + locationId + ", description=" + description
                 + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
 

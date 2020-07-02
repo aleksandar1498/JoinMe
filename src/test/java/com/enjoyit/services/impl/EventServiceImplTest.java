@@ -15,6 +15,7 @@ import com.enjoyit.BaseTest;
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.enums.EventCategory;
 import com.enjoyit.persistence.entities.JpaEvent;
+import com.enjoyit.persistence.entities.JpaLocation;
 import com.enjoyit.persistence.repositories.EventRepository;
 import com.enjoyit.services.EventService;
 
@@ -23,7 +24,7 @@ class EventServiceImplTest extends BaseTest {
     private static final List<JpaEvent> EMPTY_EVENTS_LIST = new ArrayList<>();
     private static final List<JpaEvent> NOT_EMPTY_EVENTS_LIST = new ArrayList<>() {
         {
-            add(new JpaEvent("Jog", "Sofia", LocalDateTime.now(), LocalDateTime.now(),EventCategory.COMEDY_EVENT,""));
+            add(new JpaEvent("Jog", new JpaLocation(), LocalDateTime.now(), LocalDateTime.now(),EventCategory.COMEDY_EVENT,""));
         }
     };
 

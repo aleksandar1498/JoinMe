@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class EventCreateModel {
     private final String title;
-    private final String location;
+    private final String locationId;
     private final String description;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
@@ -18,10 +18,10 @@ public class EventCreateModel {
      * @param startDate
      * @param endDate
      */
-    public EventCreateModel(final String title, final String location, final String description, final LocalDateTime startDate,
+    public EventCreateModel(final String title, final String locationId, final String description, final LocalDateTime startDate,
             final LocalDateTime endDate) {
         this.title = title;
-        this.location = location;
+        this.locationId = locationId;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -35,8 +35,8 @@ public class EventCreateModel {
         return endDate;
     }
 
-    public String getLocation() {
-        return location;
+    public String getLocationId() {
+        return locationId;
     }
 
     public LocalDateTime getStartDate() {
@@ -50,7 +50,7 @@ public class EventCreateModel {
 
     @Override
     public String toString() {
-        return "EventCreateModel [title=" + title + ", location=" + location + ", description=" + description
+        return "EventCreateModel [title=" + title + ", location=" + locationId + ", description=" + description
                 + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
 

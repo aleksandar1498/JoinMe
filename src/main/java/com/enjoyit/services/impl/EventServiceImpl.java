@@ -10,13 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
+import com.enjoyit.domain.dto.LocationDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.domain.models.EventCreateModel;
 import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.persistence.entities.JpaEvent;
+import com.enjoyit.persistence.entities.JpaLocation;
 import com.enjoyit.persistence.entities.JpaUser;
 import com.enjoyit.persistence.repositories.EventRepository;
 import com.enjoyit.services.EventService;
+import com.enjoyit.services.LocationService;
 import com.enjoyit.services.ServiceResponse;
 import com.enjoyit.services.UserService;
 import com.enjoyit.utils.EventDTOtoEntityCoverter;
@@ -27,10 +30,12 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepo;
     private final UserService userService;
+    private final LocationService locationService;
 
     @Autowired
-    public EventServiceImpl(final EventRepository repository, final UserService userService, final ModelMapper mapper,
+    public EventServiceImpl(final EventRepository repository, final UserService userService,final LocationService locationService, final ModelMapper mapper,
             final EventDTOtoEntityCoverter eventEntityConverter) {
+        this.locationService = locationService;
         this.userService = userService;
         this.eventRepo = repository;
         ObjectMapper.addConverter(eventEntityConverter);
@@ -54,8 +59,11 @@ public class EventServiceImpl implements EventService {
         if (user == null) {
             return new ServiceResponse(HttpStatus.NOT_FOUND, MsgServiceResponse.NO_USER_WITH_USERNAME);
         }
+        final Optional<LocationDTO> location = this.locationService.findLocationById(eventModel.getLocationId());
+
         final JpaEvent eventToCreate = ObjectMapper.map(eventModel, JpaEvent.class);
         eventToCreate.setOwner(ObjectMapper.map(user, JpaUser.class));
+        eventToCreate.setLocation(ObjectMapper.map(location, JpaLocation.class));
         this.eventRepo.save(eventToCreate);
         return ServiceResponse.successResponse();
     }

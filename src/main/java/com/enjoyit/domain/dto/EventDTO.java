@@ -7,7 +7,7 @@ import java.util.List;
 public class EventDTO {
     private Integer id;
     private String title;
-    private String location;
+    private LocationDTO location;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -20,7 +20,7 @@ public class EventDTO {
         // Needed for reflection
     }
 
-    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final String description,final Boolean cancelled,final List<JoinUserDTO> joinedUsers,final List<JoinUserDTO> interestedUsers) {
+    public EventDTO(final Integer id,final String title, final LocationDTO location, final LocalDateTime startDate, final LocalDateTime endDate,final String description,final Boolean cancelled,final List<JoinUserDTO> joinedUsers,final List<JoinUserDTO> interestedUsers) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -33,7 +33,7 @@ public class EventDTO {
         this.interestedUsers = interestedUsers;
     }
 
-    public EventDTO(final Integer id,final String title, final String location, final LocalDateTime startDate, final LocalDateTime endDate,final UserDTO owner,final String description,final Boolean cancelled,final List<JoinUserDTO> joinedUsers,final List<JoinUserDTO> interestedUsers) {
+    public EventDTO(final Integer id,final String title, final LocationDTO location, final LocalDateTime startDate, final LocalDateTime endDate,final UserDTO owner,final String description,final Boolean cancelled,final List<JoinUserDTO> joinedUsers,final List<JoinUserDTO> interestedUsers) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -68,7 +68,7 @@ public class EventDTO {
         return joinedUsers;
     }
 
-    public String getLocation() {
+    public LocationDTO getLocation() {
         return location;
     }
 
@@ -110,7 +110,7 @@ public class EventDTO {
         this.joinedUsers = joinedUsers;
     }
 
-    public void setLocation(final String location) {
+    public void setLocation(final LocationDTO location) {
         this.location = location;
     }
 

@@ -8,6 +8,7 @@ public interface Event {
      * @return
      */
     Boolean getCancelled();
+
     /**
      * @return
      */
@@ -17,23 +18,26 @@ public interface Event {
      * @return
      */
     LocalDateTime getEndDate();
+
     /**
      * @return
      */
-    Integer getId();
+    String getId();
 
     /**
      * @return
      */
     List<EventUser> getInterestedUsers();
+
     /**
      * @return
      */
     List<EventUser> getJoinedUsers();
+
     /**
      * @return
      */
-    String getLocation();
+    Location getLocation();
 
     /**
      * @return
@@ -49,6 +53,7 @@ public interface Event {
      * @return
      */
     String getTitle();
+
     /**
      * @return
      */

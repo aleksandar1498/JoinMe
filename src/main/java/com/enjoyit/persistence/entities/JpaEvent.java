@@ -8,9 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -22,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import com.enjoyit.enums.EventCategory;
 import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
+import com.enjoyit.persistence.Location;
 import com.enjoyit.persistence.User;
 
 @Entity
@@ -29,19 +27,16 @@ import com.enjoyit.persistence.User;
 @NamedQuery(name = JpaEvent.EVENTS_NOT_BELONGING_TO_USERNAME,
         query = "SELECT e FROM JpaEvent e  WHERE e.owner.username <> :username")
 
-public class JpaEvent implements Event {
+public class JpaEvent extends BaseEntity implements Event {
     public static final String EVENTS_NOT_BELONGING_TO_USERNAME = "eventsNotBelongingTo";
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
 
     @Column
     @NotEmpty(message = "Title cannot be empty")
     private String title;
 
-    @Column
     @NotEmpty(message = "Location cannot be empty")
-    private String location;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaLocation.class)
+    private Location location;
 
     @Column
     @NotEmpty(message = "Description cannot be empty")
@@ -76,7 +71,7 @@ public class JpaEvent implements Event {
         // Needed by JPA
     }
 
-    public JpaEvent(final String title, final String location, final LocalDateTime startDate,
+    public JpaEvent(final String title, final Location location, final LocalDateTime startDate,
             final LocalDateTime endDate, final EventCategory category, final String description) {
         this.title = title;
         this.location = location;
@@ -87,7 +82,7 @@ public class JpaEvent implements Event {
         this.owner = null;
     }
 
-    public JpaEvent(final String title, final String location, final LocalDateTime startDate,
+    public JpaEvent(final String title, final Location location, final LocalDateTime startDate,
             final LocalDateTime endDate, final User owner, final EventCategory category, final String description) {
         this.title = title;
         this.location = location;
@@ -118,16 +113,9 @@ public class JpaEvent implements Event {
     }
 
     @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
     public List<EventUser> getInterestedUsers() {
         return interestedUsers;
     }
-
-
 
     @Override
     public List<EventUser> getJoinedUsers() {
@@ -135,7 +123,7 @@ public class JpaEvent implements Event {
     }
 
     @Override
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -156,7 +144,7 @@ public class JpaEvent implements Event {
 
     @Override
     public void setCancelled() {
-       this.cancelled = Boolean.TRUE;
+        this.cancelled = Boolean.TRUE;
     }
 
     public void setCancelled(final Boolean cancelled) {
@@ -175,11 +163,6 @@ public class JpaEvent implements Event {
         this.endDate = endDate;
     }
 
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
     public void setInterestedUsers(final List<EventUser> interestedUsers) {
         this.interestedUsers = interestedUsers;
     }
@@ -188,7 +171,7 @@ public class JpaEvent implements Event {
         this.joinedUsers = joinedUsers;
     }
 
-    public void setLocation(final String location) {
+    public void setLocation(final Location location) {
         this.location = location;
     }
 
@@ -206,13 +189,9 @@ public class JpaEvent implements Event {
 
     @Override
     public String toString() {
-        return "JpaEvent [id=" + id + ", title=" + title + ", location=" + location + ", description=" + description
-                + ", startDate=" + startDate + ", endDate=" + endDate + ", cancelled=" + cancelled + ", category="
-                + category + "]";
+        return "JpaEvent [id=" + this.getId() + ", title=" + title + ", location=" + location + ", description="
+                + description + ", startDate=" + startDate + ", endDate=" + endDate + ", cancelled=" + cancelled
+                + ", category=" + category + "]";
     }
-
-
-
-
 
 }

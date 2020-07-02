@@ -18,13 +18,13 @@ public class UserJoinEventKey implements Serializable{
     private String userId;
 
     @Column(name = "event_id")
-    private int eventId;
+    private String eventId;
 
     public UserJoinEventKey() {
         // NEEDED BY JPA
     }
 
-    public UserJoinEventKey(final String userId, final Integer eventId) {
+    public UserJoinEventKey(final String userId, final String eventId) {
         this.userId = userId;
         this.eventId = eventId;
     }
@@ -38,10 +38,10 @@ public class UserJoinEventKey implements Serializable{
             return false;
         }
         final UserJoinEventKey other = (UserJoinEventKey) obj;
-        return Objects.equals(this.userId, other.userId) && this.eventId == other.eventId;
+        return Objects.equals(this.getUserId(), other.getUserId()) && this.getEventId().equals(other.getEventId());
     }
 
-    public int getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
@@ -54,7 +54,7 @@ public class UserJoinEventKey implements Serializable{
         return Objects.hash(eventId, userId);
     }
 
-    public void setEventId(final int eventId) {
+    public void setEventId(final String eventId) {
         this.eventId = eventId;
     }
 

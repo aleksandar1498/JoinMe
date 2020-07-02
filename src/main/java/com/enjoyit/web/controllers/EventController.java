@@ -94,7 +94,7 @@ public class EventController {
     }
 
     /**
-     * @return a list with all the events, it returns an empty List if there are not
+     * @return a list with all the not created by the logged user
      *         events
      */
     @GetMapping("/others")

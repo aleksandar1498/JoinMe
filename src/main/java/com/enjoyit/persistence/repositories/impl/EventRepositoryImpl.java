@@ -1,6 +1,5 @@
 package com.enjoyit.persistence.repositories.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enjoyit.enums.EventCategory;
 import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.User;
@@ -23,18 +21,18 @@ import com.enjoyit.persistence.repositories.EventRepositoryCustom;
 @Repository
 @Transactional
 public class EventRepositoryImpl implements EventRepositoryCustom {
-
+    //TODO check this repo , it seems to be not necessar
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
-    public Event createEvent(final String title, final String location, final LocalDateTime startDate,
-            final LocalDateTime endDate, final User owner,final EventCategory category,final String description) {
-
-        final Event event = new JpaEvent(title, location, startDate, endDate, owner,category,description);
-        this.entityManager.persist(event);
-        return event;
-    }
+//    @Override
+//    public Event createEvent(final String title, final LocationDTO location, final LocalDateTime startDate,
+//            final LocalDateTime endDate, final User owner,final EventCategory category,final String description) {
+//
+//        final Event event = new JpaEvent(title, location, startDate, endDate, owner,category,description);
+//        this.entityManager.persist(event);
+//        return event;
+//    }
 
     @Override
     public void disinterestEvent(final User user, final Event event) {

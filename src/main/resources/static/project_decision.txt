@@ -1,0 +1,3 @@
+For List do not user optional
+For retrieving single value , optional
+For creating do not create optional , throw error for validation or something went wrong
