@@ -29,13 +29,15 @@ public class LocationController {
 
 
     @PostMapping
-    public ResponseEntity<LocationDTO> create(@RequestBody final LocationDTO location){
+    public ResponseEntity create(@RequestBody final LocationDTO location){
         return new ResponseEntity<LocationDTO>(this.locationService.create(location), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<LocationDTO>> findAllLocations(){
-        return new ResponseEntity<List<LocationDTO>>(this.locationService.findAllLocations(),HttpStatus.OK);
+    public List<LocationDTO> findAllLocations(){
+        final List<LocationDTO> locations = this.locationService.findAllLocations();
+
+        return locations;
     }
 
     @GetMapping("/{id}")

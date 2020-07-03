@@ -46,9 +46,17 @@ public class LocationDTO {
         this.id = id;
     }
 
-    public void setLocationType(final LocationCategory locationCategory) {
+    public void setLocationCategory(final LocationCategory locationCategory) {
         this.locationCategory = locationCategory;
     }
+
+    @Override
+    public String toString() {
+        return "LocationDTO [id=" + id + ", city=" + city + ", address=" + address + ", locationCategory="
+                + locationCategory + "]";
+    }
+
+
 
 
 

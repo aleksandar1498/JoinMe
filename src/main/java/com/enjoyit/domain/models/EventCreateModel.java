@@ -2,9 +2,11 @@ package com.enjoyit.domain.models;
 
 import java.time.LocalDateTime;
 
+import com.enjoyit.domain.dto.LocationDTO;
+
 public class EventCreateModel {
     private final String title;
-    private final String locationId;
+    private final LocationDTO location;
     private final String description;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
@@ -18,10 +20,10 @@ public class EventCreateModel {
      * @param startDate
      * @param endDate
      */
-    public EventCreateModel(final String title, final String locationId, final String description, final LocalDateTime startDate,
+    public EventCreateModel(final String title, final LocationDTO location, final String description, final LocalDateTime startDate,
             final LocalDateTime endDate) {
         this.title = title;
-        this.locationId = locationId;
+        this.location = location;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -35,8 +37,8 @@ public class EventCreateModel {
         return endDate;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public LocationDTO getLocation() {
+        return location;
     }
 
     public LocalDateTime getStartDate() {
@@ -50,7 +52,7 @@ public class EventCreateModel {
 
     @Override
     public String toString() {
-        return "EventCreateModel [title=" + title + ", location=" + locationId + ", description=" + description
+        return "EventCreateModel [title=" + title + ", location=" + location + ", description=" + description
                 + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
 

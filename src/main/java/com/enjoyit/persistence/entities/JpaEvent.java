@@ -34,7 +34,6 @@ public class JpaEvent extends BaseEntity implements Event {
     @NotEmpty(message = "Title cannot be empty")
     private String title;
 
-    @NotEmpty(message = "Location cannot be empty")
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaLocation.class)
     private Location location;
 

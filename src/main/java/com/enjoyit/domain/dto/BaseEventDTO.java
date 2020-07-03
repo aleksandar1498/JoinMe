@@ -4,13 +4,30 @@ import java.time.LocalDateTime;
 
 public class BaseEventDTO {
     private String title;
-    private String locationId;
+    private LocationDTO location;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
     public BaseEventDTO() {
-        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     *
+     * @param username of the creator of the event
+     * @param title
+     * @param location
+     * @param description
+     * @param startDate
+     * @param endDate
+     */
+    public BaseEventDTO(final String title, final LocationDTO location, final String description, final LocalDateTime startDate,
+            final LocalDateTime endDate) {
+        this.title = title;
+        this.location = location;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public String getDescription() {
@@ -21,8 +38,8 @@ public class BaseEventDTO {
         return endDate;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public LocationDTO getLocation() {
+        return location;
     }
 
     public LocalDateTime getStartDate() {
@@ -34,30 +51,9 @@ public class BaseEventDTO {
     }
 
 
-
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    public void setEndDate(final LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setLocationId(final String locationId) {
-        this.locationId = locationId;
-    }
-
-    public void setStartDate(final LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
     @Override
     public String toString() {
-        return "BaseEventDTO [title=" + title + ", location=" + locationId + ", description=" + description
+        return "EventCreateModel [title=" + title + ", location=" + location + ", description=" + description
                 + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
 
