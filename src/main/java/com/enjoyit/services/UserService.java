@@ -12,14 +12,14 @@ public interface UserService {
      * @param parseInt
      * @return
      */
-    ServiceResponse<UserEventDTO> disinterestEvent(String username, int eventId);
+    ServiceResponse<UserEventDTO> disinterestEvent(String username, String eventId);
 
     /**
      * @param name
      * @param parseInt
      * @return
      */
-    ServiceResponse<UserEventDTO> disjoinEvent(String username, int eventId);
+    ServiceResponse<UserEventDTO> disjoinEvent(String username, String eventId);
 
     /**
      * @param username
@@ -44,14 +44,14 @@ public interface UserService {
      * @param parseInt
      * @return
      */
-    ServiceResponse<UserEventDTO> interestEvent(String username, int eventId);
+    ServiceResponse<UserEventDTO> interestEvent(String username, String eventId);
 
     /**
      * @param username
      * @param id
      * @return
      */
-    ServiceResponse<UserEventDTO> joinEvent(String username, int eventId);
+    ServiceResponse<UserEventDTO> joinEvent(String username, String id);
 
 
 }

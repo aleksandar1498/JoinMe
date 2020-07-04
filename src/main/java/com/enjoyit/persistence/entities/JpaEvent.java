@@ -34,6 +34,7 @@ public class JpaEvent extends BaseEntity implements Event {
     @NotEmpty(message = "Title cannot be empty")
     private String title;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaLocation.class)
     private Location location;
 
@@ -54,6 +55,7 @@ public class JpaEvent extends BaseEntity implements Event {
     @Column
     private Boolean cancelled = Boolean.FALSE;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private EventCategory category;
 
@@ -190,7 +192,7 @@ public class JpaEvent extends BaseEntity implements Event {
     public String toString() {
         return "JpaEvent [id=" + this.getId() + ", title=" + title + ", location=" + location + ", description="
                 + description + ", startDate=" + startDate + ", endDate=" + endDate + ", cancelled=" + cancelled
-                + ", category=" + category + "]";
+                + "]";
     }
 
 }

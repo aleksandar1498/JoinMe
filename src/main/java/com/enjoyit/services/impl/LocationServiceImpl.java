@@ -27,11 +27,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<LocationDTO> findAllLocations() {
-        final List<JpaLocation> locations = this.locationRepo.findAll();
-        locations.forEach(l -> {
-            System.out.println(l.toString());
-        });
-        return ObjectMapper.mapAll(locations, LocationDTO.class);
+        return ObjectMapper.mapAll(this.locationRepo.findAll(), LocationDTO.class);
     }
 
     @Override

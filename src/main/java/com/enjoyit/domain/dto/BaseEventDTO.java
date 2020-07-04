@@ -2,10 +2,13 @@ package com.enjoyit.domain.dto;
 
 import java.time.LocalDateTime;
 
+import com.enjoyit.enums.EventCategory;
+
 public class BaseEventDTO {
     private String title;
     private LocationDTO location;
     private String description;
+    private EventCategory category;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
@@ -30,6 +33,10 @@ public class BaseEventDTO {
         this.endDate = endDate;
     }
 
+    public EventCategory getCategory() {
+        return category;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -46,16 +53,18 @@ public class BaseEventDTO {
         return startDate;
     }
 
+
     public String getTitle() {
         return title;
     }
 
-
     @Override
     public String toString() {
-        return "EventCreateModel [title=" + title + ", location=" + location + ", description=" + description
-                + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+        return "BaseEventDTO [title=" + title + ", location=" + location + ", description=" + description
+                + ", category=" + category + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
+
+
 
 
 }

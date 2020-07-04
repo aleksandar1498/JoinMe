@@ -18,6 +18,7 @@ public class EventDTOtoEntityCoverter implements Converter<EventDTO, Event> {
 
     @Override
     public Event convert(final MappingContext<EventDTO, Event> context) {
+        System.err.println("called");
         if(context.getSource() == null) {
             return null;
         }

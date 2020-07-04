@@ -16,7 +16,7 @@ public interface EventService {
      * @param id
      * @return
      */
-    ServiceResponse cancelEventById(Integer id);
+    ServiceResponse cancelEventById(String id);
 //    /**
 //     * @param username
 //     * @return
@@ -30,7 +30,7 @@ public interface EventService {
      * @param event
      * @return
      */
-    ServiceResponse editEventById(Integer id, EventCreateModel event);
+    ServiceResponse editEventById(String id, EventCreateModel event);
 
     /**
      * @return
@@ -45,7 +45,7 @@ public interface EventService {
      * @param id
      * @return
      */
-    Optional<EventDTO> getEventById(Integer id);
+    Optional<EventDTO> getEventById(String id);
     /**
      * @param location
      * @return

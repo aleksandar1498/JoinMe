@@ -28,13 +28,14 @@ public class UserController {
     }
 
     @DeleteMapping("/disinterest/{id}")
-    public ServiceResponse<UserEventDTO> disinterestEvent(@PathVariable("id") final String id,final Principal principal) {
-        return this.userService.disinterestEvent(principal.getName(), Integer.parseInt(id));
+    public ServiceResponse<UserEventDTO> disinterestEvent(@PathVariable("id") final String id,
+            final Principal principal) {
+        return this.userService.disinterestEvent(principal.getName(), id);
     }
 
     @DeleteMapping("/disjoin/{id}")
-    public ServiceResponse<UserEventDTO> disjoinEvent(@PathVariable("id") final String id,final Principal principal) {
-        return this.userService.disjoinEvent(principal.getName(), Integer.parseInt(id));
+    public ServiceResponse<UserEventDTO> disjoinEvent(@PathVariable("id") final String id, final Principal principal) {
+        return this.userService.disjoinEvent(principal.getName(), id);
     }
 
     @GetMapping("/events/joined")
@@ -44,16 +45,16 @@ public class UserController {
 
     @GetMapping("/{username}")
     public UserWithEventsDTO getUser(@PathVariable("username") final String username) {
-        return null;//this.userService.findByUsername(username);
+        return null;// this.userService.findByUsername(username);
     }
 
     @PostMapping("/interest/{id}")
-    public ServiceResponse<UserEventDTO> interestEvent(@PathVariable("id") final String id,final Principal principal) {
-        return this.userService.interestEvent(principal.getName(), Integer.parseInt(id));
+    public ServiceResponse<UserEventDTO> interestEvent(@PathVariable("id") final String id, final Principal principal) {
+        return this.userService.interestEvent(principal.getName(), id);
     }
 
     @PostMapping("/join/{id}")
-    public ServiceResponse<UserEventDTO> joinEvent(@PathVariable("id") final String id,final Principal principal) {
-        return this.userService.joinEvent(principal.getName(), Integer.parseInt(id));
+    public ServiceResponse<UserEventDTO> joinEvent(@PathVariable("id") final String id, final Principal principal) {
+        return this.userService.joinEvent(principal.getName(), id);
     }
 }

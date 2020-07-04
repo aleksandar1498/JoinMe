@@ -38,9 +38,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public ServiceResponse cancelEventById(final Integer id) {
+    public ServiceResponse cancelEventById(final String id) {
         new ServiceResponse();
-        final JpaEvent event = this.eventRepo.findById(id).orElse(null);
+        final JpaEvent event = (JpaEvent) this.eventRepo.findById(id).orElse(null);
         if (event == null) {
             return new ServiceResponse(HttpStatus.NOT_FOUND, MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
         }
@@ -55,7 +55,6 @@ public class EventServiceImpl implements EventService {
         if (user == null) {
             return new ServiceResponse(HttpStatus.NOT_FOUND, MsgServiceResponse.NO_USER_WITH_USERNAME);
         }
-
         final JpaEvent eventToCreate = ObjectMapper.map(eventModel, JpaEvent.class);
         eventToCreate.setOwner(ObjectMapper.map(user, JpaUser.class));
         eventToCreate.setLocation(ObjectMapper.map(eventModel.getLocation(), JpaLocation.class));
@@ -65,7 +64,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public ServiceResponse editEventById(final Integer id, final EventCreateModel event) {
+    public ServiceResponse editEventById(final String id, final EventCreateModel event) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -81,8 +80,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Optional<EventDTO> getEventById(final Integer id) {
-        return null;
+    public Optional<EventDTO> getEventById(final String id) {
+        return Optional.ofNullable(this.eventRepo.findById(id).map(e -> {
+            return ObjectMapper.map(e, EventDTO.class);
+        }).orElse(null));
         // return this.eventRepo.findById(id).map(e -> {
         // final UserDTO owner = ObjectMapper.map(e.getOwner(), UserDTO.class);
         // final List<UserDTO> joinedUsers = ObjectMapper.mapAll(

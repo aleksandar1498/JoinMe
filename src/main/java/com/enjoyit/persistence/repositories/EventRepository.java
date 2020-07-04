@@ -15,7 +15,7 @@ public interface EventRepository extends JpaRepository<JpaEvent, Integer>,EventR
      * @param username
      * @return
      */
-    Optional<Event> findById(int id);
+    Optional<Event> findById(String id);
 
     /**
      *

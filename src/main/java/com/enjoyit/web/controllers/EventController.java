@@ -39,7 +39,7 @@ public class EventController {
      *         events
      */
     @DeleteMapping("/{id}")
-    public ServiceResponse cancelEventById(@PathVariable("id") final Integer id) {
+    public ServiceResponse cancelEventById(@PathVariable("id") final String id) {
         return this.eventService.cancelEventById(id);
     }
 
@@ -53,7 +53,7 @@ public class EventController {
      *         events
      */
     @PutMapping("/{id}")
-    public ServiceResponse editEventById(@PathVariable("id") final Integer id,
+    public ServiceResponse editEventById(@PathVariable("id") final String id,
             @RequestBody final EventCreateModel event) {
         return this.eventService.editEventById(id, event);
     }
@@ -99,7 +99,7 @@ public class EventController {
      *         events
      */
     @GetMapping("/{id}")
-    public Optional<EventDTO> getEventById(@PathVariable("id") final Integer id) {
+    public Optional<EventDTO> getEventById(@PathVariable("id") final String id) {
         return this.eventService.getEventById(id);
     }
 

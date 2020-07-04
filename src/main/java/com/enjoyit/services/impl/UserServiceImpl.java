@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServiceResponse<UserEventDTO> disinterestEvent(final String username, final int eventId) {
+    public ServiceResponse<UserEventDTO> disinterestEvent(final String username, final String eventId) {
         final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
         final User user = this.userRepo.findByUsername(username).orElse(null);
         if (user == null) {
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServiceResponse disjoinEvent(final String username, final int eventId) {
+    public ServiceResponse disjoinEvent(final String username, final String eventId) {
         final ServiceResponse response = new ServiceResponse<>();
         final User user = this.userRepo.findByUsername(username).orElse(null);
         if (user == null) {
@@ -79,7 +79,6 @@ public class UserServiceImpl implements UserService {
     public UserWithEventsDTO findByUsername(final String username) {
         System.out.println("here");
         return this.userRepo.findByUsername(username).map(u -> {
-            System.out.println(u);
             return ObjectMapper.map(u, UserWithEventsDTO.class);
         }).orElse(null);
     }
@@ -130,7 +129,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServiceResponse<UserEventDTO> interestEvent(final String username, final int eventId) {
+    public ServiceResponse<UserEventDTO> interestEvent(final String username, final String eventId) {
         final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
         final User user = this.userRepo.findByUsername(username).orElse(null);
         if (user == null) {
@@ -153,7 +152,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServiceResponse<UserEventDTO> joinEvent(final String username, final int id) {
+    public ServiceResponse<UserEventDTO> joinEvent(final String username, final String id) {
         final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
         final User user = this.userRepo.findByUsername(username).orElse(null);
 
@@ -169,8 +168,6 @@ public class UserServiceImpl implements UserService {
             response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
             return response;
         }
-        System.out.println(user.getUsername());
-        System.out.println(event.getTitle());
         final EventUser eventUser = eventRepository.joinEvent(user, event);
 
         response.setSuccessResponse();
