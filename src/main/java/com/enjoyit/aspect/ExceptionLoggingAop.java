@@ -24,12 +24,15 @@ public class ExceptionLoggingAop {
     @AfterThrowing(pointcut = "execution(* com.enjoyit.services.impl.*.*(..))", throwing = "e")
     public void logError(final JoinPoint point, final Throwable e) {
         final String className = point.getTarget().getClass().getSimpleName();
-        final String method =  MethodSignature.class.cast(point.getSignature()).getMethod().getName();
-        final Object [] args = point.getArgs();
+        final String method = MethodSignature.class.cast(point.getSignature()).getMethod().getName();
+        final Object[] args = point.getArgs();
         final LocalDateTime when = LocalDateTime.now(ZoneOffset.UTC);
-        final String errorMessage = (e.getMessage() == null) ? Strings.EMPTY: e.getMessage().substring(0, 30);
+        final String errorMessage = (e.getMessage() == null) ? Strings.EMPTY
+                : (e.getMessage().length() > 30) ? e.getMessage().substring(0, 30) : e.getMessage();
         System.out.println(e.getMessage());
-        //DEBUG | 2008-09-06 10:51:45,458 | DefaultSingletonBeanRegistry.java | 213 | Creating shared instance of singleton bean 'Oracle'
-        this.loggingService.warn(String.format( "%s | %s --- class : %s -> method : %s args (%s) - %s ", LoggerLevel.WARN,when.toString(),className,method,args,errorMessage));
+        // DEBUG | 2008-09-06 10:51:45,458 | DefaultSingletonBeanRegistry.java | 213 |
+        // Creating shared instance of singleton bean 'Oracle'
+        this.loggingService.warn(String.format("%s | %s --- class : %s -> method : %s args (%s) - %s ",
+                LoggerLevel.WARN, when.toString(), className, method, args, errorMessage));
     }
 }

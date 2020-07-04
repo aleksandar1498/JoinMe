@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
@@ -50,15 +51,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public ServiceResponse createEvent(final BaseEventDTO eventModel, final String username) {
+    public ServiceResponse createEvent(@Validated final BaseEventDTO eventModel, final String username) {
         final UserWithEventsDTO user = this.userService.findByUsername(username);
         if (user == null) {
             return new ServiceResponse(HttpStatus.NOT_FOUND, MsgServiceResponse.NO_USER_WITH_USERNAME);
         }
         final JpaEvent eventToCreate = ObjectMapper.map(eventModel, JpaEvent.class);
         eventToCreate.setOwner(ObjectMapper.map(user, JpaUser.class));
-        eventToCreate.setLocation(ObjectMapper.map(eventModel.getLocation(), JpaLocation.class));
-        System.out.println(eventToCreate);
+        eventToCreate.setLocation(eventModel.getLocation() == null ? null : ObjectMapper.map(eventModel.getLocation(), JpaLocation.class));
         this.eventRepo.saveAndFlush(eventToCreate);
         return ServiceResponse.successResponse();
     }

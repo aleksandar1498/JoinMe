@@ -17,11 +17,23 @@ public class ExceptionsHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public Map<String, String> handleConstraintValidationException(final ConstraintViolationException ex) {
+        final Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> {
+            errors.put(violation.getPropertyPath().toString(), violation.getMessage());
+        });
+
+        return errors;
+
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     @ExceptionHandler(value = TransactionSystemException.class)
     public Map<String, String> handleTransactionSystemException(final TransactionSystemException ex) {
         final Throwable cause = ex.getRootCause();
         if (cause instanceof ConstraintViolationException) {
-            System.out.println("Constraint Violation");
             final Map<String, String> errors = new HashMap<>();
             ((ConstraintViolationException) cause).getConstraintViolations().forEach(violation -> {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());

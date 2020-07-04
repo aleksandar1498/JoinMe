@@ -2,30 +2,43 @@ package com.enjoyit.domain.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.enjoyit.enums.EventCategory;
 
 public class BaseEventDTO {
+    @NotEmpty(message = "Title cannot be empty")
     private String title;
+    @NotNull
     private LocationDTO location;
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
+    @NotNull
     private EventCategory category;
+    @NotNull(message = "StartDate cannot be null")
+    @FutureOrPresent(message = "StartDate cannot be in the past")
     private LocalDateTime startDate;
+
+    @NotNull(message = "EndDate cannot be null")
+    @FutureOrPresent(message = "EndDate cannot be in the past")
     private LocalDateTime endDate;
 
     public BaseEventDTO() {
     }
 
     /**
-     *
-     * @param username of the creator of the event
+     * @param username
+     *            of the creator of the event
      * @param title
      * @param location
      * @param description
      * @param startDate
      * @param endDate
      */
-    public BaseEventDTO(final String title, final LocationDTO location, final String description, final LocalDateTime startDate,
-            final LocalDateTime endDate) {
+    public BaseEventDTO(final String title, final LocationDTO location, final String description,
+            final LocalDateTime startDate, final LocalDateTime endDate) {
         this.title = title;
         this.location = location;
         this.description = description;
@@ -53,7 +66,6 @@ public class BaseEventDTO {
         return startDate;
     }
 
-
     public String getTitle() {
         return title;
     }
@@ -63,8 +75,5 @@ public class BaseEventDTO {
         return "BaseEventDTO [title=" + title + ", location=" + location + ", description=" + description
                 + ", category=" + category + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
-
-
-
 
 }

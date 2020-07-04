@@ -5,7 +5,6 @@ import java.util.List;
 import com.enjoyit.enums.LocationCategory;
 
 public interface Location {
-
     /**
      * @return
      */
@@ -21,6 +20,11 @@ public interface Location {
      * @return
      */
     List<Event> getEvents();
+
+    /**
+     * @return
+     */
+    String getId();
 
     /**
      * @return

@@ -85,7 +85,8 @@ public class JpaLocation extends BaseEntity implements Location {
     @Override
     public String toString() {
         return "JpaLocation [address=" + address + ", city=" + city + ", locationCategory=" + locationCategory
-                + ", events=" + events + "]";
+               +"]";
     }
+
 
 }
