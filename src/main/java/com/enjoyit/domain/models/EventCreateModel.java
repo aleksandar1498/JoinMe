@@ -12,7 +12,6 @@ public class EventCreateModel {
     private final LocalDateTime endDate;
 
     /**
-     *
      * @param username of the creator of the event
      * @param title
      * @param location

@@ -12,9 +12,8 @@ import com.enjoyit.services.LocationService;
 import com.enjoyit.utils.ObjectMapper;
 
 @Service
-public class LocationServiceImpl implements LocationService{
+public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepo;
-
 
     public LocationServiceImpl(final LocationRepository locationRepo) {
         this.locationRepo = locationRepo;
