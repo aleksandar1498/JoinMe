@@ -12,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
-import com.enjoyit.domain.models.EventCreateModel;
 import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.persistence.entities.JpaEvent;
 import com.enjoyit.persistence.entities.JpaLocation;
@@ -40,8 +39,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public ServiceResponse cancelEventById(final String id) {
-        new ServiceResponse();
-        final JpaEvent event = (JpaEvent) this.eventRepo.findById(id).orElse(null);
+        final JpaEvent event = this.eventRepo.findById(id).orElse(null);
         if (event == null) {
             return new ServiceResponse(HttpStatus.NOT_FOUND, MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
         }
@@ -58,15 +56,20 @@ public class EventServiceImpl implements EventService {
         }
         final JpaEvent eventToCreate = ObjectMapper.map(eventModel, JpaEvent.class);
         eventToCreate.setOwner(ObjectMapper.map(user, JpaUser.class));
-        eventToCreate.setLocation(eventModel.getLocation() == null ? null : ObjectMapper.map(eventModel.getLocation(), JpaLocation.class));
+        eventToCreate.setLocation(eventModel.getLocation() == null ? null
+                : ObjectMapper.map(eventModel.getLocation(), JpaLocation.class));
         this.eventRepo.saveAndFlush(eventToCreate);
         return ServiceResponse.successResponse();
     }
 
     @Override
-    public ServiceResponse editEventById(final String id, final EventCreateModel event) {
-        // TODO Auto-generated method stub
-        return null;
+    public ServiceResponse editEventById(final String id, final BaseEventDTO event) {
+        final JpaEvent eventJpa = this.eventRepo.getOne(id);
+        eventJpa.setDescription(event.getDescription());
+        eventJpa.setEndDate(event.getEndDate());
+        eventJpa.setStartDate(event.getStartDate());
+        this.eventRepo.save(eventJpa);
+        return ServiceResponse.successResponse();
     }
 
     @Override
@@ -84,18 +87,6 @@ public class EventServiceImpl implements EventService {
         return Optional.ofNullable(this.eventRepo.findById(id).map(e -> {
             return ObjectMapper.map(e, EventDTO.class);
         }).orElse(null));
-        // return this.eventRepo.findById(id).map(e -> {
-        // final UserDTO owner = ObjectMapper.map(e.getOwner(), UserDTO.class);
-        // final List<UserDTO> joinedUsers = ObjectMapper.mapAll(
-        // e.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-        // UserDTO.class);
-        // final List<UserDTO> interestedUsers = ObjectMapper.mapAll(
-        // e.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-        // UserDTO.class);
-        // return new EventDTO(e.getId(), e.getTitle(), e.getLocation(),
-        // e.getStartDate(), e.getEndDate(), owner,
-        // e.getDescription(), e.getCancelled(), joinedUsers, interestedUsers);
-        // });
     }
 
     @Override

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
-import com.enjoyit.domain.models.EventCreateModel;
 import com.enjoyit.services.EventService;
 import com.enjoyit.services.ServiceResponse;
 
@@ -40,6 +39,7 @@ public class EventController {
      */
     @DeleteMapping("/{id}")
     public ServiceResponse cancelEventById(@PathVariable("id") final String id) {
+        System.out.println("to cancel "+id);
         return this.eventService.cancelEventById(id);
     }
 
@@ -54,7 +54,7 @@ public class EventController {
      */
     @PutMapping("/{id}")
     public ServiceResponse editEventById(@PathVariable("id") final String id,
-            @RequestBody final EventCreateModel event) {
+            @RequestBody final BaseEventDTO event) {
         return this.eventService.editEventById(id, event);
     }
 

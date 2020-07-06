@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
-import com.enjoyit.domain.models.EventCreateModel;
 
 /**
  * @author AStefanov
@@ -30,7 +29,7 @@ public interface EventService {
      * @param event
      * @return
      */
-    ServiceResponse editEventById(String id, EventCreateModel event);
+    ServiceResponse editEventById(String id, BaseEventDTO event);
 
     /**
      * @return
