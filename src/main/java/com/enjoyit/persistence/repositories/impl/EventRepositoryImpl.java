@@ -21,18 +21,10 @@ import com.enjoyit.persistence.repositories.EventRepositoryCustom;
 @Repository
 @Transactional
 public class EventRepositoryImpl implements EventRepositoryCustom {
-    //TODO check this repo , it seems to be not necessar
+
     @PersistenceContext
     private EntityManager entityManager;
 
-//    @Override
-//    public Event createEvent(final String title, final LocationDTO location, final LocalDateTime startDate,
-//            final LocalDateTime endDate, final User owner,final EventCategory category,final String description) {
-//
-//        final Event event = new JpaEvent(title, location, startDate, endDate, owner,category,description);
-//        this.entityManager.persist(event);
-//        return event;
-//    }
 
     @Override
     public void disinterestEvent(final User user, final Event event) {

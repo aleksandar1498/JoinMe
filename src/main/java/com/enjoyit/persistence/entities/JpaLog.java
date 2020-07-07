@@ -17,6 +17,10 @@ public class JpaLog extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String message;
 
+    public JpaLog() {
+
+    }
+
     public JpaLog(final LoggerLevel level, final String logMessage) {
         this.logLevel = level;
         this.message = logMessage;

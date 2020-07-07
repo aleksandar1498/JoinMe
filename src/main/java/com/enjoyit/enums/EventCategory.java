@@ -9,7 +9,6 @@ public enum EventCategory {
         FAMILY_EVENT,
         FESTIVAL_EVENT,
         NEIGHBORHOOD,
-        RELIGIOUS_EVENT,
         SHOPPING,
         COMEDY_EVENT,
         MUSIC_EVENT,
