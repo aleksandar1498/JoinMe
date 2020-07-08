@@ -2,6 +2,8 @@ package com.enjoyit.services.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -107,25 +109,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<EventDTO> getJoinedEvents(final String username) {
-        return null;
-//
-//        final User user = this.userRepo.findByUsername(username).orElse(null);
-//        if (user == null) {
-//            throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
-//        }
-//        return user.getJoinedEvents().stream().map(ev -> {
-//            final Event event = ev.getEvent();
-//
-//            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
-//                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
-//                    event.getCancelled(),
-//                    ObjectMapper.mapAll(
-//                            event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-//                            UserDTO.class),
-//                    ObjectMapper.mapAll(
-//                            event.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-//                            UserDTO.class));
-//        }).collect(Collectors.toList());
+        return this.userRepo.findByUsername(username).map(u -> {
+            return ObjectMapper.mapAll(u.getJoinedEvents(),EventDTO.class);
+        }).orElseThrow(() -> {
+            return new EntityNotFoundException("A user with this username does not exists");
+        });
     }
 
     @Override
