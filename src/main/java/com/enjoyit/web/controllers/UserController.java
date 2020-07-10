@@ -50,7 +50,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public UserWithEventsDTO getUser(@PathVariable("username") final String username) {
-        return null;// this.userService.findByUsername(username);
+        return this.userService.findByUsername(username);
     }
 
     @PostMapping("/interest/{id}")

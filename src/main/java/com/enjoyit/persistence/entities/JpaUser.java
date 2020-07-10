@@ -22,6 +22,7 @@ import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.Role;
 import com.enjoyit.persistence.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author AStefanov
@@ -73,6 +74,7 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
@@ -102,6 +104,7 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
         return name;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

@@ -90,9 +90,8 @@ public class AuthServiceImpl implements AuthService {
                 user.getAuthorities().stream().map(auth -> UserRoles.valueOf((auth.getAuthority())))
                         .collect(Collectors.toList());
                 final Map<String, Object> responseObject = new HashMap<>();
-                responseObject.put("KEY", this.tokenUtil.generateToken((User) authentication.getPrincipal()));
-                //responseObject.put("USER", authentication.getPrincipal());
-                responseObject.put("USER", user);
+                responseObject.put("token", "Bearer ".concat(this.tokenUtil.generateToken((User) authentication.getPrincipal())));
+                responseObject.put("username", authentication.getName());
                 securityContext.setAuthentication(authentication);
 
                 response.setSuccessResponse();
