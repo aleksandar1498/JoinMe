@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface User extends UserDetails{
+public interface User extends UserDetails {
+
+    String getEmail();
 
     /**
      * @return
@@ -15,12 +17,17 @@ public interface User extends UserDetails{
      * @return
      */
     String getId();
+
     List<EventUser> getInterestedEvents();
 
     /**
      * @return
      */
     List<EventUser> getJoinedEvents();
+
+    String getName();
+
+    String getSurname();
 
     @Override
     String getUsername();

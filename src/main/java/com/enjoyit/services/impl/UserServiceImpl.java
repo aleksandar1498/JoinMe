@@ -1,6 +1,7 @@
 package com.enjoyit.services.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -87,30 +88,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<EventDTO> getInterestedEvents(final String username) {
-        return null;
-//        final User user = this.userRepo.findByUsername(username).orElse(null);
-//        if (user == null) {
-//            throw new IllegalArgumentException(MsgServiceResponse.NO_USER_WITH_USERNAME.toString());
-//        }
-//        return user.getInterestedEvents().stream().map(ev -> {
-//            final Event event = ev.getEvent();
-//
-//            return new EventDTO(event.getId(), event.getTitle(), event.getLocation(), event.getStartDate(),
-//                    event.getEndDate(), ObjectMapper.map(event.getOwner(), UserDTO.class), event.getDescription(),
-//                    event.getCancelled(),
-//                    ObjectMapper.mapAll(
-//                            event.getJoinedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-//                            UserDTO.class),
-//                    ObjectMapper.mapAll(
-//                            event.getInterestedUsers().stream().map(EventUser::getUser).collect(Collectors.toList()),
-//                            UserDTO.class));
-//        }).collect(Collectors.toList());
+        return this.userRepo.findByUsername(username).map(u -> {
+            return ObjectMapper.mapAll(u.getInterestedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()),EventDTO.class);
+        }).orElseThrow(() -> {
+            return new EntityNotFoundException("A user with this username does not exists");
+        });
     }
 
     @Override
     public List<EventDTO> getJoinedEvents(final String username) {
         return this.userRepo.findByUsername(username).map(u -> {
-            return ObjectMapper.mapAll(u.getJoinedEvents(),EventDTO.class);
+            return ObjectMapper.mapAll(u.getJoinedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()),EventDTO.class);
         }).orElseThrow(() -> {
             return new EntityNotFoundException("A user with this username does not exists");
         });

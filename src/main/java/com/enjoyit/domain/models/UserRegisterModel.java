@@ -2,17 +2,21 @@ package com.enjoyit.domain.models;
 
 public class UserRegisterModel {
     private final String username;
+    private final String name;
+    private final String surname;
+    private final String email;
     private final String password;
     private final String confirmPassword;
-    private final String email;
     private final Boolean organizer;
 
-    public UserRegisterModel(final String username, final String password, final String confirmPassword,
-            final String email, final Boolean organizer) {
+    public UserRegisterModel(final String username, final String name, final String surname, final String email, final String password,
+            final String confirmPassword, final Boolean organizer) {
         this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
-        this.email = email;
         this.organizer = organizer;
     }
 
@@ -24,8 +28,20 @@ public class UserRegisterModel {
         return email;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Boolean getOrganizer() {
+        return organizer;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public String getSurname() {
+        return surname;
     }
 
     public String getUsername() {
@@ -35,6 +51,7 @@ public class UserRegisterModel {
     public Boolean isOrganizer() {
         return this.organizer;
     }
+
 
 
 }

@@ -24,7 +24,7 @@ public class EventUserListConverter extends ListConverter<EventUser, UserDTO> {
             return new ArrayList<UserDTO>();
         }
         return context.getSource().stream().map(u -> {
-           return new UserDTO(u.getUser().getId(), u.getUser().getUsername());
+           return new UserDTO(u.getUser().getId(), u.getUser().getUsername(),u.getUser().getName(),u.getUser().getSurname(),u.getUser().getEmail());
         }).collect(Collectors.toList());
     }
 

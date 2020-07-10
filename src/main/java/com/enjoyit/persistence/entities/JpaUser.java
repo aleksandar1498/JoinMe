@@ -34,7 +34,17 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     private String username;
 
     @Column
+    private String name;
+
+    @Column
+    private String surname;
+
+    @Column
+    private String email;
+
+    @Column
     private String password;
+
 
     @OneToMany(mappedBy = "owner", targetEntity = JpaEvent.class)
     private List<Event> events;
@@ -62,14 +72,14 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
         // needed by JPA
     }
 
-    public JpaUser(final String username, final String password) {
-        this.username = username;
-        this.password = password;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -88,8 +98,18 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getSurname() {
+        return surname;
     }
 
     @Override
@@ -133,6 +153,10 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
         this.authorities = authorities;
     }
 
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
     public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
@@ -161,8 +185,16 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
         this.locked = locked;
     }
 
+    public void setName(final String name) {
+        this.name = name;
+    }
+
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public void setSurname(final String surname) {
+        this.surname = surname;
     }
 
     public void setUsername(final String username) {

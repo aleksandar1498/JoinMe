@@ -38,6 +38,11 @@ public class UserController {
         return this.userService.disjoinEvent(principal.getName(), id);
     }
 
+    @GetMapping("/events/interested")
+    public List<EventDTO> getInterestedEvents(final Principal principal) {
+        return this.userService.getInterestedEvents(principal.getName());
+    }
+
     @GetMapping("/events/joined")
     public List<EventDTO> getJoinedEvents(final Principal principal) {
         return this.userService.getJoinedEvents(principal.getName());
