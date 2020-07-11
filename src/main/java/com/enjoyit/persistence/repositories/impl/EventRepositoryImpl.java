@@ -27,6 +27,11 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 
 
     @Override
+    public int cancelExpired() {
+        return this.entityManager.createNamedQuery(JpaEvent.CLEAR_EXPIRED).executeUpdate();
+    }
+
+    @Override
     public void disinterestEvent(final User user, final Event event) {
         final EventUser interestToRemove = this.entityManager.find(JpaUserInterestEvent.class, new UserInterestEventKey(user.getId(), event.getId()));
         this.entityManager.remove(interestToRemove);

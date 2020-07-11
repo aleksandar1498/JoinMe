@@ -22,6 +22,15 @@ public interface EventService {
 //     */
 //    ServiceResponse createEvent(EventDTO event,String username);
 
+    /**
+     * @return
+     */
+    int cleanUpExpiredEvents();
+    /**
+     * @param eventModel
+     * @param username
+     * @return
+     */
     ServiceResponse createEvent(BaseEventDTO eventModel, String username);
 
     /**

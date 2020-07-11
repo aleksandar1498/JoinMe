@@ -10,6 +10,11 @@ import com.enjoyit.persistence.entities.JpaEvent;
 public interface EventRepositoryCustom {
 
 
+
+    /**
+     *
+     */
+    int cancelExpired();
     /**
      * @param user
      * @param event
@@ -20,18 +25,19 @@ public interface EventRepositoryCustom {
      * @param event
      */
     void disjoinEvent(User user, Event event);
+
     /**
      * @param username
      * @return
      */
     List<JpaEvent> getEventsNotBelongingTo(String username);
 
+
     /**
      * @param username
      * @return
      */
     List<JpaEvent> getJoinedEvents(String username);
-
 
     /**
      * @param user

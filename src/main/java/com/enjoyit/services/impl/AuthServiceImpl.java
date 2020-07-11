@@ -93,10 +93,8 @@ public class AuthServiceImpl implements AuthService {
                 responseObject.put("token", "Bearer ".concat(this.tokenUtil.generateToken((User) authentication.getPrincipal())));
                 responseObject.put("username", authentication.getName());
                 securityContext.setAuthentication(authentication);
-
                 response.setSuccessResponse();
                 response.setResponseObject(responseObject);
-
             } catch (final BadCredentialsException e) {
                 response.setResponseCode(HttpStatus.FORBIDDEN);
                 response.setResponseMessage(MsgServiceResponse.AUTHENTICATION_FAILED);

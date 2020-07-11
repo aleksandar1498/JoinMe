@@ -49,6 +49,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public int cleanUpExpiredEvents() {
+       return this.eventRepo.cancelExpired();
+    }
+
+    @Override
     public ServiceResponse createEvent(@Validated final BaseEventDTO eventModel, final String username) {
         final UserWithEventsDTO user = this.userService.findByUsername(username);
         if (user == null) {
