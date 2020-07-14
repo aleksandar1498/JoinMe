@@ -20,7 +20,7 @@ public class SchedulerConfig {
     @Autowired
     private LoggingService logService;
 
-    @Scheduled(cron = "30 42 20 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void cancelExpiredEvents() {
         final int affectedRows = this.eventService.cleanUpExpiredEvents();
         logService.info(String.format("Clean up of expired events performed at %s , entities affected %d",

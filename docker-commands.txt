@@ -1,0 +1,5 @@
+docker build -t astefanov1415/joinme:v1 -f docker/Dockerfile .
+
+docker container run --name producer -p 8080:8080 astefanov1415/joinme:v1
+
+docker-compose -f docker-compose.yaml up

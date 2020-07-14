@@ -15,10 +15,6 @@
 	<name>enjoyIt</name>
 	<description>Enjoj Module</description>
 
-	<properties>
-		<java.version>13</java.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -54,7 +50,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>5.0.1.RELEASE</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -89,12 +84,19 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<source>13</source>
-					<target>13</target>
+					<mainClass>com.enjoyit.EnjoyItApplication</mainClass>
 				</configuration>
+
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
