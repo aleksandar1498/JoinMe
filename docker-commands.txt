@@ -1,5 +1,28 @@
+
+1) We need to create an image from the blue print , called dockerfile
 docker build -t astefanov1415/joinme:v1 -f docker/Dockerfile .
 
-docker container run --name producer -p 8080:8080 astefanov1415/joinme:v1
+2)This docker image has to be loaded in the dockerhub.
+
+3)Connect to the EC2 
+
+4)Load the mysql image and run it, creating in this way a container (instance of the image)
+	docker run --name db -e MYSQL_DATABASE=enjoyit_db -e MYSQL_USER=root -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_PASSWORD=rootroot -d mysql:8.0.21
+5)Load the joinme image and run it, it needs to be linked to the mysql image.
+
+	docker run -p 80:8080 --name hope --link efa5b85c26d0 -d astefanov1415/joinme:v1
+
+
+
+docker container run --name joinme -p 8080:8080 astefanov1415/joinme:v1
 
 docker-compose -f docker-compose.yaml up
+
+//RUN DB with params 
+docker run --name db -e MYSQL_DATABASE=enjoyit_db -e MYSQL_USER=root -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_PASSWORD=rootroot -p 3306:3306 -d mysql/mysql-server
+
+docker run -p 8080:8080 --name join --link db:mysql -d join
+
+docker run --name db -e MYSQL_DATABASE=enjoyit_db -e MYSQL_USER=root -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_PASSWORD=rootroot -d mysql:8.0.21
+
+ 
