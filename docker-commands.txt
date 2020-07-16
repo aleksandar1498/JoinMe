@@ -25,4 +25,8 @@ docker run -p 8080:8080 --name join --link db:mysql -d join
 
 docker run --name db -e MYSQL_DATABASE=enjoyit_db -e MYSQL_USER=root -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_PASSWORD=rootroot -d mysql:8.0.21
 
- 
+ docker image prune  (removes all images without tagname)
+
+
+
+//TODO allow origin in cors settings
