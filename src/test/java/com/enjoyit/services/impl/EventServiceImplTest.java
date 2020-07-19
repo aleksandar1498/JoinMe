@@ -21,8 +21,8 @@ import com.enjoyit.services.EventService;
 
 class EventServiceImplTest extends BaseTest {
 
-    private static final List<JpaEvent> EMPTY_EVENTS_LIST = new ArrayList<>();
-    private static final List<JpaEvent> NOT_EMPTY_EVENTS_LIST = new ArrayList<>() {
+    private static final List<JpaEvent> EMPTY_EVENTS_LIST = new ArrayList<JpaEvent>();
+    private static final List<JpaEvent> NOT_EMPTY_EVENTS_LIST = new ArrayList<JpaEvent>() {
         {
             add(new JpaEvent("Jog", new JpaLocation(), LocalDateTime.now(), LocalDateTime.now(),EventCategory.COMEDY_EVENT,""));
         }

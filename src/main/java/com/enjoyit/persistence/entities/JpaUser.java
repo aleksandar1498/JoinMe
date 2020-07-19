@@ -211,4 +211,6 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
                 + ", expiredCredentials=" + expiredCredentials + "]";
     }
 
+   
+
 }

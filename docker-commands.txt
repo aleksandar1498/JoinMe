@@ -10,8 +10,7 @@ docker build -t astefanov1415/joinme:v1 -f docker/Dockerfile .
 	docker run --name db -e MYSQL_DATABASE=enjoyit_db -e MYSQL_USER=root -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_PASSWORD=rootroot -d mysql:8.0.21
 5)Load the joinme image and run it, it needs to be linked to the mysql image.
 
-	docker run -p 80:8080 --name hope --link efa5b85c26d0 -d astefanov1415/joinme:v1
-
+	
 
 
 docker container run --name joinme -p 8080:8080 astefanov1415/joinme:v1

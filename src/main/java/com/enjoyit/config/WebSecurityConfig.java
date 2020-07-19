@@ -62,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource simpleCorsFilter(){
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://18.216.125.212"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://ec2-18-216-125-212.us-east-2.compute.amazonaws.com"));
+        System.out.println(configuration.getAllowedOrigins().toString());
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.addExposedHeader("Authorization");

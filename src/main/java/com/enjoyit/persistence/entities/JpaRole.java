@@ -32,4 +32,11 @@ public class JpaRole extends BaseEntity implements Role {
         this.authority = authority;
     }
 
+    @Override
+    public String toString() {
+        return "JpaRole [authority=" + authority + "]";
+    }
+
+
+
 }

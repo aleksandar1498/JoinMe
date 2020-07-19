@@ -5,6 +5,7 @@ import java.util.List;
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.domain.dto.UserEventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
+import com.enjoyit.domain.dto.UserWithRolesDTO;
 
 public interface UserService {
     /**
@@ -20,6 +21,11 @@ public interface UserService {
      * @return
      */
     ServiceResponse<UserEventDTO> disjoinEvent(String username, String eventId);
+
+    /**
+     * @return
+     */
+    List<UserWithRolesDTO> findAllUsers();
 
     /**
      * @param username
@@ -46,12 +52,19 @@ public interface UserService {
      */
     ServiceResponse<UserEventDTO> interestEvent(String username, String eventId);
 
+
     /**
      * @param username
      * @param id
      * @return
      */
     ServiceResponse<UserEventDTO> joinEvent(String username, String id);
+
+    /**
+     * @param user
+     * @return
+     */
+    ServiceResponse updateRoles(UserWithRolesDTO user);
 
 
 }

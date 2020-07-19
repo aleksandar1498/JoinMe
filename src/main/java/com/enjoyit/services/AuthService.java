@@ -22,4 +22,6 @@ public interface AuthService extends UserDetailsService {
      * @param user
      */
     ServiceResponse register(UserRegisterModel user);
+
+
 }
