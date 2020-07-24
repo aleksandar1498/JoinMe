@@ -55,7 +55,7 @@ public class LocationController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<LocationDTO> update(@Validated @RequestBody final LocationDTO location,@PathVariable("id") final String id,final UriComponentsBuilder ucBuilder){
         final LocationDTO updated = this.locationService.update(id,location);
-        return ResponseEntity.created(ucBuilder.path("/locations/{id)").buildAndExpand(updated.getId()).toUri()).build();
+        return ResponseEntity.created(ucBuilder.path("/locations/{id)").buildAndExpand(updated .getId()).toUri()).build();
     }
 
 }
