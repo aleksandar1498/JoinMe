@@ -16,6 +16,11 @@ public interface LocationService {
     LocationDTO create(LocationDTO location);
 
     /**
+     * @param id
+     */
+    void delete(String id);
+
+    /**
      * @return
      */
     List<LocationDTO> findAllLocations();
@@ -31,4 +36,11 @@ public interface LocationService {
      * @return
      */
     List<LocationDTO> findLocationsByCity(String city);
+
+    /**
+     * @param id
+     * @param location
+     * @return
+     */
+    LocationDTO update(String id, LocationDTO location);
 }

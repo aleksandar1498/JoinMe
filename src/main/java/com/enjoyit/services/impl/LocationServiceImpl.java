@@ -3,7 +3,10 @@ package com.enjoyit.services.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.enjoyit.domain.dto.LocationDTO;
 import com.enjoyit.persistence.entities.JpaLocation;
@@ -20,9 +23,17 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public LocationDTO create(final LocationDTO location) {
+    public LocationDTO create(@Validated final LocationDTO location) {
         final JpaLocation locationToSave = ObjectMapper.map(location, JpaLocation.class);
         return ObjectMapper.map(this.locationRepo.save(locationToSave), LocationDTO.class);
+    }
+
+    @Override
+    public void delete(final String id) {
+        final JpaLocation locationToDelete = this.locationRepo.findById(id).orElseThrow(() -> {
+            return new EntityNotFoundException("Location with this id does not exists");
+        });
+        this.locationRepo.delete(locationToDelete);
     }
 
     @Override
@@ -41,6 +52,17 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public List<LocationDTO> findLocationsByCity(final String city) {
         return ObjectMapper.mapAll(this.locationRepo.findByCity(city), LocationDTO.class);
+    }
+
+    @Override
+    public LocationDTO update(final String id,final LocationDTO updated) {
+        final JpaLocation locationToUpdate = this.locationRepo.findById(id).orElseThrow(() -> {
+            return new EntityNotFoundException("Location with this id does not exists");
+        });
+        locationToUpdate.setAddress(updated.getAddress());
+        locationToUpdate.setCity(updated.getCity());
+
+        return ObjectMapper.map(this.locationRepo.save(locationToUpdate), LocationDTO.class);
     }
 
 }

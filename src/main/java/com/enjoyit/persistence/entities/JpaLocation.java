@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.enjoyit.enums.LocationCategory;
 import com.enjoyit.persistence.Event;
@@ -26,12 +28,15 @@ public class JpaLocation extends BaseEntity implements Location {
 
 
     @Column
+    @NotEmpty(message = "Address cannot be empty")
     private String address;
 
     @Column
+    @NotEmpty(message = "City cannot be empty")
     private String city;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "LocationCategory cannot be empty")
     private LocationCategory locationCategory;
 
     @OneToMany(mappedBy = "location",fetch = FetchType.LAZY,targetEntity = JpaEvent.class)

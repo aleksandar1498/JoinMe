@@ -71,7 +71,6 @@ public class UserController {
 
     @PutMapping("/roles")
     public ServiceResponse updateRoles(@RequestBody final UserWithRolesDTO user) {
-        System.out.println(user);
         return this.userService.updateRoles(user);
     }
 }

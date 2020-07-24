@@ -1,17 +1,24 @@
 package com.enjoyit.domain.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.enjoyit.enums.LocationCategory;
 
 public class LocationDTO {
     private String id;
+    @NotEmpty(message = "City cannot be empty")
     private String city;
+    @NotEmpty(message = "Address cannot be empty")
     private String address;
+    @NotNull(message = "Location Category cannot be not set")
     private LocationCategory locationCategory;
 
     public LocationDTO() {
     }
 
-    public LocationDTO(final String id,final String city, final String address, final LocationCategory locationCategory) {
+    public LocationDTO(final String id, final String city, final String address,
+            final LocationCategory locationCategory) {
         this.id = id;
         this.city = city;
         this.address = address;
@@ -55,10 +62,5 @@ public class LocationDTO {
         return "LocationDTO [id=" + id + ", city=" + city + ", address=" + address + ", locationCategory="
                 + locationCategory + "]";
     }
-
-
-
-
-
 
 }
