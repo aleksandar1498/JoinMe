@@ -30,6 +30,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
                                     final HttpServletResponse res,
                                     final FilterChain chain) throws IOException, ServletException {
         final String header = req.getHeader("Authorization");
+        System.out.println(header);
         if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(req, res);
             return;
@@ -42,6 +43,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 
     private UsernamePasswordAuthenticationToken getAuthentication(final HttpServletRequest request) {
         final String token = request.getHeader("Authorization").substring(7);
+        System.out.println(token);
         if (token != null) {
             // parse the token.
             final String user = tokenUtil.getUsernameFromToken(token);

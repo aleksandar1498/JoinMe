@@ -1,6 +1,9 @@
-package com.enjoyit.domain.models;
+package com.enjoyit.domain.dto;
 
-public class UserRegisterModel {
+import com.enjoyit.common.validators.PasswordMatchingValidator;
+
+@PasswordMatchingValidator
+public class UserRegisterDTO {
     private final String username;
     private final String name;
     private final String surname;
@@ -9,7 +12,7 @@ public class UserRegisterModel {
     private final String confirmPassword;
     private final Boolean organizer;
 
-    public UserRegisterModel(final String username, final String name, final String surname, final String email, final String password,
+    public UserRegisterDTO(final String username, final String name, final String surname, final String email, final String password,
             final String confirmPassword, final Boolean organizer) {
         this.username = username;
         this.name = name;

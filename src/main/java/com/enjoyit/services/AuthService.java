@@ -2,8 +2,10 @@ package com.enjoyit.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.enjoyit.domain.models.UserLoginModel;
-import com.enjoyit.domain.models.UserRegisterModel;
+import com.enjoyit.domain.dto.LoggedInUserDTO;
+import com.enjoyit.domain.dto.UserDTO;
+import com.enjoyit.domain.dto.UserLoginDTO;
+import com.enjoyit.domain.dto.UserRegisterDTO;
 
 /**
  * @author AStefanov
@@ -15,13 +17,13 @@ public interface AuthService extends UserDetailsService {
      * @param user
      * @return
      */
-    ServiceResponse login(UserLoginModel user);
+    LoggedInUserDTO login(UserLoginDTO user);
 
 
     /**
      * @param user
      */
-    ServiceResponse register(UserRegisterModel user);
+    UserDTO register(UserRegisterDTO user);
 
 
 }

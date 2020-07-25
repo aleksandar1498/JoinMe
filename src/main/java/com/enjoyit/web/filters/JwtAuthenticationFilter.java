@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.enjoyit.config.JwtTokenUtil;
-import com.enjoyit.domain.models.UserLoginModel;
+import com.enjoyit.domain.dto.UserLoginDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -30,8 +30,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
         Authentication auth = null;
+        System.out.println("here");
         try {
-            final UserLoginModel creds = new ObjectMapper().readValue(request.getInputStream(), UserLoginModel.class);
+            final UserLoginDTO creds = new ObjectMapper().readValue(request.getInputStream(), UserLoginDTO.class);
             auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.getUsername(),
                     creds.getPassword(), new ArrayList<>()));
         } catch (final IOException e) {

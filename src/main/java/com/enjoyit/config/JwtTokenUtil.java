@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import com.enjoyit.domain.models.UserLoginModel;
+import com.enjoyit.domain.dto.UserLoginDTO;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -103,7 +103,7 @@ public class JwtTokenUtil {
      *            that needs to be checked
      * @return if the token is valid
      */
-    public Boolean validateToken(final String token, final UserLoginModel user) {
+    public Boolean validateToken(final String token, final UserLoginDTO user) {
         final String username = getUsernameFromToken(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
     }

@@ -1,13 +1,13 @@
-package com.enjoyit.domain.models;
+package com.enjoyit.domain.dto;
 
-public class UserLoginModel {
+public class UserLoginDTO {
     private String username;
     private String password;
 
-    public UserLoginModel() {
+    public UserLoginDTO() {
     }
 
-    public UserLoginModel(final String username, final String password) {
+    public UserLoginDTO(final String username, final String password) {
         super();
         this.username = username;
         this.password = password;

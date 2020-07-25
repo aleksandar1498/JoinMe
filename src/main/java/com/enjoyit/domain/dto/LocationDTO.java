@@ -7,11 +7,11 @@ import com.enjoyit.enums.LocationCategory;
 
 public class LocationDTO {
     private String id;
-    @NotEmpty(message = "City cannot be empty")
+    @NotEmpty(message = "*City cannot be empty")
     private String city;
-    @NotEmpty(message = "Address cannot be empty")
+    @NotEmpty(message = "*Address cannot be empty")
     private String address;
-    @NotNull(message = "Location Category cannot be not set")
+    @NotNull(message = "*Location Category cannot be not set")
     private LocationCategory locationCategory;
 
     public LocationDTO() {
