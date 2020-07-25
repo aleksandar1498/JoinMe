@@ -9,20 +9,20 @@ import javax.validation.constraints.NotNull;
 import com.enjoyit.enums.EventCategory;
 
 public class BaseEventDTO {
-    @NotEmpty(message = "Title cannot be empty")
+    @NotEmpty(message = "*title cannot be empty")
     private String title;
     @NotNull
     private LocationDTO location;
-    @NotEmpty(message = "Description cannot be empty")
+    @NotEmpty(message = "*description cannot be empty")
     private String description;
     @NotNull
     private EventCategory category;
-    @NotNull(message = "StartDate cannot be null")
-    @FutureOrPresent(message = "StartDate cannot be in the past")
+    @NotNull(message = "*startDate cannot be null")
+    @FutureOrPresent(message = "*startDate cannot be in the past")
     private LocalDateTime startDate;
 
-    @NotNull(message = "EndDate cannot be null")
-    @FutureOrPresent(message = "EndDate cannot be in the past")
+    @NotNull(message = "*endDate cannot be null")
+    @FutureOrPresent(message = "*endDate cannot be in the past")
     private LocalDateTime endDate;
 
     public BaseEventDTO() {

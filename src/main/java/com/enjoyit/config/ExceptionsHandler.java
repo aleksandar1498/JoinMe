@@ -59,13 +59,22 @@ public class ExceptionsHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public Map<String, String> handleIllegalArgumentException(final IllegalArgumentException ex) {
+
+        final Map<String, String> errors = new HashMap<>();
+        errors.put("error", ex.getMessage());
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public Map<String, String> handleServiceLayerDTOException(final MethodArgumentNotValidException ex) {
         final Map<String, String> errors = new HashMap<>();
         if (ex.getBindingResult().hasGlobalErrors()) {
             ex.getBindingResult().getGlobalErrors().forEach(g -> {
-                errors.put("globalError", g.getDefaultMessage());
-
+                errors.put("error   ", g.getDefaultMessage());
             });
         }
         if (ex.getBindingResult().hasFieldErrors()) {

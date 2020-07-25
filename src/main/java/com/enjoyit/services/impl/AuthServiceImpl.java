@@ -20,11 +20,14 @@ import com.enjoyit.domain.dto.LoggedInUserDTO;
 import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserLoginDTO;
 import com.enjoyit.domain.dto.UserRegisterDTO;
+import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.enums.UserRoles;
 import com.enjoyit.persistence.Role;
+import com.enjoyit.persistence.entities.JpaUser;
 import com.enjoyit.persistence.repositories.RoleRepository;
 import com.enjoyit.persistence.repositories.UserRepository;
 import com.enjoyit.services.AuthService;
+import com.enjoyit.utils.ObjectMapper;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -33,12 +36,14 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepo;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil tokenUtil;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public AuthServiceImpl(final UserRepository repository, final BCryptPasswordEncoder encoder,
             final AuthenticationManager authenticationManager, final JwtTokenUtil tokenUtil,
             final RoleRepository roleRepo) {
         this.userRepo = repository;
+        this.bCryptPasswordEncoder = encoder;
         this.authenticationManager = authenticationManager;
         this.tokenUtil = tokenUtil;
         this.roleRepo = roleRepo;
@@ -80,26 +85,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserDTO register(final UserRegisterDTO user) {
-        return null;
-//        final ServiceResponse response = new ServiceResponse();
-//        if (!user.getPassword().equals(user.getConfirmPassword())) {
-//            response.setResponseMessage(MsgServiceResponse.NEW_PASSWORD_MISMATCHED);
-//            response.setResponseCode(HttpStatus.BAD_REQUEST);
-//            return response;
-//        }
-//        System.out.println("HERE " + user.getUsername());
-//        if (userRepo.findByUsername(user.getUsername()).isPresent()) {
-//            response.setResponseMessage(MsgServiceResponse.USER_USERNAME_ALREADY_EXIST);
-//            response.setResponseCode(HttpStatus.BAD_REQUEST);
-//            return response;
-//        }
-//
-//        final JpaUser userToPersist = ObjectMapper.map(user, JpaUser.class);
-//        userToPersist.setAuthorities(getRolesForRegistration(user));
-//        userToPersist.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-//        this.userRepo.save(userToPersist);
-//        response.setSuccessResponse();
-//        return response;
+
+        if (userRepo.findByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalArgumentException(MsgServiceResponse.USER_USERNAME_ALREADY_EXIST.toString());
+        }
+
+        final JpaUser userToPersist = ObjectMapper.map(user, JpaUser.class);
+        userToPersist.setAuthorities(getRolesForRegistration(user));
+        userToPersist.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+
+
+        return ObjectMapper.map(this.userRepo.save(userToPersist), UserDTO.class);
     }
 
 }
