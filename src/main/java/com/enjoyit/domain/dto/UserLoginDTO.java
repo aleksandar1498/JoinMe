@@ -1,7 +1,12 @@
 package com.enjoyit.domain.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class UserLoginDTO {
+    @NotEmpty(message = "*username must not be empty")
     private String username;
+
+    @NotEmpty(message = "*password must not be empty")
     private String password;
 
     public UserLoginDTO() {

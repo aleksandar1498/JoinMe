@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.enjoyit.config.JwtTokenUtil;
 import com.enjoyit.domain.dto.LoggedInUserDTO;
@@ -75,16 +76,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public LoggedInUserDTO login(final UserLoginDTO userModel) {
-                final Authentication authentication = this.authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(userModel.getUsername(), userModel.getPassword()));
-                final SecurityContext securityContext = SecurityContextHolder.getContext();
-                securityContext.setAuthentication(authentication);
-                return new LoggedInUserDTO(authentication.getName(),"Bearer "+ this.tokenUtil.generateToken((User) authentication.getPrincipal()));
+    public LoggedInUserDTO login(@Validated final UserLoginDTO userModel) {
+        final Authentication authentication = this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userModel.getUsername(), userModel.getPassword()));
+        final SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+        return new LoggedInUserDTO(authentication.getName(),
+                "Bearer " + this.tokenUtil.generateToken((User) authentication.getPrincipal()));
     }
 
     @Override
-    public UserDTO register(final UserRegisterDTO user) {
+    public UserDTO register(@Validated final UserRegisterDTO user) {
 
         if (userRepo.findByUsername(user.getUsername()).isPresent()) {
             throw new IllegalArgumentException(MsgServiceResponse.USER_USERNAME_ALREADY_EXIST.toString());
@@ -93,7 +95,6 @@ public class AuthServiceImpl implements AuthService {
         final JpaUser userToPersist = ObjectMapper.map(user, JpaUser.class);
         userToPersist.setAuthorities(getRolesForRegistration(user));
         userToPersist.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-
 
         return ObjectMapper.map(this.userRepo.save(userToPersist), UserDTO.class);
     }
