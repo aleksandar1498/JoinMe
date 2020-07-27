@@ -65,7 +65,6 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     @Override
     public EventUser joinEvent(final User user, final Event event) {
         final JpaUserJoinEvent join = new JpaUserJoinEvent(user, event);
-        System.out.println(join.getUser().getUsername()+" "+join.getEvent().getTitle());
         this.entityManager.persist(join);
         return join;
     }

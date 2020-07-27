@@ -34,11 +34,11 @@ public class JpaEvent extends BaseEntity implements Event {
 
     public static final String CLEAR_EXPIRED = "clearExpired";
 
+
     @Column
     @NotEmpty(message = "Title cannot be empty")
     private String title;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaLocation.class)
     private Location location;
 
@@ -176,6 +176,7 @@ public class JpaEvent extends BaseEntity implements Event {
         this.joinedUsers = joinedUsers;
     }
 
+    @Override
     public void setLocation(final Location location) {
         this.location = location;
     }

@@ -30,10 +30,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void delete(final String id) {
-        final JpaLocation locationToDelete = this.locationRepo.findById(id).orElseThrow(() -> {
-            return new EntityNotFoundException("Location with this id does not exists");
-        });
-        this.locationRepo.delete(locationToDelete);
+        this.locationRepo.deleteById(id);
     }
 
     @Override

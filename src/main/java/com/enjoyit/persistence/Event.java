@@ -58,4 +58,6 @@ public interface Event {
      * @return
      */
     void setCancelled();
+
+    void setLocation(Location location);
 }

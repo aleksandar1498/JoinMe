@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.enjoyit.persistence.entities.JpaLocation;
 
 @Repository
-public interface LocationRepository extends JpaRepository<JpaLocation, String>{
+public interface LocationRepository extends JpaRepository<JpaLocation, String>,LocationRepositoryCustom{
+
     /**
      * @param city
      * @return

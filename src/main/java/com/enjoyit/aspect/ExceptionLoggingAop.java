@@ -28,6 +28,7 @@ public class ExceptionLoggingAop {
         final LocalDateTime when = LocalDateTime.now(ZoneOffset.UTC);
         final String errorMessage = (e.getMessage() == null) ? Strings.EMPTY
                 : (e.getMessage().length() > 30) ? e.getMessage().substring(0, 30) : e.getMessage();
+                System.out.println(e);
         System.out.println(e.getMessage());
         this.loggingService.warn(String.format("%s | %s --- class : %s -> method : %s args (%s) - %s ",
                 LoggerLevel.WARN, when.toString(), className, method, args, errorMessage));
