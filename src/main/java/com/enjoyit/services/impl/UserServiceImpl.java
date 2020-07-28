@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.enjoyit.domain.dto.EventDTO;
@@ -16,7 +15,6 @@ import com.enjoyit.domain.dto.RoleDTO;
 import com.enjoyit.domain.dto.UserEventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.domain.dto.UserWithRolesDTO;
-import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.Role;
@@ -25,10 +23,12 @@ import com.enjoyit.persistence.entities.JpaUser;
 import com.enjoyit.persistence.repositories.EventRepository;
 import com.enjoyit.persistence.repositories.RoleRepository;
 import com.enjoyit.persistence.repositories.UserRepository;
-import com.enjoyit.services.ServiceResponse;
 import com.enjoyit.services.UserService;
 import com.enjoyit.utils.ObjectMapper;
 
+/**
+ * @author AStefanov
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -36,55 +36,43 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepo;
     private final EventRepository eventRepository;
 
+    /**
+     * @param repository
+     * @param eventRepository
+     * @param roleRepo
+     */
     @Autowired
-    public UserServiceImpl(final UserRepository repository, final EventRepository eventRepository,final RoleRepository roleRepo) {
+    public UserServiceImpl(final UserRepository repository, final EventRepository eventRepository,
+            final RoleRepository roleRepo) {
         this.userRepo = repository;
         this.eventRepository = eventRepository;
         this.roleRepo = roleRepo;
     }
 
     @Override
-    public ServiceResponse<UserEventDTO> disinterestEvent(final String username, final String eventId) {
-        final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
-        final User user = this.userRepo.findByUsername(username).orElse(null);
-        if (user == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
-            return response;
-        }
-
-        final Event event = this.eventRepository.findById(eventId).orElse(null);
-        if (event == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
-            return response;
-        }
-        this.eventRepository.disinterestEvent(user, event);
-
-        response.setSuccessResponse();
-        return response;
+    public void ban(final String username) {
+        final JpaUser user = this.userRepo.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
+        user.setBanned(Boolean.TRUE);
+        this.userRepo.save(user);
     }
 
     @Override
-    public ServiceResponse disjoinEvent(final String username, final String eventId) {
-        final ServiceResponse response = new ServiceResponse<>();
-        final User user = this.userRepo.findByUsername(username).orElse(null);
-        if (user == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
-            return response;
-        }
+    public void disinterestEvent(final String username, final String eventId) {
+        final User user = this.userRepo.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
+        final Event event = this.eventRepository.findById(eventId)
+                .orElseThrow(() -> new EntityNotFoundException("An event with this username does not exist"));
+        this.eventRepository.disinterestEvent(user, event);
+    }
 
-        final Event event = this.eventRepository.findById(eventId).orElse(null);
-        if (event == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
-            return response;
-        }
+    @Override
+    public void disjoinEvent(final String username, final String eventId) {
+        final User user = this.userRepo.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
+        final Event event = this.eventRepository.findById(eventId)
+                .orElseThrow(() -> new EntityNotFoundException("An event with this username does not exist"));
         this.eventRepository.disjoinEvent(user, event);
-
-        response.setSuccessResponse();
-        return response;
     }
 
     @Override
@@ -94,10 +82,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserWithEventsDTO findByUsername(final String username) {
-        System.out.println("here");
-        return this.userRepo.findByUsername(username).map(u -> {
-            return ObjectMapper.map(u, UserWithEventsDTO.class);
-        }).orElse(null);
+        return this.userRepo.findByUsername(username).map(u -> ObjectMapper.map(u, UserWithEventsDTO.class))
+                .orElse(null);
     }
 
     @Override
@@ -106,9 +92,7 @@ public class UserServiceImpl implements UserService {
             return ObjectMapper.mapAll(
                     u.getInterestedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()),
                     EventDTO.class);
-        }).orElseThrow(() -> {
-            return new EntityNotFoundException("A user with this username does not exists");
-        });
+        }).orElseThrow(() -> new EntityNotFoundException("A user with this username does not exists"));
     }
 
     @Override
@@ -116,75 +100,39 @@ public class UserServiceImpl implements UserService {
         return this.userRepo.findByUsername(username).map(u -> {
             return ObjectMapper.mapAll(
                     u.getJoinedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()), EventDTO.class);
-        }).orElseThrow(() -> {
-            return new EntityNotFoundException("A user with this username does not exists");
-        });
+        }).orElseThrow(() -> new EntityNotFoundException("A user with this username does not exists"));
     }
 
     @Override
-    public ServiceResponse<UserEventDTO> interestEvent(final String username, final String eventId) {
-        final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
-        final User user = this.userRepo.findByUsername(username).orElse(null);
-        if (user == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
-            return response;
-        }
-
-        final Event event = this.eventRepository.findById(eventId).orElse(null);
-        if (event == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
-            return response;
-        }
-
-        final EventUser eventUser = eventRepository.interestEvent(user, event);
-        response.setSuccessResponse();
-        response.setResponseObject(ObjectMapper.map(eventUser, UserEventDTO.class));
-        return response;
+    public UserEventDTO interestEvent(final String username, final String eventId) {
+        final User user = this.userRepo.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
+        final Event event = this.eventRepository.findById(eventId)
+                .orElseThrow(() -> new EntityNotFoundException("An event with this username does not exist"));
+        return ObjectMapper.map(eventRepository.interestEvent(user, event), UserEventDTO.class);
     }
 
     @Override
-    public ServiceResponse<UserEventDTO> joinEvent(final String username, final String id) {
-        final ServiceResponse<UserEventDTO> response = new ServiceResponse<>();
-        final User user = this.userRepo.findByUsername(username).orElse(null);
-
-        if (user == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_USER_WITH_USERNAME);
-            return response;
-        }
-
-        final Event event = this.eventRepository.findById(id).orElse(null);
-        if (event == null) {
-            response.setResponseCode(HttpStatus.NOT_FOUND);
-            response.setResponseMessage(MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
-            return response;
-        }
-        final EventUser eventUser = eventRepository.joinEvent(user, event);
-
-        response.setSuccessResponse();
-        response.setResponseObject(ObjectMapper.map(eventUser, UserEventDTO.class));
-        return response;
+    public UserEventDTO joinEvent(final String username, final String eventId) {
+        final User user = this.userRepo.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
+        final Event event = this.eventRepository.findById(eventId)
+                .orElseThrow(() -> new EntityNotFoundException("An event with this username does not exist"));
+        return ObjectMapper.map(eventRepository.joinEvent(user, event), UserEventDTO.class);
     }
 
-    private Set<Role> mapToJpaRoleSet(final List<RoleDTO> roles){
+    private Set<Role> mapToJpaRoleSet(final List<RoleDTO> roles) {
         final Set<Role> authorities = new HashSet<Role>();
-        roles.forEach(r -> {
-            authorities.add(this.roleRepo.findByAuthority(r.getAuthority()));
-        });
+        roles.forEach(r -> authorities.add(this.roleRepo.findByAuthority(r.getAuthority())));
 
         return authorities;
     }
 
     @Override
-    public ServiceResponse updateRoles(final UserWithRolesDTO userWithRoles) {
-        final JpaUser user = this.userRepo.findByUsername(userWithRoles.getUsername()).orElseThrow(() -> {
-            return new EntityNotFoundException("A user with this username does not exists");
-        });
-
+    public UserWithRolesDTO updateRoles(final UserWithRolesDTO userWithRoles) {
+        final JpaUser user = this.userRepo.findByUsername(userWithRoles.getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("A user with this username does not exists"));
         user.setAuthorities(mapToJpaRoleSet(userWithRoles.getAuthorities()));
-        this.userRepo.save(user);
-        return ServiceResponse.successResponse();
+        return ObjectMapper.map(this.userRepo.save(user), UserWithRolesDTO.class);
     }
 }

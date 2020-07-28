@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.enjoyit.utils.JwtTokenUtil;
 import com.enjoyit.web.filters.JwtAuthorizationFilter;
 
 @Configuration

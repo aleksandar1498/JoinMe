@@ -7,13 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class UserInterestEventKey implements Serializable,Identifiable{
-
+public class UserInterestEventKey implements Serializable {
     /**
      *
      */
     private static final long serialVersionUID = -7423025075130985690L;
-
 
     @Column(name = "user_id")
     private String userId;

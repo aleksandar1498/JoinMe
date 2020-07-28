@@ -1,7 +1,6 @@
 package com.enjoyit.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
@@ -12,34 +11,34 @@ import com.enjoyit.domain.dto.EventDTO;
  */
 public interface EventService {
     /**
+     * @param eventId
+     * @return
+     */
+    void ban(String eventId);
+
+    /**
      * @param id
      * @return
      */
-    ServiceResponse cancelEventById(String id);
-//    /**
-//     * @param username
-//     * @return
-//     */
-//    ServiceResponse createEvent(EventDTO event,String username);
-
+    void cancelEventById(String id);
     /**
      * @return
      */
     int cleanUpExpiredEvents();
+
     /**
      * @param eventModel
      * @param username
      * @return
      */
-    ServiceResponse createEvent(BaseEventDTO eventModel, String username);
+    EventDTO createEvent(BaseEventDTO eventModel, String username);
 
     /**
      * @param id
      * @param event
      * @return
      */
-    ServiceResponse editEventById(String id, BaseEventDTO event);
-
+    EventDTO editEventById(String id, BaseEventDTO event);
     /**
      * @return
      */
@@ -53,7 +52,8 @@ public interface EventService {
      * @param id
      * @return
      */
-    Optional<EventDTO> getEventById(String id);
+    EventDTO getEventById(String id);
+
     /**
      * @param location
      * @return
@@ -65,9 +65,5 @@ public interface EventService {
      * @return
      */
     List<EventDTO> getEventByOwner(String owner);
-    /**
-     * @param owner
-     * @return
-     */
-    List<EventDTO> getJoinedEvents(String username);
+
 }

@@ -1,4 +1,4 @@
-package com.enjoyit.config;
+package com.enjoyit.utils;
 
 import java.util.Date;
 import java.util.HashMap;

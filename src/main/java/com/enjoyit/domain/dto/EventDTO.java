@@ -16,12 +16,24 @@ public class EventDTO {
     private LocalDateTime endDate;
     private UserDTO owner;
     private Boolean cancelled;
+    private Boolean banned;
     private List<JoinUserDTO> joinedUsers = new ArrayList<JoinUserDTO>();
     private List<JoinUserDTO> interestedUsers = new ArrayList<JoinUserDTO>();
 
     public EventDTO() {
     }
 
+    /**
+     * @param id
+     * @param title
+     * @param location
+     * @param startDate
+     * @param endDate
+     * @param description
+     * @param cancelled
+     * @param joinedUsers
+     * @param interestedUsers
+     */
     public EventDTO(final String id, final String title, final LocationDTO location, final LocalDateTime startDate,
             final LocalDateTime endDate, final String description, final Boolean cancelled,
             final List<JoinUserDTO> joinedUsers, final List<JoinUserDTO> interestedUsers) {
@@ -37,6 +49,18 @@ public class EventDTO {
         this.interestedUsers = interestedUsers;
     }
 
+    /**
+     * @param id
+     * @param title
+     * @param location
+     * @param startDate
+     * @param endDate
+     * @param owner
+     * @param description
+     * @param cancelled
+     * @param joinedUsers
+     * @param interestedUsers
+     */
     public EventDTO(final String id, final String title, final LocationDTO location, final LocalDateTime startDate,
             final LocalDateTime endDate, final UserDTO owner, final String description, final Boolean cancelled,
             final List<JoinUserDTO> joinedUsers, final List<JoinUserDTO> interestedUsers) {
@@ -50,6 +74,10 @@ public class EventDTO {
         this.joinedUsers = joinedUsers;
         this.cancelled = cancelled;
         this.interestedUsers = interestedUsers;
+    }
+
+    public Boolean getBanned() {
+        return banned;
     }
 
     public Boolean getCancelled() {
@@ -94,6 +122,10 @@ public class EventDTO {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setBanned(final Boolean banned) {
+        this.banned = banned;
     }
 
     public void setCancelled(final Boolean cancelled) {

@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.enjoyit.config.JwtTokenUtil;
 import com.enjoyit.domain.dto.LoggedInUserDTO;
 import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserLoginDTO;
@@ -28,6 +27,7 @@ import com.enjoyit.persistence.entities.JpaUser;
 import com.enjoyit.persistence.repositories.RoleRepository;
 import com.enjoyit.persistence.repositories.UserRepository;
 import com.enjoyit.services.AuthService;
+import com.enjoyit.utils.JwtTokenUtil;
 import com.enjoyit.utils.ObjectMapper;
 
 @Service

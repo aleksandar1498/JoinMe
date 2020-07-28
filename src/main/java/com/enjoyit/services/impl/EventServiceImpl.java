@@ -1,34 +1,41 @@
 package com.enjoyit.services.impl;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
-import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.persistence.entities.JpaEvent;
 import com.enjoyit.persistence.entities.JpaLocation;
 import com.enjoyit.persistence.entities.JpaUser;
 import com.enjoyit.persistence.repositories.EventRepository;
 import com.enjoyit.services.EventService;
-import com.enjoyit.services.ServiceResponse;
 import com.enjoyit.services.UserService;
 import com.enjoyit.utils.EventDTOtoEntityCoverter;
 import com.enjoyit.utils.ObjectMapper;
 
+/**
+ * @author AStefanov
+ */
 @Service
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepo;
     private final UserService userService;
 
+    /**
+     * @param repository
+     * @param userService
+     * @param mapper
+     * @param eventEntityConverter
+     */
     @Autowired
     public EventServiceImpl(final EventRepository repository, final UserService userService, final ModelMapper mapper,
             final EventDTOtoEntityCoverter eventEntityConverter) {
@@ -38,43 +45,44 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public ServiceResponse cancelEventById(final String id) {
-        final JpaEvent event = this.eventRepo.findById(id).orElse(null);
-        if (event == null) {
-            return new ServiceResponse(HttpStatus.NOT_FOUND, MsgServiceResponse.NO_EVENT_WITH_ID_FOUND);
-        }
-        event.setCancelled();
+    public void ban(final String eventId) {
+        final JpaEvent event = this.eventRepo.getOne(eventId);
+        event.setBanned(Boolean.TRUE);
         this.eventRepo.save(event);
-        return ServiceResponse.successResponse();
+    }
+
+    @Override
+    public void cancelEventById(final String id) {
+        final JpaEvent event = this.eventRepo.getOne(id);
+        event.setCancelled(Boolean.TRUE);
+        this.eventRepo.save(event);
     }
 
     @Override
     public int cleanUpExpiredEvents() {
-       return this.eventRepo.cancelExpired();
+        return this.eventRepo.cancelExpired();
     }
 
     @Override
-    public ServiceResponse createEvent(@Validated final BaseEventDTO eventModel, final String username) {
+    public EventDTO createEvent(@Validated final BaseEventDTO eventModel, final String username) {
         final UserWithEventsDTO user = this.userService.findByUsername(username);
         if (user == null) {
-            return new ServiceResponse(HttpStatus.NOT_FOUND, MsgServiceResponse.NO_USER_WITH_USERNAME);
+            throw new EntityNotFoundException("User with this username was not found");
         }
         final JpaEvent eventToCreate = ObjectMapper.map(eventModel, JpaEvent.class);
         eventToCreate.setOwner(ObjectMapper.map(user, JpaUser.class));
         eventToCreate.setLocation(eventModel.getLocation() == null ? null
                 : ObjectMapper.map(eventModel.getLocation(), JpaLocation.class));
-        this.eventRepo.saveAndFlush(eventToCreate);
-        return ServiceResponse.successResponse();
+        return ObjectMapper.map(this.eventRepo.saveAndFlush(eventToCreate), EventDTO.class);
     }
 
     @Override
-    public ServiceResponse editEventById(final String id, final BaseEventDTO event) {
+    public EventDTO editEventById(final String id, final BaseEventDTO event) {
         final JpaEvent eventJpa = this.eventRepo.getOne(id);
         eventJpa.setDescription(event.getDescription());
         eventJpa.setEndDate(event.getEndDate());
         eventJpa.setStartDate(event.getStartDate());
-        this.eventRepo.save(eventJpa);
-        return ServiceResponse.successResponse();
+        return ObjectMapper.map(this.eventRepo.save(eventJpa), EventDTO.class);
     }
 
     @Override
@@ -88,10 +96,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Optional<EventDTO> getEventById(final String id) {
-        return Optional.ofNullable(this.eventRepo.findById(id).map(e -> {
-            return ObjectMapper.map(e, EventDTO.class);
-        }).orElse(null));
+    public EventDTO getEventById(final String id) {
+        return this.eventRepo.findById(id).map(e -> ObjectMapper.map(e, EventDTO.class))
+                .orElseThrow(() -> new EntityNotFoundException("An Event with this id was not found"));
     }
 
     @Override
@@ -104,15 +111,5 @@ public class EventServiceImpl implements EventService {
         return ObjectMapper.mapAll(eventRepo.findByOwnerUsername(owner), EventDTO.class);
     }
 
-    @Override
-    public List<EventDTO> getJoinedEvents(final String username) {
-        return null;
-        //
-        // final User user = this.userService.findByUsername(username)
-        // user.getJoinedEvents();
-        // return ObjectMapper.mapAll(
-        // user.getJoinedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()),
-        // EventDTO.class);
-    }
 
 }

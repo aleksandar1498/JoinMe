@@ -6,6 +6,7 @@ public class UserDTO {
     private String name;
     private String surname;
     private String email;
+    private Boolean banned;
     public UserDTO() {
     }
 
@@ -29,10 +30,14 @@ public class UserDTO {
 
 
 
+    public Boolean getBanned() {
+        return banned;
+    }
+
+
     public String getEmail() {
         return email;
     }
-
 
     public String getId() {
         return id;
@@ -46,15 +51,31 @@ public class UserDTO {
         return surname;
     }
 
+
+
     public String getUsername() {
         return username;
     }
 
 
 
+    public void setBanned(final Boolean banned) {
+        this.banned = banned;
+    }
+
+
+
+
+
+
+
     public void setEmail(final String email) {
         this.email = email;
     }
+
+
+
+
 
 
 

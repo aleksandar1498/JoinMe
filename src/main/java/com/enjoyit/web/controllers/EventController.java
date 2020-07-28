@@ -2,9 +2,9 @@ package com.enjoyit.web.controllers;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.services.EventService;
-import com.enjoyit.services.ServiceResponse;
 
 /**
  * RestController used to manage all the users requests related to the events
@@ -28,6 +28,9 @@ public class EventController {
 
     private final EventService eventService;
 
+    /**
+     * @param service
+     */
     @Autowired
     public EventController(final EventService service) {
         this.eventService = service;
@@ -38,14 +41,22 @@ public class EventController {
      *         events
      */
     @DeleteMapping("/{id}")
-    public ServiceResponse cancelEventById(@PathVariable("id") final String id) {
-        System.out.println("to cancel "+id);
-        return this.eventService.cancelEventById(id);
+    public ResponseEntity<EventDTO> cancelEventById(@PathVariable("id") final String id) {
+        this.eventService.cancelEventById(id);
+        return ResponseEntity.noContent().build();
     }
 
+    /**
+     * @param principal
+     * @param event
+     * @param ucBuilder
+     * @return
+     */
     @PostMapping
-    public ServiceResponse createEvent(final Principal principal, @RequestBody final BaseEventDTO event) {
-        return this.eventService.createEvent(event, principal.getName());
+    public ResponseEntity<EventDTO> createEvent(final Principal principal, @RequestBody final BaseEventDTO event,final UriComponentsBuilder ucBuilder) {
+        final EventDTO created = this.eventService.createEvent(event, principal.getName());
+        return ResponseEntity.created(ucBuilder.path("/events/{id)").buildAndExpand(created.getId()).toUri()).build();
+
     }
 
     /**
@@ -53,9 +64,10 @@ public class EventController {
      *         events
      */
     @PutMapping("/{id}")
-    public ServiceResponse editEventById(@PathVariable("id") final String id,
-            @RequestBody final BaseEventDTO event) {
-        return this.eventService.editEventById(id, event);
+    public ResponseEntity<EventDTO> editEventById(@PathVariable("id") final String id,
+            @RequestBody final BaseEventDTO event,final UriComponentsBuilder ucBuilder) {
+        final EventDTO edited = this.eventService.editEventById(id, event);
+        return ResponseEntity.created(ucBuilder.path("/events/{id)").buildAndExpand(edited.getId()).toUri()).build();
     }
 
     /**
@@ -63,8 +75,8 @@ public class EventController {
      *         events
      */
     @GetMapping
-    public List<EventDTO> getAllEvents() {
-        return this.eventService.getAllEvents();
+    public  ResponseEntity<List<EventDTO>> getAllEvents() {
+        return ResponseEntity.ok(this.eventService.getAllEvents());
     }
 
     /**
@@ -72,8 +84,8 @@ public class EventController {
      *         events
      */
     @GetMapping("/loc/{location}")
-    public List<EventDTO> getAllEventsByLocation(@PathVariable("location") final String location) {
-        return this.eventService.getEventByLocation(location);
+    public  ResponseEntity<List<EventDTO>> getAllEventsByLocation(@PathVariable("location") final String location) {
+        return ResponseEntity.ok(this.eventService.getEventByLocation(location));
     }
 
     /**
@@ -81,8 +93,8 @@ public class EventController {
      *         events
      */
     @GetMapping("/user")
-    public List<EventDTO> getAllEventsByOwnerUsername(final Principal principal) {
-        return this.eventService.getEventByOwner(principal.getName());
+    public  ResponseEntity<List<EventDTO>> getAllEventsByOwnerUsername(final Principal principal) {
+        return ResponseEntity.ok(this.eventService.getEventByOwner(principal.getName()));
     }
 
     /**
@@ -90,8 +102,8 @@ public class EventController {
      *         events
      */
     @GetMapping("/others")
-    public List<EventDTO> getAllOuterEvents(final Principal principal) {
-        return this.eventService.getAllOuterEvents(principal.getName());
+    public ResponseEntity<List<EventDTO>> getAllOuterEvents(final Principal principal) {
+        return ResponseEntity.ok(this.eventService.getAllOuterEvents(principal.getName()));
     }
 
     /**
@@ -99,8 +111,8 @@ public class EventController {
      *         events
      */
     @GetMapping("/{id}")
-    public Optional<EventDTO> getEventById(@PathVariable("id") final String id) {
-        return this.eventService.getEventById(id);
+    public ResponseEntity<EventDTO> getEventById(@PathVariable("id") final String id) {
+        return ResponseEntity.ok(eventService.getEventById(id));
     }
 
 

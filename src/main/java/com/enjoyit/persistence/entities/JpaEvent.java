@@ -59,6 +59,9 @@ public class JpaEvent extends BaseEntity implements Event {
     @Column
     private Boolean cancelled = Boolean.FALSE;
 
+    @Column
+    private Boolean banned = Boolean.FALSE;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private EventCategory category;
@@ -96,6 +99,11 @@ public class JpaEvent extends BaseEntity implements Event {
         this.owner = owner;
         this.description = description;
         this.category = category;
+    }
+
+    @Override
+    public Boolean getBanned() {
+        return banned;
     }
 
     @Override
@@ -148,9 +156,10 @@ public class JpaEvent extends BaseEntity implements Event {
     }
 
     @Override
-    public void setCancelled() {
-        this.cancelled = Boolean.TRUE;
+    public void setBanned(final Boolean banned) {
+        this.banned = banned;
     }
+
 
     public void setCancelled(final Boolean cancelled) {
         this.cancelled = cancelled;

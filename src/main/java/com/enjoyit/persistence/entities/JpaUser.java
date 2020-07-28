@@ -63,6 +63,9 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
 
     private boolean enabled;
 
+    @Column
+    private boolean banned;
+
     private boolean locked;
 
     private boolean expired;
@@ -130,6 +133,10 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
         return this.locked;
     }
 
+    public boolean isBanned() {
+        return banned;
+    }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return this.expiredCredentials;
@@ -152,8 +159,17 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
         return locked;
     }
 
+    @Override
     public void setAuthorities(final Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    public void setBanned(final boolean banned) {
+        this.banned = banned;
+    }
+
+    public void setBanned(final Boolean state) {
+      this.banned = state;
     }
 
     public void setEmail(final String email) {
@@ -211,6 +227,7 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
                 + ", expiredCredentials=" + expiredCredentials + "]";
     }
 
-   
+
+
 
 }

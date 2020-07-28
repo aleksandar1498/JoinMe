@@ -1,6 +1,7 @@
 package com.enjoyit.persistence;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,10 +26,21 @@ public interface User extends UserDetails {
      */
     List<EventUser> getJoinedEvents();
 
+    /**
+     * @return
+     */
     String getName();
 
+    /**
+     * @return
+     */
     String getSurname();
 
     @Override
     String getUsername();
+
+    /**
+     * @param roles
+     */
+    void setAuthorities(Set<Role> roles);
 }

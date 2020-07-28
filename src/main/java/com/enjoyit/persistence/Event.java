@@ -7,6 +7,11 @@ public interface Event {
     /**
      * @return
      */
+    Boolean getBanned();
+
+    /**
+     * @return
+     */
     Boolean getCancelled();
 
     /**
@@ -55,9 +60,17 @@ public interface Event {
     String getTitle();
 
     /**
-     * @return
+     * @param banned
      */
-    void setCancelled();
+    void setBanned(Boolean banned);
 
+    /**
+     * @param state
+     */
+    void setCancelled(Boolean state);
+
+    /**
+     * @param location
+     */
     void setLocation(Location location);
 }

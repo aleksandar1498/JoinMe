@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.enjoyit.aspect.ExceptionLoggingAop;
 
 @Configuration
-public class AppConfiguration {
+public class AppBeanConfiguration {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

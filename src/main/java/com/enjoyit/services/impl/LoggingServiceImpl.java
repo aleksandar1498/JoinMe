@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.enjoyit.enums.LoggerLevel;
 import com.enjoyit.persistence.entities.JpaLog;
+import com.enjoyit.persistence.repositories.LogRepository;
 import com.enjoyit.services.LoggingService;
 
 @Service

@@ -9,18 +9,24 @@ import com.enjoyit.domain.dto.UserWithRolesDTO;
 
 public interface UserService {
     /**
-     * @param name
-     * @param parseInt
+     * @param userId
      * @return
      */
-    ServiceResponse<UserEventDTO> disinterestEvent(String username, String eventId);
+    void ban(String username);
 
     /**
      * @param name
      * @param parseInt
      * @return
      */
-    ServiceResponse<UserEventDTO> disjoinEvent(String username, String eventId);
+    void disinterestEvent(String username, String eventId);
+
+    /**
+     * @param name
+     * @param parseInt
+     * @return
+     */
+    void disjoinEvent(String username, String eventId);
 
     /**
      * @return
@@ -45,26 +51,26 @@ public interface UserService {
      */
     List<EventDTO> getJoinedEvents(String username);
 
+
     /**
      * @param name
      * @param parseInt
      * @return
      */
-    ServiceResponse<UserEventDTO> interestEvent(String username, String eventId);
-
+    UserEventDTO interestEvent(String username, String eventId);
 
     /**
      * @param username
      * @param id
      * @return
      */
-    ServiceResponse<UserEventDTO> joinEvent(String username, String id);
+    UserEventDTO joinEvent(String username, String id);
 
     /**
      * @param user
      * @return
      */
-    ServiceResponse updateRoles(UserWithRolesDTO user);
+    UserWithRolesDTO updateRoles(UserWithRolesDTO user);
 
 
 }
