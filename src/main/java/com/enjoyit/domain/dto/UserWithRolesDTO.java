@@ -8,6 +8,7 @@ public class UserWithRolesDTO {
     private String name;
     private String surname;
     private String email;
+    private Boolean banned;
     private List<RoleDTO> authorities;
 
     public UserWithRolesDTO() {
@@ -16,6 +17,10 @@ public class UserWithRolesDTO {
 
     public List<RoleDTO> getAuthorities() {
         return authorities;
+    }
+
+    public Boolean getBanned() {
+        return banned;
     }
 
     public String getEmail() {
@@ -40,6 +45,10 @@ public class UserWithRolesDTO {
 
     public void setAuthorities(final List<RoleDTO> authorities) {
         this.authorities = authorities;
+    }
+
+    public void setBanned(final Boolean banned) {
+        this.banned = banned;
     }
 
     public void setEmail(final String email) {

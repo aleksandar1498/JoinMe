@@ -61,7 +61,6 @@ public class ExceptionsHandler {
     @ResponseBody
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Map<String, String> handleIllegalArgumentException(final IllegalArgumentException ex) {
-
         final Map<String, String> errors = new HashMap<>();
         errors.put("error", ex.getMessage());
         return errors;

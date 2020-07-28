@@ -64,7 +64,7 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     private boolean enabled;
 
     @Column
-    private boolean banned;
+    private Boolean banned;
 
     private boolean locked;
 
@@ -80,6 +80,11 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
+    }
+
+    @Override
+    public Boolean getBanned() {
+        return banned;
     }
 
     @Override
@@ -131,10 +136,6 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     @Override
     public boolean isAccountNonLocked() {
         return this.locked;
-    }
-
-    public boolean isBanned() {
-        return banned;
     }
 
     @Override

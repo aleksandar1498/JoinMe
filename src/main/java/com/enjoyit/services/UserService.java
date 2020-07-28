@@ -9,6 +9,11 @@ import com.enjoyit.domain.dto.UserWithRolesDTO;
 
 public interface UserService {
     /**
+     * @param username
+     */
+    void authorize(String username);
+
+    /**
      * @param userId
      * @return
      */
@@ -45,12 +50,12 @@ public interface UserService {
      */
     List<EventDTO> getInterestedEvents(String username);
 
+
     /**
      * @param username
      * @return
      */
     List<EventDTO> getJoinedEvents(String username);
-
 
     /**
      * @param name

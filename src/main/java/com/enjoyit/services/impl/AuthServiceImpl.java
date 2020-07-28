@@ -71,6 +71,9 @@ public class AuthServiceImpl implements AuthService {
         final com.enjoyit.persistence.User user = this.userRepo.findByUsername(username).orElseThrow(() -> {
             throw new IllegalArgumentException("A user with this username does not exists");
         });
+        if(Boolean.TRUE.equals(user.getBanned())) {
+            throw new IllegalArgumentException("You are not authorized to access,because you are banned");
+        }
         final Set<GrantedAuthority> auths = new HashSet<>(user.getAuthorities());
         return new User(user.getUsername(), user.getPassword(), auths);
     }

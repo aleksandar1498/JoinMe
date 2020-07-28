@@ -7,6 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public interface User extends UserDetails {
 
+    /**
+     * @return
+     */
+    Boolean getBanned();
+
     String getEmail();
 
     /**
@@ -30,7 +35,6 @@ public interface User extends UserDetails {
      * @return
      */
     String getName();
-
     /**
      * @return
      */

@@ -72,7 +72,10 @@ public class UserController {
     }
 
     @PutMapping("/roles")
-    public ResponseEntity<UserWithRolesDTO> updateRoles(@RequestBody final UserWithRolesDTO user) {
+    public ResponseEntity<UserWithRolesDTO> updateRoles(final Principal principal,@RequestBody final UserWithRolesDTO user) {
+        if(principal.getName().equals(user.getUsername())) {
+            throw new IllegalArgumentException("You are not authorised to change your own roles     ");
+        }
         return ResponseEntity.ok(this.userService.updateRoles(user));
     }
 }

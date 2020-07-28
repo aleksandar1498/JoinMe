@@ -26,6 +26,13 @@ public class AdminController {
         this.userService = userService;
     }
 
+    @PutMapping(path = "/users/authorize/{id}")
+    @ResponseBody
+    public ResponseEntity<UserDTO> authorizeUser(@PathVariable("id") final String userId) {
+        this.userService.authorize(userId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping(path = "/events/ban/{id}")
     @ResponseBody
     public ResponseEntity<EventDTO> banEvent(@PathVariable("id") final String eventId) {

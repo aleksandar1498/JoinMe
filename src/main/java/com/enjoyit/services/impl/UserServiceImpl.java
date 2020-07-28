@@ -50,6 +50,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void authorize(final String username) {
+        final JpaUser user = this.userRepo.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
+        user.setBanned(Boolean.FALSE);
+        this.userRepo.save(user);
+    }
+
+    @Override
     public void ban(final String username) {
         final JpaUser user = this.userRepo.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
