@@ -4,7 +4,8 @@ import java.util.List;
 
 public class UserWithEventsDTO extends UserDTO {
     private List<EventDTO> events;
-
+    private List<JoinEventDTO> joinedEvents;
+    private List<InterestEventDTO> interestedEvents;
     public UserWithEventsDTO() {
     }
 
@@ -22,9 +23,20 @@ public class UserWithEventsDTO extends UserDTO {
         this.events = events;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + " UserWithEventsDTO [events=" + events + "]";
+    public List<JoinEventDTO> getJoinedEvents() {
+        return joinedEvents;
+    }
+
+    public void setJoinedEvents(final List<JoinEventDTO> joinedEvents) {
+        this.joinedEvents = joinedEvents;
+    }
+
+    public List<InterestEventDTO> getInterestedEvents() {
+        return interestedEvents;
+    }
+
+    public void setInterestedEvents(final List<InterestEventDTO> interestedEvents) {
+        this.interestedEvents = interestedEvents;
     }
 
 }

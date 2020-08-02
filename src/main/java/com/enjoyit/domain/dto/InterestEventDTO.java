@@ -1,6 +1,6 @@
 package com.enjoyit.domain.dto;
 
-public class UserEventDTO {
+public class InterestEventDTO {
     /**
      *
      */
@@ -10,12 +10,10 @@ public class UserEventDTO {
      */
     private EventDTO event;
 
-    public UserEventDTO() {
-       this.user = null;
-       this.event = null;
+    public InterestEventDTO() {
     }
 
-    public UserEventDTO(final UserDTO user, final EventDTO event) {
+    public InterestEventDTO(final UserDTO user, final EventDTO event) {
         this.user = user;
         this.event = event;
     }
@@ -35,7 +33,4 @@ public class UserEventDTO {
     public void setUser(final UserDTO user) {
         this.user = user;
     }
-
-
-
 }

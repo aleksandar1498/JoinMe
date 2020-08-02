@@ -23,6 +23,7 @@ public class SchedulerConfig {
     @Scheduled(cron = "0 0 0 * * *")
     public void cancelExpiredEvents() {
         final int affectedRows = this.eventService.cleanUpExpiredEvents();
+        System.err.println(affectedRows);
         logService.info(String.format("Clean up of expired events performed at %s , entities affected %d",
                 LocalDateTime.now(), affectedRows));
     }

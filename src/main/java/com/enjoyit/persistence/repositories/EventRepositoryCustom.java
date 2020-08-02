@@ -32,13 +32,6 @@ public interface EventRepositoryCustom {
      */
     List<JpaEvent> getEventsNotBelongingTo(String username);
 
-
-    /**
-     * @param username
-     * @return
-     */
-    List<JpaEvent> getJoinedEvents(String username);
-
     /**
      * @param user
      * @param event

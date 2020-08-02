@@ -55,15 +55,11 @@ public interface EventService {
     EventDTO getEventById(String id);
 
     /**
-     * @param location
-     * @return
-     */
-    List<EventDTO> getEventByLocation(String location);
-
-    /**
      * @param owner
      * @return
      */
     List<EventDTO> getEventByOwner(String owner);
+
+    List<EventDTO> getEventByLocation(String locationId);
 
 }

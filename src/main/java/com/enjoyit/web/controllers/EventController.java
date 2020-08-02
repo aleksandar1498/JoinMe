@@ -94,6 +94,7 @@ public class EventController {
      */
     @GetMapping("/user")
     public  ResponseEntity<List<EventDTO>> getAllEventsByOwnerUsername(final Principal principal) {
+        System.out.println(principal.getName());
         return ResponseEntity.ok(this.eventService.getEventByOwner(principal.getName()));
     }
 

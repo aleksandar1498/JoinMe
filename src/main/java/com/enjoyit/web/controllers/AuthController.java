@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.enjoyit.domain.dto.LoggedInUserDTO;
-import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserLoginDTO;
 import com.enjoyit.domain.dto.UserRegisterDTO;
+import com.enjoyit.domain.dto.UserWithRolesDTO;
 import com.enjoyit.services.AuthService;
 
 @RestController
@@ -42,9 +42,9 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<UserDTO> registerUser(@Validated @RequestBody final UserRegisterDTO user,
+    public ResponseEntity<UserWithRolesDTO> registerUser(@Validated @RequestBody final UserRegisterDTO user,
             final UriComponentsBuilder ucBuilder) {
-        final UserDTO registered = this.userService.register(user);
+        final UserWithRolesDTO registered = this.userService.register(user);
         return ResponseEntity.created(ucBuilder.path("/users/{id)").buildAndExpand(registered.getId()).toUri()).build();
     }
 

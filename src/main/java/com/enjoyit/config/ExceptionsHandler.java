@@ -3,6 +3,7 @@ package com.enjoyit.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
@@ -28,16 +29,18 @@ public class ExceptionsHandler {
 
     @ResponseBody
     @ExceptionHandler(value = AuthenticationException.class)
-    public ResponseEntity<String> handleAuthenticationException(final AuthenticationException ex) {
+    public ResponseEntity<Map<String, String>> handleAuthenticationException(final AuthenticationException ex) {
+        final Map<String, String> errors = new HashMap<>();
         if (ex instanceof DisabledException) {
-            return new ResponseEntity<String>(MsgServiceResponse.ACCOUNT_IS_DISABLED.toString(),
-                    HttpStatus.UNAUTHORIZED);
+            errors.put("error",MsgServiceResponse.ACCOUNT_IS_DISABLED.toString());
         } else if (ex instanceof LockedException) {
-            return new ResponseEntity<String>(MsgServiceResponse.ACCOUNT_IS_LOCKED.toString(), HttpStatus.UNAUTHORIZED);
+            errors.put("error",MsgServiceResponse.ACCOUNT_IS_LOCKED.toString());
         } else {
-            return new ResponseEntity<String>(MsgServiceResponse.AUTHENTICATION_FAILED.toString(),
-                    HttpStatus.UNAUTHORIZED);
+            errors.put("error",MsgServiceResponse.AUTHENTICATION_FAILED.toString());
+
         }
+
+        return new ResponseEntity<Map<String, String>>(errors,HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -101,6 +104,16 @@ public class ExceptionsHandler {
             return errors;
         }
         errors.put("Persistence Failed", "Please contact the administrator");
+        return errors;
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public Map<String, String> handleEntityNotFoundException(final EntityNotFoundException ex) {
+        final Map<String, String> errors = new HashMap<>();
+        errors.put("error", ex.getMessage());
         return errors;
     }
 

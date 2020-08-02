@@ -4,17 +4,29 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.enjoyit.enums.LoggerLevel;
 
 @Entity
 @Table(name = "logs")
-public class JpaLog extends BaseEntity {
+public class JpaLog {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+            )
+    private String id;
+
     @Enumerated(EnumType.STRING)
     private LoggerLevel logLevel;
 
-    @Column(columnDefinition = "TEXT")
+    @Column
     private String message;
 
     public JpaLog() {

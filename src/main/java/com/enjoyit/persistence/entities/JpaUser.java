@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class JpaUser extends BaseEntity implements UserDetails, User {
 
+
     @Column(name = "username")
     private String username;
 
@@ -52,13 +53,13 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = JpaRole.class)
     @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private Set<Role> authorities;
 
-    @OneToMany(mappedBy = "user", targetEntity = JpaUserJoinEvent.class, cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "user", targetEntity = JpaUserJoinEvent.class, cascade = CascadeType.ALL)
     private List<EventUser> joinedEvents;
 
-    @OneToMany(mappedBy = "user", targetEntity = JpaUserInterestEvent.class, cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "user", targetEntity = JpaUserInterestEvent.class, cascade = CascadeType.ALL)
     private List<EventUser> interestedEvents;
 
     private boolean enabled;
@@ -74,6 +75,15 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
 
     public JpaUser() {
         // needed by JPA
+    }
+
+    public JpaUser(final String username, final String name, final String surname, final String email,
+            final Boolean banned) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.banned = banned;
     }
 
     @Override
@@ -170,7 +180,7 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     }
 
     public void setBanned(final Boolean state) {
-      this.banned = state;
+        this.banned = state;
     }
 
     public void setEmail(final String email) {
@@ -219,13 +229,6 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
 
     public void setUsername(final String username) {
         this.username = username;
-    }
-
-    @Override
-    public String toString() {
-        return "JpaUser [id=" + this.getId() + ", username=" + username + ", password=" + password + ", " + ", authorities="
-                + authorities + ", enabled=" + enabled + ", locked=" + locked + ", expired=" + expired
-                + ", expiredCredentials=" + expiredCredentials + "]";
     }
 
 

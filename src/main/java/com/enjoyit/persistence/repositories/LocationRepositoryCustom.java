@@ -4,5 +4,5 @@ public interface LocationRepositoryCustom {
     /**
      * @param id
      */
-    void deleteById(String id);
+    void delete(String id);
 }

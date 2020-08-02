@@ -1,24 +1,36 @@
 package com.enjoyit.domain.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class JoinEventDTO {
-    private List<UserDTO> users;
+    /**
+     *
+     */
+    private UserDTO user;
+    /**
+     *
+     */
+    private EventDTO event;
 
     public JoinEventDTO() {
-        this.users = new ArrayList<UserDTO>();
-        // TODO Auto-generated constructor stub
     }
 
-    public List<UserDTO> getUsers() {
-        return users;
+    public JoinEventDTO(final UserDTO user, final EventDTO event) {
+        this.user = user;
+        this.event = event;
     }
 
-    public void setUsers(final List<UserDTO> users) {
-        this.users = users;
+    public EventDTO getEvent() {
+        return event;
     }
 
+    public UserDTO getUser() {
+        return user;
+    }
 
+    public void setEvent(final EventDTO event) {
+        this.event = event;
+    }
 
+    public void setUser(final UserDTO user) {
+        this.user = user;
+    }
 }

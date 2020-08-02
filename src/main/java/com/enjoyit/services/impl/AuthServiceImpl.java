@@ -3,6 +3,8 @@ package com.enjoyit.services.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,9 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.enjoyit.domain.dto.LoggedInUserDTO;
-import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserLoginDTO;
 import com.enjoyit.domain.dto.UserRegisterDTO;
+import com.enjoyit.domain.dto.UserWithRolesDTO;
 import com.enjoyit.enums.MsgServiceResponse;
 import com.enjoyit.enums.UserRoles;
 import com.enjoyit.persistence.Role;
@@ -31,6 +33,7 @@ import com.enjoyit.utils.JwtTokenUtil;
 import com.enjoyit.utils.ObjectMapper;
 
 @Service
+@Transactional
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepo;
@@ -89,17 +92,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDTO register(@Validated final UserRegisterDTO user) {
+    public UserWithRolesDTO register(@Validated final UserRegisterDTO user) {
 
         if (userRepo.findByUsername(user.getUsername()).isPresent()) {
             throw new IllegalArgumentException(MsgServiceResponse.USER_USERNAME_ALREADY_EXIST.toString());
         }
-
         final JpaUser userToPersist = ObjectMapper.map(user, JpaUser.class);
         userToPersist.setAuthorities(getRolesForRegistration(user));
         userToPersist.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 
-        return ObjectMapper.map(this.userRepo.save(userToPersist), UserDTO.class);
+        return ObjectMapper.map(this.userRepo.save(userToPersist), UserWithRolesDTO.class);
     }
 
 }

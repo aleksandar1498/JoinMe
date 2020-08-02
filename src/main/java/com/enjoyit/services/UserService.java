@@ -3,7 +3,8 @@ package com.enjoyit.services;
 import java.util.List;
 
 import com.enjoyit.domain.dto.EventDTO;
-import com.enjoyit.domain.dto.UserEventDTO;
+import com.enjoyit.domain.dto.InterestEventDTO;
+import com.enjoyit.domain.dto.JoinEventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.domain.dto.UserWithRolesDTO;
 
@@ -62,14 +63,14 @@ public interface UserService {
      * @param parseInt
      * @return
      */
-    UserEventDTO interestEvent(String username, String eventId);
+    InterestEventDTO interestEvent(String username, String eventId);
 
     /**
      * @param username
      * @param id
      * @return
      */
-    UserEventDTO joinEvent(String username, String id);
+    JoinEventDTO joinEvent(String username, String id);
 
     /**
      * @param user

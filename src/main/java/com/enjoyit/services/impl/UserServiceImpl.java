@@ -6,13 +6,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.enjoyit.domain.dto.EventDTO;
+import com.enjoyit.domain.dto.InterestEventDTO;
+import com.enjoyit.domain.dto.JoinEventDTO;
 import com.enjoyit.domain.dto.RoleDTO;
-import com.enjoyit.domain.dto.UserEventDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.domain.dto.UserWithRolesDTO;
 import com.enjoyit.persistence.Event;
@@ -30,6 +32,7 @@ import com.enjoyit.utils.ObjectMapper;
  * @author AStefanov
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
@@ -97,6 +100,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<EventDTO> getInterestedEvents(final String username) {
         return this.userRepo.findByUsername(username).map(u -> {
+            System.out.println(u.getInterestedEvents()+" interested");
             return ObjectMapper.mapAll(
                     u.getInterestedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()),
                     EventDTO.class);
@@ -112,28 +116,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEventDTO interestEvent(final String username, final String eventId) {
+    public InterestEventDTO interestEvent(final String username, final String eventId) {
         final User user = this.userRepo.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
         final Event event = this.eventRepository.findById(eventId)
                 .orElseThrow(() -> new EntityNotFoundException("An event with this username does not exist"));
-        return ObjectMapper.map(eventRepository.interestEvent(user, event), UserEventDTO.class);
+        return ObjectMapper.map(eventRepository.interestEvent(user, event), InterestEventDTO.class);
     }
 
     @Override
-    public UserEventDTO joinEvent(final String username, final String eventId) {
+    public JoinEventDTO joinEvent(final String username, final String eventId) {
         final User user = this.userRepo.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("An user with this username does not exist"));
         final Event event = this.eventRepository.findById(eventId)
                 .orElseThrow(() -> new EntityNotFoundException("An event with this username does not exist"));
-        return ObjectMapper.map(eventRepository.joinEvent(user, event), UserEventDTO.class);
-    }
-
-    private Set<Role> mapToJpaRoleSet(final List<RoleDTO> roles) {
-        final Set<Role> authorities = new HashSet<Role>();
-        roles.forEach(r -> authorities.add(this.roleRepo.findByAuthority(r.getAuthority())));
-
-        return authorities;
+        return ObjectMapper.map(eventRepository.joinEvent(user, event), JoinEventDTO.class);
     }
 
     @Override
@@ -143,4 +140,13 @@ public class UserServiceImpl implements UserService {
         user.setAuthorities(mapToJpaRoleSet(userWithRoles.getAuthorities()));
         return ObjectMapper.map(this.userRepo.save(user), UserWithRolesDTO.class);
     }
+
+
+    private Set<Role> mapToJpaRoleSet(final List<RoleDTO> roles) {
+        final Set<Role> authorities = new HashSet<Role>();
+        roles.forEach(r -> authorities.add(this.roleRepo.findByAuthority(r.getAuthority())));
+
+        return authorities;
+    }
+
 }

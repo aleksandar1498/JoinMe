@@ -1,7 +1,6 @@
 package com.enjoyit.domain.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.enjoyit.enums.EventCategory;
@@ -17,64 +16,20 @@ public class EventDTO {
     private UserDTO owner;
     private Boolean cancelled;
     private Boolean banned;
-    private List<JoinUserDTO> joinedUsers = new ArrayList<JoinUserDTO>();
-    private List<JoinUserDTO> interestedUsers = new ArrayList<JoinUserDTO>();
+    private List<JoinUserDTO> joinedUsers;
+    private List<JoinUserDTO> interestedUsers;
 
     public EventDTO() {
     }
 
-    /**
-     * @param id
-     * @param title
-     * @param location
-     * @param startDate
-     * @param endDate
-     * @param description
-     * @param cancelled
-     * @param joinedUsers
-     * @param interestedUsers
-     */
-    public EventDTO(final String id, final String title, final LocationDTO location, final LocalDateTime startDate,
-            final LocalDateTime endDate, final String description, final Boolean cancelled,
-            final List<JoinUserDTO> joinedUsers, final List<JoinUserDTO> interestedUsers) {
+
+    public EventDTO(final String title, final LocationDTO location, final String description, final EventCategory category) {
         this.title = title;
         this.location = location;
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.id = id;
-        this.owner = null;
-        this.joinedUsers = joinedUsers;
-        this.cancelled = cancelled;
-        this.interestedUsers = interestedUsers;
+        this.category = category;
     }
 
-    /**
-     * @param id
-     * @param title
-     * @param location
-     * @param startDate
-     * @param endDate
-     * @param owner
-     * @param description
-     * @param cancelled
-     * @param joinedUsers
-     * @param interestedUsers
-     */
-    public EventDTO(final String id, final String title, final LocationDTO location, final LocalDateTime startDate,
-            final LocalDateTime endDate, final UserDTO owner, final String description, final Boolean cancelled,
-            final List<JoinUserDTO> joinedUsers, final List<JoinUserDTO> interestedUsers) {
-        this.title = title;
-        this.location = location;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.id = id;
-        this.owner = owner;
-        this.joinedUsers = joinedUsers;
-        this.cancelled = cancelled;
-        this.interestedUsers = interestedUsers;
-    }
 
     public Boolean getBanned() {
         return banned;
@@ -172,10 +127,5 @@ public class EventDTO {
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "EventDTO [id=" + id + ", title=" + this.getTitle() + ", owner=" + owner + ", joinedUsers=" + joinedUsers
-                + ", interestedUsers=" + interestedUsers + "]";
-    }
 
 }

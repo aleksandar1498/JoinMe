@@ -1,19 +1,20 @@
 package com.enjoyit.services;
 
+import com.enjoyit.domain.dto.LogDTO;
 import com.enjoyit.enums.LoggerLevel;
 
 public interface LoggingService {
-    void debug(String logMessage);
+    LogDTO debug(String logMessage);
 
-    void error(String logMessage);
+    LogDTO error(String logMessage);
 
-    void fatal(String logMessage);
+    LogDTO fatal(String logMessage);
 
-    void info(String logMessage);
+    LogDTO info(String logMessage);
 
-    void log(LoggerLevel level, String logMessage);
+    LogDTO log(LoggerLevel level, String logMessage);
 
-    void trace(String logMessage);
+    LogDTO trace(String logMessage);
 
-    void warn(String logMessage);
+    LogDTO warn(String logMessage);
 }

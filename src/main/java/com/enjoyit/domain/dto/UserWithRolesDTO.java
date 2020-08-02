@@ -11,6 +11,16 @@ public class UserWithRolesDTO {
     private Boolean banned;
     private List<RoleDTO> authorities;
 
+    
+    public UserWithRolesDTO(String id, String username, String name, String surname, String email, Boolean banned) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.banned = banned;
+    }
+
     public UserWithRolesDTO() {
         // TODO Auto-generated constructor stub
     }

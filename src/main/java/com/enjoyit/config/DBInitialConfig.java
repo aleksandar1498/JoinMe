@@ -21,6 +21,7 @@ public class DBInitialConfig implements CommandLineRunner {
 
     @Autowired
     private LocationRepository locationRepository;
+
     @Override
     public void run(final String... args) throws Exception {
         if (this.roleRepository.count() == 0) {
@@ -36,7 +37,6 @@ public class DBInitialConfig implements CommandLineRunner {
             this.locationRepository.save(new JpaLocation("Pirin Planina 8", "Targovishte", LocationCategory.OTHER));
             this.locationRepository.save(new JpaLocation("Zapad 2 Blok 40", "Targovishte", LocationCategory.NIGHT_CLUB));
         }
-
     }
 
 }

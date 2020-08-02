@@ -17,6 +17,16 @@ public class LocationDTO {
     public LocationDTO() {
     }
 
+    public LocationDTO(final String id) {
+        this.id = id;
+    }
+
+    public LocationDTO(final String city, final String address, final LocationCategory locationCategory) {
+        this.city = city;
+        this.address = address;
+        this.locationCategory = locationCategory;
+    }
+
     public LocationDTO(final String id, final String city, final String address,
             final LocationCategory locationCategory) {
         this.id = id;
@@ -41,6 +51,17 @@ public class LocationDTO {
         return locationCategory;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((locationCategory == null) ? 0 : locationCategory.hashCode());
+        return result;
+    }
+
     public void setAddress(final String address) {
         this.address = address;
     }
@@ -57,10 +78,5 @@ public class LocationDTO {
         this.locationCategory = locationCategory;
     }
 
-    @Override
-    public String toString() {
-        return "LocationDTO [id=" + id + ", city=" + city + ", address=" + address + ", locationCategory="
-                + locationCategory + "]";
-    }
 
 }

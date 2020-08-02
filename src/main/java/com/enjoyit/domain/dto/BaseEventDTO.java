@@ -38,12 +38,13 @@ public class BaseEventDTO {
      * @param endDate
      */
     public BaseEventDTO(final String title, final LocationDTO location, final String description,
-            final LocalDateTime startDate, final LocalDateTime endDate) {
+            final LocalDateTime startDate, final LocalDateTime endDate,final EventCategory category) {
         this.title = title;
         this.location = location;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.category = category;
     }
 
     public EventCategory getCategory() {
@@ -68,6 +69,32 @@ public class BaseEventDTO {
 
     public String getTitle() {
         return title;
+    }
+
+
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+    public void setLocation(final LocationDTO location) {
+        this.location = location;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public void setCategory(final EventCategory category) {
+        this.category = category;
+    }
+
+    public void setStartDate(final LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(final LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     @Override

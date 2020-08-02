@@ -35,12 +35,14 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     public void disinterestEvent(final User user, final Event event) {
         final EventUser interestToRemove = this.entityManager.find(JpaUserInterestEvent.class, new UserInterestEventKey(user.getId(), event.getId()));
         this.entityManager.remove(interestToRemove);
+        this.entityManager.flush();
     }
 
     @Override
     public void disjoinEvent(final User user, final Event event) {
         final EventUser joinToRemove = this.entityManager.find(JpaUserJoinEvent.class, new UserJoinEventKey(user.getId(), event.getId()));
         this.entityManager.remove(joinToRemove);
+        this.entityManager.flush();
     }
 
     @Override
@@ -49,16 +51,14 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                 .setParameter("username", username).getResultList();
     }
 
-    @Override
-    public List<JpaEvent> getJoinedEvents(final String username) {
-        return this.entityManager.createNamedQuery(JpaUserJoinEvent.EVENTS_BY_USER_USERNAME, JpaEvent.class)
-                .setParameter("username", username).getResultList();
-    }
 
     @Override
     public EventUser interestEvent(final User user, final Event event) {
         final EventUser interest = new JpaUserInterestEvent(user, event);
+        System.out.println(interest);
         this.entityManager.persist(interest);
+        this.entityManager.flush();
+
         return interest;
     }
 
@@ -66,6 +66,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     public EventUser joinEvent(final User user, final Event event) {
         final JpaUserJoinEvent join = new JpaUserJoinEvent(user, event);
         this.entityManager.persist(join);
+        this.entityManager.flush();
         return join;
     }
 }

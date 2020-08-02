@@ -8,25 +8,38 @@ import com.enjoyit.common.validators.PasswordMatchingValidator;
 @PasswordMatchingValidator
 public class UserRegisterDTO {
     @NotEmpty(message = "*username cannot be empty")
-    private final String username;
+    private String username;
 
     @NotEmpty(message = "*name cannot be empty")
-    private final String name;
+    private String name;
 
     @NotEmpty(message = "*surname cannot be empty")
-    private final String surname;
+    private String surname;
 
     @NotEmpty(message = "*email cannot be empty")
     @Email(message = "*email should be in valid format")
-    private final String email;
+    private String email;
 
     @NotEmpty(message = "*password cannot be empty")
-    private final String password;
+    private String password;
 
     @NotEmpty(message = "*confirmPassword cannot be empty")
-    private final String confirmPassword;
+    private String confirmPassword;
 
-    private final Boolean organizer;
+    private Boolean organizer;
+
+    public UserRegisterDTO() {
+
+    }
+    public UserRegisterDTO(final String username, final String name, final String surname, final String email,
+            final String password, final String confirmPassword) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
 
     public UserRegisterDTO(final String username, final String name, final String surname, final String email,
             final String password, final String confirmPassword, final Boolean organizer) {

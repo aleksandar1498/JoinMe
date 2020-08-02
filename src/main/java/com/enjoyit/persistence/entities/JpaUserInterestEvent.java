@@ -18,9 +18,6 @@ public class JpaUserInterestEvent implements EventUser{
     @EmbeddedId
     private UserInterestEventKey id;
 
-
-
-
     @ManyToOne(targetEntity = JpaUser.class)
     @MapsId("user_id")
     @JoinColumn(name = "user_id")

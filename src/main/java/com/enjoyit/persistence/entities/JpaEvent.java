@@ -3,6 +3,7 @@ package com.enjoyit.persistence.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,7 +26,7 @@ import com.enjoyit.persistence.User;
 @Entity
 @Table(name = "events")
 @NamedQuery(name = JpaEvent.EVENTS_NOT_BELONGING_TO_USERNAME,
-        query = "SELECT e FROM JpaEvent e  WHERE e.owner.username <> :username")
+query = "SELECT e FROM JpaEvent e  WHERE e.owner.username <> :username")
 @NamedQuery(name = JpaEvent.CLEAR_EXPIRED,
 query = "UPDATE JpaEvent e SET e.cancelled = 1 WHERE e.endDate < now() AND e.cancelled = 0")
 
@@ -34,12 +35,11 @@ public class JpaEvent extends BaseEntity implements Event {
 
     public static final String CLEAR_EXPIRED = "clearExpired";
 
-
     @Column
     @NotEmpty(message = "Title cannot be empty")
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaLocation.class)
+    @ManyToOne(targetEntity = JpaLocation.class)
     private Location location;
 
     @Column
@@ -48,12 +48,10 @@ public class JpaEvent extends BaseEntity implements Event {
 
     @Column
     @NotNull(message = "StartDate cannot be null")
-    @FutureOrPresent(message = "StartDate cannot be in the past")
     private LocalDateTime startDate;
 
     @Column
     @NotNull(message = "EndDate cannot be null")
-    @FutureOrPresent(message = "EndDate cannot be in the past")
     private LocalDateTime endDate;
 
     @Column
@@ -69,36 +67,33 @@ public class JpaEvent extends BaseEntity implements Event {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = JpaUser.class)
     private User owner;
 
-    @OneToMany(mappedBy = "event", targetEntity = JpaUserJoinEvent.class)
+    @OneToMany(mappedBy = "event", targetEntity = JpaUserJoinEvent.class, cascade = CascadeType.ALL)
     private List<EventUser> joinedUsers;
 
-    @OneToMany(mappedBy = "event", targetEntity = JpaUserInterestEvent.class)
+    @OneToMany(mappedBy = "event", targetEntity = JpaUserInterestEvent.class, cascade = CascadeType.ALL)
     private List<EventUser> interestedUsers;
 
     public JpaEvent() {
         // Needed by JPA
     }
 
-    public JpaEvent(final String title, final Location location, final LocalDateTime startDate,
-            final LocalDateTime endDate, final EventCategory category, final String description) {
-        this.title = title;
-        this.location = location;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.category = category;
-        this.description = description;
-        this.owner = null;
-    }
+    public JpaEvent(@NotEmpty(message = "Title cannot be empty") final String title, final Location location,
+            @NotEmpty(message = "Description cannot be empty") final String description,
+            @NotNull(message = "StartDate cannot be null") @FutureOrPresent(
+                    message = "StartDate cannot be in the past") final LocalDateTime startDate,
+            @NotNull(message = "EndDate cannot be null") @FutureOrPresent(
+                    message = "EndDate cannot be in the past") final LocalDateTime endDate,
+            final Boolean cancelled, final Boolean banned, @NotNull final EventCategory category, final User owner) {
 
-    public JpaEvent(final String title, final Location location, final LocalDateTime startDate,
-            final LocalDateTime endDate, final User owner, final EventCategory category, final String description) {
         this.title = title;
         this.location = location;
+        this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.owner = owner;
-        this.description = description;
+        this.cancelled = cancelled;
+        this.banned = banned;
         this.category = category;
+        this.owner = owner;
     }
 
     @Override
@@ -137,7 +132,7 @@ public class JpaEvent extends BaseEntity implements Event {
 
     @Override
     public Location getLocation() {
-        return location;
+        return this.location;
     }
 
     @Override
@@ -160,7 +155,7 @@ public class JpaEvent extends BaseEntity implements Event {
         this.banned = banned;
     }
 
-
+    @Override
     public void setCancelled(final Boolean cancelled) {
         this.cancelled = cancelled;
     }
@@ -202,10 +197,5 @@ public class JpaEvent extends BaseEntity implements Event {
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "JpaEvent [id=" + this.getId() + ", title=" + title + ", location=" + location + ", description="
-                + description + ", startDate=" + startDate + ", endDate=" + endDate + ", cancelled=" + cancelled + "]";
-    }
 
 }

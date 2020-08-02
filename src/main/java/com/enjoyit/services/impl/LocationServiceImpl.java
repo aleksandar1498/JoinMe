@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,6 +19,7 @@ import com.enjoyit.utils.ObjectMapper;
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepo;
 
+    @Autowired
     public LocationServiceImpl(final LocationRepository locationRepo) {
         this.locationRepo = locationRepo;
     }
@@ -30,7 +32,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void delete(final String id) {
-        this.locationRepo.deleteById(id);
+        this.locationRepo.delete(id);
     }
 
     @Override

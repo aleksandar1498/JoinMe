@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.enjoyit.persistence.Event;
+import com.enjoyit.persistence.Location;
 import com.enjoyit.persistence.entities.JpaEvent;
 
 @Repository
@@ -24,7 +25,7 @@ public interface EventRepository extends JpaRepository<JpaEvent, String>, EventR
      * @return a List of events in the specified location , otherwise returns an
      *         empty List
      */
-    List<Event> findByLocation(String location);
+    List<Event> findByLocation(Location location);
 
     /**
      * @param username
