@@ -6,6 +6,7 @@ import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
 import com.enjoyit.persistence.User;
 import com.enjoyit.persistence.entities.JpaEvent;
+import com.enjoyit.persistence.entities.stats.UserEventStatistic;
 
 public interface EventRepositoryCustom {
 
@@ -45,4 +46,7 @@ public interface EventRepositoryCustom {
      * @return
      */
     EventUser joinEvent(User user, Event event);
+
+
+    List<UserEventStatistic> getEventsStatistic(String userId);
 }

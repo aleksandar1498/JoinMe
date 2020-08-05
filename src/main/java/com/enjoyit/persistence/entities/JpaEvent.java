@@ -29,12 +29,15 @@ import com.enjoyit.persistence.User;
 query = "SELECT e FROM JpaEvent e  WHERE e.owner.username <> :username")
 @NamedQuery(name = JpaEvent.CLEAR_EXPIRED,
 query = "UPDATE JpaEvent e SET e.cancelled = 1 WHERE e.endDate < now() AND e.cancelled = 0")
-
+@NamedQuery(name = JpaEvent.EVENTS_FOR_USER_STATISTIC,
+query = "SELECT new com.enjoyit.persistence.entities.stats.UserEventStatistic(YEAR(e.startDate),MONTHNAME(e.startDate),COUNT(DISTINCT e.id)) FROM JpaEvent e WHERE e.owner.id=:id GROUP BY YEAR(e.startDate),MONTH(e.startDate) ORDER BY YEAR(e.startDate),MONTH(e.startDate) ASC ")
 public class JpaEvent extends BaseEntity implements Event {
+
     public static final String EVENTS_NOT_BELONGING_TO_USERNAME = "eventsNotBelongingTo";
 
     public static final String CLEAR_EXPIRED = "clearExpired";
 
+    public static final String EVENTS_FOR_USER_STATISTIC = "eventsStatistic";
     @Column
     @NotEmpty(message = "Title cannot be empty")
     private String title;

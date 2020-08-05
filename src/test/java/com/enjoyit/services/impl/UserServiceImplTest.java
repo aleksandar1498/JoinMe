@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CompletionException;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -16,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.enjoyit.domain.dto.EventDTO;
+import com.enjoyit.domain.dto.InterestEventDTO;
+import com.enjoyit.domain.dto.JoinEventDTO;
 import com.enjoyit.domain.dto.RoleDTO;
-import com.enjoyit.domain.dto.UserEventDTO;
+import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.domain.dto.UserWithRolesDTO;
 import com.enjoyit.enums.EventCategory;
@@ -28,6 +31,7 @@ import com.enjoyit.persistence.entities.JpaLocation;
 import com.enjoyit.persistence.entities.JpaUser;
 import com.enjoyit.persistence.repositories.EventRepository;
 import com.enjoyit.persistence.repositories.LocationRepository;
+import com.enjoyit.persistence.repositories.NotificationRepository;
 import com.enjoyit.persistence.repositories.UserRepository;
 import com.enjoyit.services.UserService;
 
@@ -45,6 +49,9 @@ class UserServiceImplTest {
 
     @Autowired
     private LocationRepository locationRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @BeforeEach
     public void setUp() {
@@ -120,24 +127,24 @@ class UserServiceImplTest {
 
     @Test
     public void updateRolesMustSubstituteTheCurrentIfTheUserExists() {
-        this.userRepository
-        .save(new JpaUser("alex999", "Aleksandar", "Stefanov", "aleksandar@gmail.com", Boolean.FALSE));
 
-        final UserWithRolesDTO updated = new UserWithRolesDTO("U0001", "alex999", "Aleksandar", "Stefanov",
+        final UserWithRolesDTO updated = new UserWithRolesDTO("U0001", "alex123", "Aleksandar", "Stefanov",
                 "aleksandar@gmail.com", Boolean.FALSE);
         updated.setAuthorities(List.of(new RoleDTO(UserRoles.ORGANIZER), new RoleDTO(UserRoles.USER)));
-        final UserWithRolesDTO actual = this.userService.updateRoles(updated);
+        final UserDTO actual = this.userService.updateRoles(updated).join();
+        this.notificationRepository.deleteAll();
         assertTrue(actual.getUsername().equals(updated.getUsername()));
     }
 
     @Test
     public void updateRolesMustThrowTheUserDoesNotExist() {
 
-        final UserWithRolesDTO updated = new UserWithRolesDTO("U0001", "alex999", "Aleksandar", "Stefanov",
+        final UserWithRolesDTO updated = new UserWithRolesDTO("U0099", "alex929", "Aleksandar", "Stefanov",
                 "aleksandar@gmail.com", Boolean.FALSE);
+        System.out.println(updated);
         updated.setAuthorities(List.of(new RoleDTO(UserRoles.ORGANIZER), new RoleDTO(UserRoles.USER)));
-        assertThrows(EntityNotFoundException.class,() -> {
-            this.userService.updateRoles(updated);
+        assertThrows(CompletionException.class,() -> {
+            this.userService.updateRoles(updated).join();
         });
     }
 
@@ -159,7 +166,7 @@ class UserServiceImplTest {
     public void joinEventMustReturnExpectedIfBothUserAndEventExists() {
         final String expectedEventId = this.eventRepository.findByOwnerUsername("fani123").get(0).getId();
 
-        final UserEventDTO join = this.userService.joinEvent("alex123", expectedEventId);
+        final JoinEventDTO join = this.userService.joinEvent("alex123", expectedEventId);
         assertEquals("alex123", join.getUser().getUsername());
         assertEquals(expectedEventId, join.getEvent().getId());
     }
@@ -168,7 +175,7 @@ class UserServiceImplTest {
     public void interestEventMustReturnExpectedIfBothUserAndEventExists() {
         final String expectedEventId = this.eventRepository.findByOwnerUsername("fani123").get(0).getId();
 
-        final UserEventDTO interest = this.userService.interestEvent("alex123", expectedEventId);
+        final InterestEventDTO interest = this.userService.interestEvent("alex123", expectedEventId);
         assertEquals("alex123", interest.getUser().getUsername());
         assertEquals(expectedEventId, interest.getEvent().getId());
     }

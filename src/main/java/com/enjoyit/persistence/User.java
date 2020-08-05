@@ -47,4 +47,6 @@ public interface User extends UserDetails {
      * @param roles
      */
     void setAuthorities(Set<Role> roles);
+
+    List<Notification> getNotifications();
 }

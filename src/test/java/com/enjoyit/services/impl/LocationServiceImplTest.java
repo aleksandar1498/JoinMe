@@ -67,7 +67,7 @@ class LocationServiceImplTest {
         final LocationDTO location = this.locationService
                 .create(new LocationDTO("Balchik", "No", LocationCategory.MUSEUM));
         assertThat(location.getCity().equals("Balchik"));
-        assertThat(location.getAddress().equals("No"));
+        assertThat(location.getName().equals("No"));
         assertThat(location.getLocationCategory().equals(LocationCategory.MUSEUM));
     }
 
@@ -83,10 +83,10 @@ class LocationServiceImplTest {
 
         final LocationDTO location = this.locationService
                 .create(new LocationDTO("Balchik", "No", LocationCategory.MUSEUM));
-        location.setAddress("New Address");
+        location.setName("New Address");
         final LocationDTO updated = this.locationService.update(location.getId(), location);
 
-        assertThat(updated.getAddress().equals("New Address"));
+        assertThat(updated.getName().equals("New Address"));
     }
 
     @Test

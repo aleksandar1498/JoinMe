@@ -8,7 +8,7 @@ public interface Location {
     /**
      * @return
      */
-    String getAddress();
+    String getName();
 
     /**
      * @return

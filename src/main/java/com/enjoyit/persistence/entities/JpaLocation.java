@@ -28,8 +28,8 @@ public class JpaLocation extends BaseEntity implements Location {
 
 
     @Column
-    @NotEmpty(message = "Address cannot be empty")
-    private String address;
+    @NotEmpty(message = "Name cannot be empty")
+    private String name;
 
     @Column
     @NotEmpty(message = "City cannot be empty")
@@ -45,15 +45,15 @@ public class JpaLocation extends BaseEntity implements Location {
     public JpaLocation() {
     }
 
-    public JpaLocation(final String address, final String city, final LocationCategory locationCategory) {
-        this.address = address;
+    public JpaLocation(final String name, final String city, final LocationCategory locationCategory) {
+        this.name = name;
         this.city = city;
         this.locationCategory = locationCategory;
     }
 
     @Override
-    public String getAddress() {
-        return this.address;
+    public String getName() {
+        return this.name;
     }
 
     @Override
@@ -71,8 +71,8 @@ public class JpaLocation extends BaseEntity implements Location {
         return this.locationCategory;
     }
 
-    public void setAddress(final String address) {
-        this.address = address;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public void setCity(final String city) {

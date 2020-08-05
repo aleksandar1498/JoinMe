@@ -16,6 +16,7 @@ import com.enjoyit.persistence.composite.UserJoinEventKey;
 import com.enjoyit.persistence.entities.JpaEvent;
 import com.enjoyit.persistence.entities.JpaUserInterestEvent;
 import com.enjoyit.persistence.entities.JpaUserJoinEvent;
+import com.enjoyit.persistence.entities.stats.UserEventStatistic;
 import com.enjoyit.persistence.repositories.EventRepositoryCustom;
 
 @Repository
@@ -68,5 +69,10 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
         this.entityManager.persist(join);
         this.entityManager.flush();
         return join;
+    }
+
+    @Override
+    public List<UserEventStatistic> getEventsStatistic(final String id) {
+        return this.entityManager.createNamedQuery(JpaEvent.EVENTS_FOR_USER_STATISTIC).setParameter("id",id).getResultList();
     }
 }

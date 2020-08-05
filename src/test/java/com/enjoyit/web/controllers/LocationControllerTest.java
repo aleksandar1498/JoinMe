@@ -97,7 +97,7 @@ class LocationControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/locations").contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(INVALID_LOCATION))).andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.address").value("*Address cannot be empty"))
+        .andExpect(jsonPath("$.name").value("*Name cannot be empty"))
         .andExpect(jsonPath("$.city").value("*City cannot be empty"))
         .andExpect(jsonPath("$.locationCategory").value("*Location Category cannot be not set"));
     }
@@ -122,7 +122,7 @@ class LocationControllerTest {
     void findLocationByIdMustReturnCorrect() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/locations/{id}", "L0001").accept("application/json"))
         .andExpect(status().isOk()).andExpect(jsonPath("$..id").value("L0001"))
-        .andExpect(jsonPath("$.city").value("Sofia")).andExpect(jsonPath("$.address").value("PointBar"))
+        .andExpect(jsonPath("$.city").value("Sofia")).andExpect(jsonPath("$.name").value("PointBar"))
         .andExpect(jsonPath("$.locationCategory").value("BAR"));
     }
 
@@ -137,7 +137,7 @@ class LocationControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.put("/locations/{id}", "L0002").contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(INVALID_LOCATION))).andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.address").value("*Address cannot be empty"))
+        .andExpect(jsonPath("$.name").value("*Name cannot be empty"))
         .andExpect(jsonPath("$.city").value("*City cannot be empty"))
         .andExpect(jsonPath("$.locationCategory").value("*Location Category cannot be not set"));
     }

@@ -17,6 +17,7 @@ import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.persistence.entities.JpaEvent;
 import com.enjoyit.persistence.entities.JpaLocation;
 import com.enjoyit.persistence.entities.JpaUser;
+import com.enjoyit.persistence.entities.stats.UserEventStatistic;
 import com.enjoyit.persistence.repositories.EventRepository;
 import com.enjoyit.services.EventService;
 import com.enjoyit.services.LocationService;
@@ -132,6 +133,11 @@ public class EventServiceImpl implements EventService {
             throw new EntityNotFoundException("User with this username was not found");
         }
         return ObjectMapper.mapAll(eventRepo.findByOwnerUsername(owner), EventDTO.class);
+    }
+
+    @Override
+    public List<UserEventStatistic> getEventStatisticByOwnerId(final String id) {
+        return this.eventRepo.getEventsStatistic(id);
     }
 
 }

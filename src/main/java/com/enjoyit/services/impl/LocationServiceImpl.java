@@ -58,7 +58,7 @@ public class LocationServiceImpl implements LocationService {
         final JpaLocation locationToUpdate = this.locationRepo.findById(id).orElseThrow(() -> {
             return new EntityNotFoundException("Location with this id does not exists");
         });
-        locationToUpdate.setAddress(updated.getAddress());
+        locationToUpdate.setName(updated.getName());
         locationToUpdate.setCity(updated.getCity());
 
         return ObjectMapper.map(this.locationRepo.save(locationToUpdate), LocationDTO.class);

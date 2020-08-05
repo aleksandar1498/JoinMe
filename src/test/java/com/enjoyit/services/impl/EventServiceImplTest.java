@@ -65,7 +65,6 @@ class EventServiceImplTest {
         final JpaEvent fishing = new JpaEvent("Morning Fishing", province, "Free Run",
                 LocalDateTime.now().plusHours(10), LocalDateTime.now().plusHours(24), Boolean.FALSE, Boolean.FALSE,
                 EventCategory.SPORTS_EVENT, fani);
-
         this.eventRepository.save(jogging);
         this.eventRepository.save(fishing);
     }

@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+        return super.authenticationManagerBean();
     }
 
     //@formatter:off
@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .antMatchers("/","/user/register" ,"/user/login","/user").permitAll()
+        .antMatchers("/admin","/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated()
         .and()
         .cors().configurationSource(simpleCorsFilter())
@@ -54,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-     }
+    }
     //@formatter:on
     /**
      *

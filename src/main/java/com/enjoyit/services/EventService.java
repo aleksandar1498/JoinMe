@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.enjoyit.domain.dto.BaseEventDTO;
 import com.enjoyit.domain.dto.EventDTO;
+import com.enjoyit.persistence.entities.stats.UserEventStatistic;
 
 /**
  * @author AStefanov
@@ -61,5 +62,8 @@ public interface EventService {
     List<EventDTO> getEventByOwner(String owner);
 
     List<EventDTO> getEventByLocation(String locationId);
+
+    List<UserEventStatistic> getEventStatisticByOwnerId(String id);
+
 
 }

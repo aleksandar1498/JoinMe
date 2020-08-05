@@ -1,10 +1,12 @@
 package com.enjoyit.services;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import com.enjoyit.domain.dto.EventDTO;
 import com.enjoyit.domain.dto.InterestEventDTO;
 import com.enjoyit.domain.dto.JoinEventDTO;
+import com.enjoyit.domain.dto.UserDTO;
 import com.enjoyit.domain.dto.UserWithEventsDTO;
 import com.enjoyit.domain.dto.UserWithRolesDTO;
 
@@ -76,7 +78,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    UserWithRolesDTO updateRoles(UserWithRolesDTO user);
+    CompletableFuture<UserDTO> updateRoles(UserWithRolesDTO user);
 
 
 }

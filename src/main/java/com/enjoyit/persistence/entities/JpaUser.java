@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.enjoyit.persistence.Event;
 import com.enjoyit.persistence.EventUser;
+import com.enjoyit.persistence.Notification;
 import com.enjoyit.persistence.Role;
 import com.enjoyit.persistence.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,7 +52,10 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
     @OneToMany(mappedBy = "owner", targetEntity = JpaEvent.class)
     private List<Event> events;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = JpaRole.class)
+    @OneToMany(mappedBy = "recipient", targetEntity = JpaNotification.class,cascade = CascadeType.ALL)
+    private List<Notification> notifications;
+
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = JpaRole.class)
     @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_id") },
     inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private Set<Role> authorities;
@@ -77,13 +81,21 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
         // needed by JPA
     }
 
-    public JpaUser(final String username, final String name, final String surname, final String email,
-            final Boolean banned) {
+    public JpaUser(final String username, final String name, final String surname, final String email, final Boolean banned) {
         this.username = username;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.banned = banned;
+    }
+
+
+    public JpaUser(final String username, final String name, final String surname, final String email) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.banned = Boolean.FALSE;
     }
 
     @Override
@@ -229,6 +241,25 @@ public class JpaUser extends BaseEntity implements UserDetails, User {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    @Override
+    public void setId(final String id) {
+        super.setId(id);
+    }
+
+    @Override
+    public String getId() {
+        return super.getId();
+    }
+
+    @Override
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(final List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
 

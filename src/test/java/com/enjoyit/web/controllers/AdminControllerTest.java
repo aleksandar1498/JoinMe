@@ -21,7 +21,7 @@ import com.enjoyit.services.UserService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(roles = "ADMIN")
 class AdminControllerTest {
 
     @Autowired
