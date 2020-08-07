@@ -13,16 +13,20 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.enjoyit.enums.UserRoles;
+import com.enjoyit.services.AuthService;
 import com.enjoyit.utils.JwtTokenUtil;
-import com.enjoyit.web.filters.JwtAuthorizationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     @Autowired
     public JwtTokenUtil tokenUtil;
+
+    @Autowired
+    public AuthService authService;
+
     /**
      * BEAN needed for the authentication
      */
@@ -44,11 +48,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .antMatchers("/","/user/register" ,"/user/login","/user").permitAll()
+        .antMatchers("/admin","/admin/**").hasRole(""+UserRoles.ADMIN+"")
         .anyRequest().authenticated()
         .and()
         .cors().configurationSource(simpleCorsFilter())
         .and()
-        .addFilter(new JwtAuthorizationFilter(authenticationManagerBean(),tokenUtil))
+        .apply(new JwtConfigurer(tokenUtil, authService))
+        .and()
         .csrf()
         .disable();
 
@@ -57,13 +63,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     //@formatter:on
     /**
-     *
      * @return a valid cors configuration
      */
     @Bean
-    public CorsConfigurationSource simpleCorsFilter(){
+    public CorsConfigurationSource simpleCorsFilter() {
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://ec2-18-216-125-212.us-east-2.compute.amazonaws.com"));
+        configuration.setAllowedOrigins(
+                Arrays.asList("http://localhost:4200", "http://ec2-18-216-125-212.us-east-2.compute.amazonaws.com"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.addExposedHeader("Authorization");

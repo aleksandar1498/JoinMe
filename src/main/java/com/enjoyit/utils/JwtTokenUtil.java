@@ -6,13 +6,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import com.enjoyit.domain.dto.UserLoginDTO;
-
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -39,8 +42,17 @@ public class JwtTokenUtil {
      */
     public String generateToken(final User user) {
         final Map<String, Object> claims = new HashMap<>();
-        claims.put(ROLES_CLAIM, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        claims.put(ROLES_CLAIM,
+                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         return doGenerateToken(claims, user);
+    }
+
+    public String resolveToken(final HttpServletRequest req) {
+        final String token = req.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7, token.length());
+        }
+        return null;
     }
 
     /**
@@ -77,6 +89,7 @@ public class JwtTokenUtil {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
+
     /**
      * @param token
      *            from which the username has to be extracted
@@ -99,13 +112,18 @@ public class JwtTokenUtil {
     /**
      * @param token
      *            from which the username has to be extracted
-     * @param user
-     *            that needs to be checked
      * @return if the token is valid
      */
-    public Boolean validateToken(final String token, final UserLoginDTO user) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(user.getUsername()) && !isTokenExpired(token));
-    }
+    public Boolean validateToken(final String token) {
+        try {
+            final Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
 
+            if (claims.getBody().getExpiration().before(new Date())) {
+                return false;
+            }
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new BadCredentialsException("Expired or invalid JWT token");
+        }
+    }
 }

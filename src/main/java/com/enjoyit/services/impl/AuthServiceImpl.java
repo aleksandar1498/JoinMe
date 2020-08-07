@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
         final com.enjoyit.persistence.User user = this.userRepo.findByUsername(username).orElseThrow(() -> {
             throw new IllegalArgumentException("A user with this username does not exists");
         });
-        if(Boolean.TRUE.equals(user.getBanned())) {
+        if (Boolean.TRUE.equals(user.getBanned())) {
             throw new IllegalArgumentException("You are not authorized to access,because you are banned");
         }
         final Set<GrantedAuthority> auths = new HashSet<>(user.getAuthorities());
@@ -83,6 +83,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoggedInUserDTO login(@Validated final UserLoginDTO userModel) {
+        this.loadUserByUsername(userModel.getUsername());
+
         final Authentication authentication = this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userModel.getUsername(), userModel.getPassword()));
         final SecurityContext securityContext = SecurityContextHolder.getContext();

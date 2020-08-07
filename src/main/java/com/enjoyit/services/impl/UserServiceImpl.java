@@ -32,6 +32,7 @@ import com.enjoyit.persistence.repositories.RoleRepository;
 import com.enjoyit.persistence.repositories.UserRepository;
 import com.enjoyit.services.NotificationService;
 import com.enjoyit.services.UserService;
+import com.enjoyit.utils.GrantedAuthorityToRoleDTOConverter;
 import com.enjoyit.utils.ObjectMapper;
 
 /**
@@ -53,11 +54,12 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     public UserServiceImpl(final UserRepository repository, final EventRepository eventRepository,
-            final RoleRepository roleRepo,final NotificationService notificationService) {
+            final RoleRepository roleRepo,final NotificationService notificationService,final GrantedAuthorityToRoleDTOConverter converter) {
         this.userRepo = repository;
         this.eventRepository = eventRepository;
         this.roleRepo = roleRepo;
         this.notificationService = notificationService;
+        ObjectMapper.addConverter(converter);
     }
 
     @Override
@@ -96,6 +98,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserWithRolesDTO> findAllUsers() {
+        ObjectMapper.addConverter(new GrantedAuthorityToRoleDTOConverter());
         return ObjectMapper.mapAll(this.userRepo.findAll(), UserWithRolesDTO.class);
     }
 
@@ -108,7 +111,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<EventDTO> getInterestedEvents(final String username) {
         return this.userRepo.findByUsername(username).map(u -> {
-            System.out.println(u.getInterestedEvents()+" interested");
             return ObjectMapper.mapAll(
                     u.getInterestedEvents().stream().map(EventUser::getEvent).collect(Collectors.toList()),
                     EventDTO.class);
@@ -144,25 +146,21 @@ public class UserServiceImpl implements UserService {
     @Override
     @Async("asyncExecutor")
     public CompletableFuture<UserDTO> updateRoles(final UserWithRolesDTO userWithRoles) {
-        System.err.println(userWithRoles.getUsername());
         JpaUser user = this.userRepo.findByUsername(userWithRoles.getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("A user with this username does not exists"));
+        if(userWithRoles.getAuthorities().size() == 0) {
+            throw new IllegalArgumentException("A user must have at least one role set");
+        }
         user.setAuthorities(mapToJpaRoleSet(userWithRoles.getAuthorities()));
-
         user = this.userRepo.save(user);
-        System.out.println(ObjectMapper.map(user, UserDTO.class));
         this.notificationService.createNotification(new NotificationDTO(String.format("Your roles had been changed ad %s", LocalDateTime.now()),ObjectMapper.map(user, UserDTO.class)));
         return CompletableFuture.completedFuture(ObjectMapper.map(user, UserDTO.class));
     }
 
 
     private Set<Role> mapToJpaRoleSet(final List<RoleDTO> roles) {
-        roles.forEach(r -> {
-            System.out.println(r.getAuthority());
-        });
         final Set<Role> authorities = new HashSet<Role>();
         roles.forEach(r -> authorities.add(this.roleRepo.findByAuthority(r.getAuthority())));
-
         return authorities;
     }
 
